@@ -1,11 +1,14 @@
 package cmd
 
 import (
-	"fmt"
+	"io"
+	"log"
 	"os"
 
 	"github.com/spf13/cobra"
 	"github.com/spf13/viper"
+
+	"github.com/Lajule/dac/ui"
 )
 
 var (
@@ -15,14 +18,33 @@ var (
 		Use:   "dac",
 		Short: "",
 		Long:  ``,
-		Run:   func(cmd *cobra.Command, args []string) {},
+		Run: func(cmd *cobra.Command, args []string) {
+			var input io.Reader
+
+			if len(args) > 0 {
+				file, err := os.Open(args[0])
+				if err != nil {
+					log.Fatal(err)
+				}
+
+				input = file
+			} else {
+				input = os.Stdin
+			}
+
+			app, err := ui.NewApp(input)
+			if err != nil {
+				log.Fatalf("failed creating ui: %v", err)
+			}
+
+			app.Start()
+		},
 	}
 )
 
 func Execute() {
-	err := rootCmd.Execute()
-	if err != nil {
-		os.Exit(1)
+	if err := rootCmd.Execute(); err != nil {
+		log.Fatalf("failed executing root command: %v", err)
 	}
 }
 
@@ -40,6 +62,7 @@ func initConfig() {
 
 		home, err := os.UserHomeDir()
 		cobra.CheckErr(err)
+
 		viper.AddConfigPath(home)
 		viper.SetConfigType("yaml")
 		viper.SetConfigName(".dac")
@@ -48,6 +71,6 @@ func initConfig() {
 	viper.AutomaticEnv()
 
 	if err := viper.ReadInConfig(); err == nil {
-		fmt.Fprintln(os.Stderr, "Using config file:", viper.ConfigFileUsed())
+		log.Println("Using config file: ", viper.ConfigFileUsed())
 	}
 }
