@@ -1,9 +1,10 @@
 package ui
 
 import (
-	"io"
 	"fmt"
+	"io"
 	"os"
+	"strings"
 	"time"
 
 	"github.com/gdamore/tcell/v2"
@@ -30,10 +31,24 @@ func NewApp(input io.Reader) (*App, error) {
 		return nil, fmt.Errorf("failed initializing screen: %w", err)
 	}
 
-	return &App{
+	b, err := io.ReadAll(input)
+	if err != nil {
+		return nil, fmt.Errorf("failed reading input: %w", err)
+	}
+
+	fields := strings.Fields(string(b))
+
+	app := &App{
 		screen: sc,
 		start:  time.Now(),
-	}, nil
+		input: make([][]rune, len(fields)),
+	}
+
+	for i, field := range fields {
+		app.input[i] = []rune(field)
+	}
+
+	return app, nil
 }
 
 func (app *App) Start() {
@@ -59,11 +74,19 @@ func (app *App) Start() {
 }
 
 func (app *App) draw() {
-	//w, h := d.screen.Size()
-	//style := tcell.StyleDefault
+	//w, h := app.screen.Size()
+	style := tcell.StyleDefault
 	//green := style.Foreground(tcell.ColorGreen).Bold(true)
 
 	app.screen.Clear()
+
+	l := 1
+	for _, word := range app.input {
+		for _, character := range word {
+			app.screen.SetContent(l, 1, character, nil, style)
+			l += 1
+		}
+	}
 
 	app.screen.Show()
 }
