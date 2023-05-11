@@ -2,24 +2,35 @@ package ui
 
 import (
 	"fmt"
-	"io"
 	"os"
-	"strings"
+	"sync"
 	"time"
 
 	"github.com/gdamore/tcell/v2"
 	"github.com/gdamore/tcell/v2/encoding"
 )
 
+var (
+	green = tcell.StyleDefault.Foreground(tcell.ColorGreen).Bold(true)
+
+	red = tcell.StyleDefault.Foreground(tcell.ColorRed).Bold(true)
+)
+
 type App struct {
 	screen tcell.Screen
 
-	start time.Time
+	duration time.Duration
 
-	input [][]rune
+	text []rune
+
+	styles []tcell.Style
+
+	index int
+
+	mu sync.RWMutex
 }
 
-func NewApp(input io.Reader) (*App, error) {
+func NewApp(text string) (*App, error) {
 	encoding.Register()
 
 	sc, err := tcell.NewScreen()
@@ -31,31 +42,32 @@ func NewApp(input io.Reader) (*App, error) {
 		return nil, fmt.Errorf("failed initializing screen: %w", err)
 	}
 
-	b, err := io.ReadAll(input)
-	if err != nil {
-		return nil, fmt.Errorf("failed reading input: %w", err)
-	}
-
-	fields := strings.Fields(string(b))
-
-	app := &App{
+	return &App{
 		screen: sc,
-		start:  time.Now(),
-		input: make([][]rune, len(fields)),
-	}
-
-	for i, field := range fields {
-		app.input[i] = []rune(field)
-	}
-
-	return app, nil
+		text:   []rune(text),
+	}, nil
 }
 
 func (app *App) Start() {
+	ticker := time.NewTicker(time.Second)
+
+	go func() {
+		for {
+			select {
+			case <-ticker.C:
+				app.tic()
+				app.draw()
+			}
+		}
+	}()
+
 	for {
 		switch ev := app.screen.PollEvent().(type) {
 		case *tcell.EventKey:
 			switch ev.Key() {
+			case tcell.KeyRune:
+				app.update(ev.Rune())
+
 			case tcell.KeyEscape:
 				app.screen.Fini()
 				os.Exit(0)
@@ -73,19 +85,63 @@ func (app *App) Start() {
 	}
 }
 
+func (app *App) tic() {
+	app.mu.Lock()
+	defer app.mu.Unlock()
+
+	app.duration += time.Second
+}
+
+func (app *App) update(r rune) {
+	app.mu.Lock()
+	defer app.mu.Unlock()
+
+	app.index += 1
+
+	if app.text[app.index-1] == r {
+		app.styles = append(app.styles, green)
+	} else {
+		app.screen.Beep()
+		app.styles = append(app.styles, red)
+	}
+}
+
 func (app *App) draw() {
-	//w, h := app.screen.Size()
-	style := tcell.StyleDefault
-	//green := style.Foreground(tcell.ColorGreen).Bold(true)
+	app.mu.RLock()
+	defer app.mu.RUnlock()
+
+	w, h := app.screen.Size()
 
 	app.screen.Clear()
 
-	l := 1
-	for _, word := range app.input {
-		for _, character := range word {
-			app.screen.SetContent(l, 1, character, nil, style)
-			l += 1
+	duration := app.duration.String()
+
+	startAt := w - len(duration)
+	for i, r := range []rune(duration) {
+		x := startAt + i
+
+		app.screen.SetContent(x, 0, r, nil, tcell.StyleDefault)
+	}
+
+	y := 1
+	for i, r := range app.text {
+		x := i % w
+
+		if i > 0 && x == 0 {
+			if y == h {
+				break
+			}
+
+			y += 1
 		}
+
+		style := tcell.StyleDefault
+
+		if i < len(app.styles) {
+			style = app.styles[i]
+		}
+
+		app.screen.SetContent(x, y, r, nil, style)
 	}
 
 	app.screen.Show()

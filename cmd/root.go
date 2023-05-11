@@ -32,7 +32,17 @@ var (
 				input = os.Stdin
 			}
 
-			app, err := ui.NewApp(input)
+			b, err := io.ReadAll(input)
+			if err != nil {
+				log.Fatalf("failed reading input: %v", err)
+			}
+
+			if len(b) == 0 {
+				log.Println("Input is empty")
+				os.Exit(1)
+			}
+
+			app, err := ui.NewApp(string(b))
 			if err != nil {
 				log.Fatalf("failed creating ui: %v", err)
 			}
