@@ -11,9 +11,10 @@ import (
 )
 
 var (
-	green = tcell.StyleDefault.Foreground(tcell.ColorGreen).Bold(true)
-
-	red = tcell.StyleDefault.Foreground(tcell.ColorRed).Bold(true)
+	inputStyles = map[bool]tcell.Style{
+		true:  tcell.StyleDefault.Foreground(tcell.ColorGreen).Bold(true),
+		false: tcell.StyleDefault.Foreground(tcell.ColorRed).Bold(true),
+	}
 )
 
 type App struct {
@@ -23,7 +24,7 @@ type App struct {
 
 	text []rune
 
-	styles []tcell.Style
+	input []bool
 
 	index int
 
@@ -97,13 +98,7 @@ func (app *App) update(r rune) {
 	defer app.mu.Unlock()
 
 	app.index += 1
-
-	if app.text[app.index-1] == r {
-		app.styles = append(app.styles, green)
-	} else {
-		app.screen.Beep()
-		app.styles = append(app.styles, red)
-	}
+	app.input = append(app.input, app.text[app.index-1] == r)
 }
 
 func (app *App) draw() {
@@ -115,16 +110,32 @@ func (app *App) draw() {
 	app.screen.Clear()
 
 	duration := app.duration.String()
-
-	startAt := w - len(duration)
+	durationLen := len(duration)
 	for i, r := range []rune(duration) {
-		x := startAt + i
+		x := w - durationLen + i
 
 		app.screen.SetContent(x, 0, r, nil, tcell.StyleDefault)
 	}
 
+	max := w * (h - 1)
+
+	textChunks := chunkBy(app.text, max)
+	inputChunks := chunkBy(app.input, max)
+
+	inputLen := len(app.input)
+	offset := inputLen / max
+
+	var inputChunk []bool
+	var inputChunkLen int
+	if len(inputChunks) == offset {
+		inputChunkLen = 0
+	} else {
+		inputChunk = inputChunks[offset]
+		inputChunkLen = len(inputChunk)
+	}
+
 	y := 1
-	for i, r := range app.text {
+	for i, r := range textChunks[offset] {
 		x := i % w
 
 		if i > 0 && x == 0 {
@@ -137,12 +148,20 @@ func (app *App) draw() {
 
 		style := tcell.StyleDefault
 
-		if i < len(app.styles) {
-			style = app.styles[i]
+		if i < inputChunkLen {
+			style = inputStyles[inputChunk[i]]
 		}
 
 		app.screen.SetContent(x, y, r, nil, style)
 	}
 
 	app.screen.Show()
+}
+
+func chunkBy[T any](items []T, chunkSize int) (chunks [][]T) {
+	for chunkSize < len(items) {
+		items, chunks = items[chunkSize:], append(chunks, items[0:chunkSize:chunkSize])
+	}
+
+	return append(chunks, items)
 }
