@@ -4,6 +4,7 @@ import (
 	"io"
 	"log"
 	"os"
+	"time"
 
 	"github.com/spf13/cobra"
 	"github.com/spf13/viper"
@@ -42,7 +43,7 @@ var (
 				os.Exit(1)
 			}
 
-			app, err := ui.NewApp(string(b))
+			app, err := ui.NewApp(10*time.Second, string(b))
 			if err != nil {
 				log.Fatalf("failed creating ui: %v", err)
 			}

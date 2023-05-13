@@ -2,9 +2,9 @@ package ui
 
 import (
 	"fmt"
-	"os"
 	"sync"
 	"time"
+	"unicode"
 
 	"github.com/gdamore/tcell/v2"
 	"github.com/gdamore/tcell/v2/encoding"
@@ -22,16 +22,18 @@ type App struct {
 
 	duration time.Duration
 
+	ticker *time.Ticker
+
+	done chan bool
+
 	text []rune
 
 	input []bool
 
-	index int
-
 	mu sync.RWMutex
 }
 
-func NewApp(text string) (*App, error) {
+func NewApp(duration time.Duration, text string) (*App, error) {
 	encoding.Register()
 
 	sc, err := tcell.NewScreen()
@@ -44,18 +46,22 @@ func NewApp(text string) (*App, error) {
 	}
 
 	return &App{
-		screen: sc,
-		text:   []rune(text),
+		screen:   sc,
+		duration: duration,
+		ticker:   time.NewTicker(time.Second),
+		done:     make(chan bool),
+		text:     []rune(text),
 	}, nil
 }
 
 func (app *App) Start() {
-	ticker := time.NewTicker(time.Second)
-
 	go func() {
 		for {
 			select {
-			case <-ticker.C:
+			case <-app.done:
+				return
+
+			case <-app.ticker.C:
 				app.tic()
 				app.draw()
 			}
@@ -67,17 +73,26 @@ func (app *App) Start() {
 		case *tcell.EventKey:
 			switch ev.Key() {
 			case tcell.KeyRune:
-				app.update(ev.Rune())
+				if app.last() {
+					app.ticker.Stop()
+					app.done <- true
+					app.screen.Fini()
+					return
+				}
+
+				app.append(ev.Rune())
+				app.draw()
 
 			case tcell.KeyEscape:
+				app.ticker.Stop()
+				app.done <- true
 				app.screen.Fini()
-				os.Exit(0)
+				return
 
 			case tcell.KeyCtrlL:
 				app.screen.Sync()
+				app.draw()
 			}
-
-			app.draw()
 
 		case *tcell.EventResize:
 			app.screen.Sync()
@@ -90,15 +105,21 @@ func (app *App) tic() {
 	app.mu.Lock()
 	defer app.mu.Unlock()
 
-	app.duration += time.Second
+	app.duration -= time.Second
 }
 
-func (app *App) update(r rune) {
+func (app *App) append(r rune) {
 	app.mu.Lock()
 	defer app.mu.Unlock()
 
-	app.index += 1
-	app.input = append(app.input, app.text[app.index-1] == r)
+	app.input = append(app.input, app.text[len(app.input)] == r)
+}
+
+func (app *App) last() bool {
+	app.mu.RLock()
+	defer app.mu.RUnlock()
+
+	return len(app.input) == len(app.text)
 }
 
 func (app *App) draw() {
@@ -106,33 +127,20 @@ func (app *App) draw() {
 	defer app.mu.RUnlock()
 
 	w, h := app.screen.Size()
+	max := w * (h - 1)
 
 	app.screen.Clear()
 
 	duration := app.duration.String()
-	durationLen := len(duration)
 	for i, r := range []rune(duration) {
-		x := w - durationLen + i
+		x := w - len(duration) + i
 
 		app.screen.SetContent(x, 0, r, nil, tcell.StyleDefault)
 	}
 
-	max := w * (h - 1)
-
 	textChunks := chunkBy(app.text, max)
 	inputChunks := chunkBy(app.input, max)
-
-	inputLen := len(app.input)
-	offset := inputLen / max
-
-	var inputChunk []bool
-	var inputChunkLen int
-	if len(inputChunks) == offset {
-		inputChunkLen = 0
-	} else {
-		inputChunk = inputChunks[offset]
-		inputChunkLen = len(inputChunk)
-	}
+	offset := len(app.input) / max
 
 	y := 1
 	for i, r := range textChunks[offset] {
@@ -148,8 +156,12 @@ func (app *App) draw() {
 
 		style := tcell.StyleDefault
 
-		if i < inputChunkLen {
-			style = inputStyles[inputChunk[i]]
+		if len(inputChunks) > offset && i < len(inputChunks[offset]) {
+			style = inputStyles[inputChunks[offset][i]]
+
+			if unicode.IsSpace(r) {
+				style = style.Underline(true)
+			}
 		}
 
 		app.screen.SetContent(x, y, r, nil, style)
