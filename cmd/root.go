@@ -21,13 +21,11 @@ var (
 		Long:  ``,
 		Run: func(cmd *cobra.Command, args []string) {
 			var input io.Reader
-
 			if len(args) > 0 {
 				file, err := os.Open(args[0])
 				if err != nil {
 					log.Fatal(err)
 				}
-
 				input = file
 			} else {
 				input = os.Stdin
@@ -37,7 +35,6 @@ var (
 			if err != nil {
 				log.Fatalf("failed reading input: %v", err)
 			}
-
 			if len(b) == 0 {
 				log.Println("Input is empty")
 				os.Exit(1)
@@ -73,7 +70,6 @@ func initConfig() {
 
 		home, err := os.UserHomeDir()
 		cobra.CheckErr(err)
-
 		viper.AddConfigPath(home)
 		viper.SetConfigType("yaml")
 		viper.SetConfigName(".dac")
