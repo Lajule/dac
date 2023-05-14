@@ -4,12 +4,11 @@ import (
 	"io"
 	"log"
 	"os"
-	"time"
 
 	"github.com/spf13/cobra"
 	"github.com/spf13/viper"
 
-	"github.com/Lajule/dac/ui"
+	"github.com/Lajule/dac/app"
 )
 
 var (
@@ -40,12 +39,17 @@ var (
 				os.Exit(1)
 			}
 
-			app, err := ui.NewApp(10*time.Second, string(b))
+			duration, err := cmd.Flags().GetDuration("duration")
+			if err != nil {
+				log.Fatalf("failed getting duration: %v", err)
+			}
+
+			dac, err := app.NewDac(duration, string(b))
 			if err != nil {
 				log.Fatalf("failed creating ui: %v", err)
 			}
 
-			app.Start()
+			dac.Start()
 		},
 	}
 )
@@ -59,7 +63,7 @@ func Execute() {
 func init() {
 	cobra.OnInitialize(initConfig)
 	rootCmd.PersistentFlags().StringVar(&cfgFile, "config", "", "config file (default is $HOME/.dac.yaml)")
-	rootCmd.Flags().BoolP("toggle", "t", false, "Help message for toggle")
+	rootCmd.Flags().DurationP("duration", "d", 0, "Duration of the traininf session")
 }
 
 // initConfig reads in config file and ENV variables if set.
