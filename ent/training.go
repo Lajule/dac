@@ -19,8 +19,12 @@ type Training struct {
 	ID int `json:"id,omitempty"`
 	// CreatedAt holds the value of the "created_at" field.
 	CreatedAt time.Time `json:"created_at,omitempty"`
-	// Words holds the value of the "words" field.
-	Words        int `json:"words,omitempty"`
+	// Duration holds the value of the "duration" field.
+	Duration int `json:"duration,omitempty"`
+	// Precision holds the value of the "precision" field.
+	Precision int `json:"precision,omitempty"`
+	// Speed holds the value of the "speed" field.
+	Speed        int `json:"speed,omitempty"`
 	selectValues sql.SelectValues
 }
 
@@ -29,7 +33,7 @@ func (*Training) scanValues(columns []string) ([]any, error) {
 	values := make([]any, len(columns))
 	for i := range columns {
 		switch columns[i] {
-		case training.FieldID, training.FieldWords:
+		case training.FieldID, training.FieldDuration, training.FieldPrecision, training.FieldSpeed:
 			values[i] = new(sql.NullInt64)
 		case training.FieldCreatedAt:
 			values[i] = new(sql.NullTime)
@@ -60,11 +64,23 @@ func (t *Training) assignValues(columns []string, values []any) error {
 			} else if value.Valid {
 				t.CreatedAt = value.Time
 			}
-		case training.FieldWords:
+		case training.FieldDuration:
 			if value, ok := values[i].(*sql.NullInt64); !ok {
-				return fmt.Errorf("unexpected type %T for field words", values[i])
+				return fmt.Errorf("unexpected type %T for field duration", values[i])
 			} else if value.Valid {
-				t.Words = int(value.Int64)
+				t.Duration = int(value.Int64)
+			}
+		case training.FieldPrecision:
+			if value, ok := values[i].(*sql.NullInt64); !ok {
+				return fmt.Errorf("unexpected type %T for field precision", values[i])
+			} else if value.Valid {
+				t.Precision = int(value.Int64)
+			}
+		case training.FieldSpeed:
+			if value, ok := values[i].(*sql.NullInt64); !ok {
+				return fmt.Errorf("unexpected type %T for field speed", values[i])
+			} else if value.Valid {
+				t.Speed = int(value.Int64)
 			}
 		default:
 			t.selectValues.Set(columns[i], values[i])
@@ -105,8 +121,14 @@ func (t *Training) String() string {
 	builder.WriteString("created_at=")
 	builder.WriteString(t.CreatedAt.Format(time.ANSIC))
 	builder.WriteString(", ")
-	builder.WriteString("words=")
-	builder.WriteString(fmt.Sprintf("%v", t.Words))
+	builder.WriteString("duration=")
+	builder.WriteString(fmt.Sprintf("%v", t.Duration))
+	builder.WriteString(", ")
+	builder.WriteString("precision=")
+	builder.WriteString(fmt.Sprintf("%v", t.Precision))
+	builder.WriteString(", ")
+	builder.WriteString("speed=")
+	builder.WriteString(fmt.Sprintf("%v", t.Speed))
 	builder.WriteByte(')')
 	return builder.String()
 }

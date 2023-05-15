@@ -27,24 +27,66 @@ func (tu *TrainingUpdate) Where(ps ...predicate.Training) *TrainingUpdate {
 	return tu
 }
 
-// SetWords sets the "words" field.
-func (tu *TrainingUpdate) SetWords(i int) *TrainingUpdate {
-	tu.mutation.ResetWords()
-	tu.mutation.SetWords(i)
+// SetDuration sets the "duration" field.
+func (tu *TrainingUpdate) SetDuration(i int) *TrainingUpdate {
+	tu.mutation.ResetDuration()
+	tu.mutation.SetDuration(i)
 	return tu
 }
 
-// SetNillableWords sets the "words" field if the given value is not nil.
-func (tu *TrainingUpdate) SetNillableWords(i *int) *TrainingUpdate {
+// SetNillableDuration sets the "duration" field if the given value is not nil.
+func (tu *TrainingUpdate) SetNillableDuration(i *int) *TrainingUpdate {
 	if i != nil {
-		tu.SetWords(*i)
+		tu.SetDuration(*i)
 	}
 	return tu
 }
 
-// AddWords adds i to the "words" field.
-func (tu *TrainingUpdate) AddWords(i int) *TrainingUpdate {
-	tu.mutation.AddWords(i)
+// AddDuration adds i to the "duration" field.
+func (tu *TrainingUpdate) AddDuration(i int) *TrainingUpdate {
+	tu.mutation.AddDuration(i)
+	return tu
+}
+
+// SetPrecision sets the "precision" field.
+func (tu *TrainingUpdate) SetPrecision(i int) *TrainingUpdate {
+	tu.mutation.ResetPrecision()
+	tu.mutation.SetPrecision(i)
+	return tu
+}
+
+// SetNillablePrecision sets the "precision" field if the given value is not nil.
+func (tu *TrainingUpdate) SetNillablePrecision(i *int) *TrainingUpdate {
+	if i != nil {
+		tu.SetPrecision(*i)
+	}
+	return tu
+}
+
+// AddPrecision adds i to the "precision" field.
+func (tu *TrainingUpdate) AddPrecision(i int) *TrainingUpdate {
+	tu.mutation.AddPrecision(i)
+	return tu
+}
+
+// SetSpeed sets the "speed" field.
+func (tu *TrainingUpdate) SetSpeed(i int) *TrainingUpdate {
+	tu.mutation.ResetSpeed()
+	tu.mutation.SetSpeed(i)
+	return tu
+}
+
+// SetNillableSpeed sets the "speed" field if the given value is not nil.
+func (tu *TrainingUpdate) SetNillableSpeed(i *int) *TrainingUpdate {
+	if i != nil {
+		tu.SetSpeed(*i)
+	}
+	return tu
+}
+
+// AddSpeed adds i to the "speed" field.
+func (tu *TrainingUpdate) AddSpeed(i int) *TrainingUpdate {
+	tu.mutation.AddSpeed(i)
 	return tu
 }
 
@@ -89,11 +131,23 @@ func (tu *TrainingUpdate) sqlSave(ctx context.Context) (n int, err error) {
 			}
 		}
 	}
-	if value, ok := tu.mutation.Words(); ok {
-		_spec.SetField(training.FieldWords, field.TypeInt, value)
+	if value, ok := tu.mutation.Duration(); ok {
+		_spec.SetField(training.FieldDuration, field.TypeInt, value)
 	}
-	if value, ok := tu.mutation.AddedWords(); ok {
-		_spec.AddField(training.FieldWords, field.TypeInt, value)
+	if value, ok := tu.mutation.AddedDuration(); ok {
+		_spec.AddField(training.FieldDuration, field.TypeInt, value)
+	}
+	if value, ok := tu.mutation.Precision(); ok {
+		_spec.SetField(training.FieldPrecision, field.TypeInt, value)
+	}
+	if value, ok := tu.mutation.AddedPrecision(); ok {
+		_spec.AddField(training.FieldPrecision, field.TypeInt, value)
+	}
+	if value, ok := tu.mutation.Speed(); ok {
+		_spec.SetField(training.FieldSpeed, field.TypeInt, value)
+	}
+	if value, ok := tu.mutation.AddedSpeed(); ok {
+		_spec.AddField(training.FieldSpeed, field.TypeInt, value)
 	}
 	if n, err = sqlgraph.UpdateNodes(ctx, tu.driver, _spec); err != nil {
 		if _, ok := err.(*sqlgraph.NotFoundError); ok {
@@ -115,24 +169,66 @@ type TrainingUpdateOne struct {
 	mutation *TrainingMutation
 }
 
-// SetWords sets the "words" field.
-func (tuo *TrainingUpdateOne) SetWords(i int) *TrainingUpdateOne {
-	tuo.mutation.ResetWords()
-	tuo.mutation.SetWords(i)
+// SetDuration sets the "duration" field.
+func (tuo *TrainingUpdateOne) SetDuration(i int) *TrainingUpdateOne {
+	tuo.mutation.ResetDuration()
+	tuo.mutation.SetDuration(i)
 	return tuo
 }
 
-// SetNillableWords sets the "words" field if the given value is not nil.
-func (tuo *TrainingUpdateOne) SetNillableWords(i *int) *TrainingUpdateOne {
+// SetNillableDuration sets the "duration" field if the given value is not nil.
+func (tuo *TrainingUpdateOne) SetNillableDuration(i *int) *TrainingUpdateOne {
 	if i != nil {
-		tuo.SetWords(*i)
+		tuo.SetDuration(*i)
 	}
 	return tuo
 }
 
-// AddWords adds i to the "words" field.
-func (tuo *TrainingUpdateOne) AddWords(i int) *TrainingUpdateOne {
-	tuo.mutation.AddWords(i)
+// AddDuration adds i to the "duration" field.
+func (tuo *TrainingUpdateOne) AddDuration(i int) *TrainingUpdateOne {
+	tuo.mutation.AddDuration(i)
+	return tuo
+}
+
+// SetPrecision sets the "precision" field.
+func (tuo *TrainingUpdateOne) SetPrecision(i int) *TrainingUpdateOne {
+	tuo.mutation.ResetPrecision()
+	tuo.mutation.SetPrecision(i)
+	return tuo
+}
+
+// SetNillablePrecision sets the "precision" field if the given value is not nil.
+func (tuo *TrainingUpdateOne) SetNillablePrecision(i *int) *TrainingUpdateOne {
+	if i != nil {
+		tuo.SetPrecision(*i)
+	}
+	return tuo
+}
+
+// AddPrecision adds i to the "precision" field.
+func (tuo *TrainingUpdateOne) AddPrecision(i int) *TrainingUpdateOne {
+	tuo.mutation.AddPrecision(i)
+	return tuo
+}
+
+// SetSpeed sets the "speed" field.
+func (tuo *TrainingUpdateOne) SetSpeed(i int) *TrainingUpdateOne {
+	tuo.mutation.ResetSpeed()
+	tuo.mutation.SetSpeed(i)
+	return tuo
+}
+
+// SetNillableSpeed sets the "speed" field if the given value is not nil.
+func (tuo *TrainingUpdateOne) SetNillableSpeed(i *int) *TrainingUpdateOne {
+	if i != nil {
+		tuo.SetSpeed(*i)
+	}
+	return tuo
+}
+
+// AddSpeed adds i to the "speed" field.
+func (tuo *TrainingUpdateOne) AddSpeed(i int) *TrainingUpdateOne {
+	tuo.mutation.AddSpeed(i)
 	return tuo
 }
 
@@ -207,11 +303,23 @@ func (tuo *TrainingUpdateOne) sqlSave(ctx context.Context) (_node *Training, err
 			}
 		}
 	}
-	if value, ok := tuo.mutation.Words(); ok {
-		_spec.SetField(training.FieldWords, field.TypeInt, value)
+	if value, ok := tuo.mutation.Duration(); ok {
+		_spec.SetField(training.FieldDuration, field.TypeInt, value)
 	}
-	if value, ok := tuo.mutation.AddedWords(); ok {
-		_spec.AddField(training.FieldWords, field.TypeInt, value)
+	if value, ok := tuo.mutation.AddedDuration(); ok {
+		_spec.AddField(training.FieldDuration, field.TypeInt, value)
+	}
+	if value, ok := tuo.mutation.Precision(); ok {
+		_spec.SetField(training.FieldPrecision, field.TypeInt, value)
+	}
+	if value, ok := tuo.mutation.AddedPrecision(); ok {
+		_spec.AddField(training.FieldPrecision, field.TypeInt, value)
+	}
+	if value, ok := tuo.mutation.Speed(); ok {
+		_spec.SetField(training.FieldSpeed, field.TypeInt, value)
+	}
+	if value, ok := tuo.mutation.AddedSpeed(); ok {
+		_spec.AddField(training.FieldSpeed, field.TypeInt, value)
 	}
 	_node = &Training{config: tuo.config}
 	_spec.Assign = _node.assignValues

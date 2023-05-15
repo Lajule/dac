@@ -12,7 +12,9 @@ var (
 	TrainingsColumns = []*schema.Column{
 		{Name: "id", Type: field.TypeInt, Increment: true},
 		{Name: "created_at", Type: field.TypeTime},
-		{Name: "words", Type: field.TypeInt, Default: 0},
+		{Name: "duration", Type: field.TypeInt, Default: 0},
+		{Name: "precision", Type: field.TypeInt, Default: 0},
+		{Name: "speed", Type: field.TypeInt, Default: 0},
 	}
 	// TrainingsTable holds the schema information for the "trainings" table.
 	TrainingsTable = &schema.Table{

@@ -15,8 +15,12 @@ const (
 	FieldID = "id"
 	// FieldCreatedAt holds the string denoting the created_at field in the database.
 	FieldCreatedAt = "created_at"
-	// FieldWords holds the string denoting the words field in the database.
-	FieldWords = "words"
+	// FieldDuration holds the string denoting the duration field in the database.
+	FieldDuration = "duration"
+	// FieldPrecision holds the string denoting the precision field in the database.
+	FieldPrecision = "precision"
+	// FieldSpeed holds the string denoting the speed field in the database.
+	FieldSpeed = "speed"
 	// Table holds the table name of the training in the database.
 	Table = "trainings"
 )
@@ -25,7 +29,9 @@ const (
 var Columns = []string{
 	FieldID,
 	FieldCreatedAt,
-	FieldWords,
+	FieldDuration,
+	FieldPrecision,
+	FieldSpeed,
 }
 
 // ValidColumn reports if the column name is valid (part of the table columns).
@@ -41,8 +47,12 @@ func ValidColumn(column string) bool {
 var (
 	// DefaultCreatedAt holds the default value on creation for the "created_at" field.
 	DefaultCreatedAt func() time.Time
-	// DefaultWords holds the default value on creation for the "words" field.
-	DefaultWords int
+	// DefaultDuration holds the default value on creation for the "duration" field.
+	DefaultDuration int
+	// DefaultPrecision holds the default value on creation for the "precision" field.
+	DefaultPrecision int
+	// DefaultSpeed holds the default value on creation for the "speed" field.
+	DefaultSpeed int
 )
 
 // OrderOption defines the ordering options for the Training queries.
@@ -58,7 +68,17 @@ func ByCreatedAt(opts ...sql.OrderTermOption) OrderOption {
 	return sql.OrderByField(FieldCreatedAt, opts...).ToFunc()
 }
 
-// ByWords orders the results by the words field.
-func ByWords(opts ...sql.OrderTermOption) OrderOption {
-	return sql.OrderByField(FieldWords, opts...).ToFunc()
+// ByDuration orders the results by the duration field.
+func ByDuration(opts ...sql.OrderTermOption) OrderOption {
+	return sql.OrderByField(FieldDuration, opts...).ToFunc()
+}
+
+// ByPrecision orders the results by the precision field.
+func ByPrecision(opts ...sql.OrderTermOption) OrderOption {
+	return sql.OrderByField(FieldPrecision, opts...).ToFunc()
+}
+
+// BySpeed orders the results by the speed field.
+func BySpeed(opts ...sql.OrderTermOption) OrderOption {
+	return sql.OrderByField(FieldSpeed, opts...).ToFunc()
 }

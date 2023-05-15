@@ -19,8 +19,16 @@ func init() {
 	trainingDescCreatedAt := trainingFields[0].Descriptor()
 	// training.DefaultCreatedAt holds the default value on creation for the created_at field.
 	training.DefaultCreatedAt = trainingDescCreatedAt.Default.(func() time.Time)
-	// trainingDescWords is the schema descriptor for words field.
-	trainingDescWords := trainingFields[1].Descriptor()
-	// training.DefaultWords holds the default value on creation for the words field.
-	training.DefaultWords = trainingDescWords.Default.(int)
+	// trainingDescDuration is the schema descriptor for duration field.
+	trainingDescDuration := trainingFields[1].Descriptor()
+	// training.DefaultDuration holds the default value on creation for the duration field.
+	training.DefaultDuration = trainingDescDuration.Default.(int)
+	// trainingDescPrecision is the schema descriptor for precision field.
+	trainingDescPrecision := trainingFields[2].Descriptor()
+	// training.DefaultPrecision holds the default value on creation for the precision field.
+	training.DefaultPrecision = trainingDescPrecision.Default.(int)
+	// trainingDescSpeed is the schema descriptor for speed field.
+	trainingDescSpeed := trainingFields[3].Descriptor()
+	// training.DefaultSpeed holds the default value on creation for the speed field.
+	training.DefaultSpeed = trainingDescSpeed.Default.(int)
 }

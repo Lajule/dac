@@ -34,16 +34,44 @@ func (tc *TrainingCreate) SetNillableCreatedAt(t *time.Time) *TrainingCreate {
 	return tc
 }
 
-// SetWords sets the "words" field.
-func (tc *TrainingCreate) SetWords(i int) *TrainingCreate {
-	tc.mutation.SetWords(i)
+// SetDuration sets the "duration" field.
+func (tc *TrainingCreate) SetDuration(i int) *TrainingCreate {
+	tc.mutation.SetDuration(i)
 	return tc
 }
 
-// SetNillableWords sets the "words" field if the given value is not nil.
-func (tc *TrainingCreate) SetNillableWords(i *int) *TrainingCreate {
+// SetNillableDuration sets the "duration" field if the given value is not nil.
+func (tc *TrainingCreate) SetNillableDuration(i *int) *TrainingCreate {
 	if i != nil {
-		tc.SetWords(*i)
+		tc.SetDuration(*i)
+	}
+	return tc
+}
+
+// SetPrecision sets the "precision" field.
+func (tc *TrainingCreate) SetPrecision(i int) *TrainingCreate {
+	tc.mutation.SetPrecision(i)
+	return tc
+}
+
+// SetNillablePrecision sets the "precision" field if the given value is not nil.
+func (tc *TrainingCreate) SetNillablePrecision(i *int) *TrainingCreate {
+	if i != nil {
+		tc.SetPrecision(*i)
+	}
+	return tc
+}
+
+// SetSpeed sets the "speed" field.
+func (tc *TrainingCreate) SetSpeed(i int) *TrainingCreate {
+	tc.mutation.SetSpeed(i)
+	return tc
+}
+
+// SetNillableSpeed sets the "speed" field if the given value is not nil.
+func (tc *TrainingCreate) SetNillableSpeed(i *int) *TrainingCreate {
+	if i != nil {
+		tc.SetSpeed(*i)
 	}
 	return tc
 }
@@ -87,9 +115,17 @@ func (tc *TrainingCreate) defaults() {
 		v := training.DefaultCreatedAt()
 		tc.mutation.SetCreatedAt(v)
 	}
-	if _, ok := tc.mutation.Words(); !ok {
-		v := training.DefaultWords
-		tc.mutation.SetWords(v)
+	if _, ok := tc.mutation.Duration(); !ok {
+		v := training.DefaultDuration
+		tc.mutation.SetDuration(v)
+	}
+	if _, ok := tc.mutation.Precision(); !ok {
+		v := training.DefaultPrecision
+		tc.mutation.SetPrecision(v)
+	}
+	if _, ok := tc.mutation.Speed(); !ok {
+		v := training.DefaultSpeed
+		tc.mutation.SetSpeed(v)
 	}
 }
 
@@ -98,8 +134,14 @@ func (tc *TrainingCreate) check() error {
 	if _, ok := tc.mutation.CreatedAt(); !ok {
 		return &ValidationError{Name: "created_at", err: errors.New(`ent: missing required field "Training.created_at"`)}
 	}
-	if _, ok := tc.mutation.Words(); !ok {
-		return &ValidationError{Name: "words", err: errors.New(`ent: missing required field "Training.words"`)}
+	if _, ok := tc.mutation.Duration(); !ok {
+		return &ValidationError{Name: "duration", err: errors.New(`ent: missing required field "Training.duration"`)}
+	}
+	if _, ok := tc.mutation.Precision(); !ok {
+		return &ValidationError{Name: "precision", err: errors.New(`ent: missing required field "Training.precision"`)}
+	}
+	if _, ok := tc.mutation.Speed(); !ok {
+		return &ValidationError{Name: "speed", err: errors.New(`ent: missing required field "Training.speed"`)}
 	}
 	return nil
 }
@@ -131,9 +173,17 @@ func (tc *TrainingCreate) createSpec() (*Training, *sqlgraph.CreateSpec) {
 		_spec.SetField(training.FieldCreatedAt, field.TypeTime, value)
 		_node.CreatedAt = value
 	}
-	if value, ok := tc.mutation.Words(); ok {
-		_spec.SetField(training.FieldWords, field.TypeInt, value)
-		_node.Words = value
+	if value, ok := tc.mutation.Duration(); ok {
+		_spec.SetField(training.FieldDuration, field.TypeInt, value)
+		_node.Duration = value
+	}
+	if value, ok := tc.mutation.Precision(); ok {
+		_spec.SetField(training.FieldPrecision, field.TypeInt, value)
+		_node.Precision = value
+	}
+	if value, ok := tc.mutation.Speed(); ok {
+		_spec.SetField(training.FieldSpeed, field.TypeInt, value)
+		_node.Speed = value
 	}
 	return _node, _spec
 }

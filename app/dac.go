@@ -21,6 +21,8 @@ type Dac struct {
 
 	Speed int
 
+	close bool
+
 	screen tcell.Screen
 
 	ticker *time.Ticker
@@ -28,7 +30,7 @@ type Dac struct {
 	done chan bool
 }
 
-func NewDac(duration time.Duration, text string) (*Dac, error) {
+func NewDac(duration time.Duration, close bool, text string) (*Dac, error) {
 	encoding.Register()
 	sc, err := tcell.NewScreen()
 	if err != nil {
@@ -42,6 +44,7 @@ func NewDac(duration time.Duration, text string) (*Dac, error) {
 	return &Dac{
 		Duration: duration,
 		Text:     []rune(text),
+		close:    close,
 		screen:   sc,
 		ticker:   time.NewTicker(time.Second),
 		done:     make(chan bool),
@@ -50,6 +53,7 @@ func NewDac(duration time.Duration, text string) (*Dac, error) {
 
 func (d *Dac) Start() {
 	tics := 0
+
 	go func() {
 		for {
 			select {
@@ -89,7 +93,7 @@ func (d *Dac) Start() {
 				d.draw()
 			}
 		case *tcell.EventTime:
-			if d.Duration == 0 {
+			if d.close && d.Duration == 0 {
 				d.stop()
 				return
 			}
@@ -127,7 +131,7 @@ func (d *Dac) stop() {
 }
 
 func (d *Dac) precision() {
-	count := countVal(d.Inputs, true)
+	count := countValue(d.Inputs, true)
 	if count > 0 {
 		d.Precision = (count * 100) / len(d.Inputs)
 	} else {
@@ -138,17 +142,17 @@ func (d *Dac) precision() {
 func (d *Dac) draw() {
 	w, h := d.screen.Size()
 	max := w * (h - 1)
-
-	d.screen.Clear()
-
 	status := fmt.Sprintf("(%d,%d) %d%% %dw/s %s", len(d.Text), len(d.Inputs), d.Precision, d.Speed, d.Duration.String())
-	for i, r := range []rune(fmt.Sprintf("%*s", w, status)) {
-		d.screen.SetContent(i, 0, r, nil, tcell.StyleDefault.Bold(true).Reverse(true))
-	}
-
 	textChunks := chunkBy(d.Text, max)
 	inputChunks := chunkBy(d.Inputs, max)
 	offset := len(d.Inputs) / max
+
+	d.screen.Clear()
+
+	style := tcell.StyleDefault.Bold(true).Reverse(true)
+	for i, r := range []rune(fmt.Sprintf("%*s", w, status)) {
+		d.screen.SetContent(i, 0, r, nil, style)
+	}
 
 	y := 1
 	for i, r := range textChunks[offset] {
@@ -177,7 +181,7 @@ func (d *Dac) draw() {
 	d.screen.Show()
 }
 
-func countVal[T comparable](items []T, val T) (count int) {
+func countValue[T comparable](items []T, val T) (count int) {
 	for _, item := range items {
 		if item == val {
 			count += 1

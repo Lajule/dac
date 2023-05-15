@@ -34,8 +34,12 @@ type TrainingMutation struct {
 	typ           string
 	id            *int
 	created_at    *time.Time
-	words         *int
-	addwords      *int
+	duration      *int
+	addduration   *int
+	precision     *int
+	addprecision  *int
+	speed         *int
+	addspeed      *int
 	clearedFields map[string]struct{}
 	done          bool
 	oldValue      func(context.Context) (*Training, error)
@@ -176,60 +180,172 @@ func (m *TrainingMutation) ResetCreatedAt() {
 	m.created_at = nil
 }
 
-// SetWords sets the "words" field.
-func (m *TrainingMutation) SetWords(i int) {
-	m.words = &i
-	m.addwords = nil
+// SetDuration sets the "duration" field.
+func (m *TrainingMutation) SetDuration(i int) {
+	m.duration = &i
+	m.addduration = nil
 }
 
-// Words returns the value of the "words" field in the mutation.
-func (m *TrainingMutation) Words() (r int, exists bool) {
-	v := m.words
+// Duration returns the value of the "duration" field in the mutation.
+func (m *TrainingMutation) Duration() (r int, exists bool) {
+	v := m.duration
 	if v == nil {
 		return
 	}
 	return *v, true
 }
 
-// OldWords returns the old "words" field's value of the Training entity.
+// OldDuration returns the old "duration" field's value of the Training entity.
 // If the Training object wasn't provided to the builder, the object is fetched from the database.
 // An error is returned if the mutation operation is not UpdateOne, or the database query fails.
-func (m *TrainingMutation) OldWords(ctx context.Context) (v int, err error) {
+func (m *TrainingMutation) OldDuration(ctx context.Context) (v int, err error) {
 	if !m.op.Is(OpUpdateOne) {
-		return v, errors.New("OldWords is only allowed on UpdateOne operations")
+		return v, errors.New("OldDuration is only allowed on UpdateOne operations")
 	}
 	if m.id == nil || m.oldValue == nil {
-		return v, errors.New("OldWords requires an ID field in the mutation")
+		return v, errors.New("OldDuration requires an ID field in the mutation")
 	}
 	oldValue, err := m.oldValue(ctx)
 	if err != nil {
-		return v, fmt.Errorf("querying old value for OldWords: %w", err)
+		return v, fmt.Errorf("querying old value for OldDuration: %w", err)
 	}
-	return oldValue.Words, nil
+	return oldValue.Duration, nil
 }
 
-// AddWords adds i to the "words" field.
-func (m *TrainingMutation) AddWords(i int) {
-	if m.addwords != nil {
-		*m.addwords += i
+// AddDuration adds i to the "duration" field.
+func (m *TrainingMutation) AddDuration(i int) {
+	if m.addduration != nil {
+		*m.addduration += i
 	} else {
-		m.addwords = &i
+		m.addduration = &i
 	}
 }
 
-// AddedWords returns the value that was added to the "words" field in this mutation.
-func (m *TrainingMutation) AddedWords() (r int, exists bool) {
-	v := m.addwords
+// AddedDuration returns the value that was added to the "duration" field in this mutation.
+func (m *TrainingMutation) AddedDuration() (r int, exists bool) {
+	v := m.addduration
 	if v == nil {
 		return
 	}
 	return *v, true
 }
 
-// ResetWords resets all changes to the "words" field.
-func (m *TrainingMutation) ResetWords() {
-	m.words = nil
-	m.addwords = nil
+// ResetDuration resets all changes to the "duration" field.
+func (m *TrainingMutation) ResetDuration() {
+	m.duration = nil
+	m.addduration = nil
+}
+
+// SetPrecision sets the "precision" field.
+func (m *TrainingMutation) SetPrecision(i int) {
+	m.precision = &i
+	m.addprecision = nil
+}
+
+// Precision returns the value of the "precision" field in the mutation.
+func (m *TrainingMutation) Precision() (r int, exists bool) {
+	v := m.precision
+	if v == nil {
+		return
+	}
+	return *v, true
+}
+
+// OldPrecision returns the old "precision" field's value of the Training entity.
+// If the Training object wasn't provided to the builder, the object is fetched from the database.
+// An error is returned if the mutation operation is not UpdateOne, or the database query fails.
+func (m *TrainingMutation) OldPrecision(ctx context.Context) (v int, err error) {
+	if !m.op.Is(OpUpdateOne) {
+		return v, errors.New("OldPrecision is only allowed on UpdateOne operations")
+	}
+	if m.id == nil || m.oldValue == nil {
+		return v, errors.New("OldPrecision requires an ID field in the mutation")
+	}
+	oldValue, err := m.oldValue(ctx)
+	if err != nil {
+		return v, fmt.Errorf("querying old value for OldPrecision: %w", err)
+	}
+	return oldValue.Precision, nil
+}
+
+// AddPrecision adds i to the "precision" field.
+func (m *TrainingMutation) AddPrecision(i int) {
+	if m.addprecision != nil {
+		*m.addprecision += i
+	} else {
+		m.addprecision = &i
+	}
+}
+
+// AddedPrecision returns the value that was added to the "precision" field in this mutation.
+func (m *TrainingMutation) AddedPrecision() (r int, exists bool) {
+	v := m.addprecision
+	if v == nil {
+		return
+	}
+	return *v, true
+}
+
+// ResetPrecision resets all changes to the "precision" field.
+func (m *TrainingMutation) ResetPrecision() {
+	m.precision = nil
+	m.addprecision = nil
+}
+
+// SetSpeed sets the "speed" field.
+func (m *TrainingMutation) SetSpeed(i int) {
+	m.speed = &i
+	m.addspeed = nil
+}
+
+// Speed returns the value of the "speed" field in the mutation.
+func (m *TrainingMutation) Speed() (r int, exists bool) {
+	v := m.speed
+	if v == nil {
+		return
+	}
+	return *v, true
+}
+
+// OldSpeed returns the old "speed" field's value of the Training entity.
+// If the Training object wasn't provided to the builder, the object is fetched from the database.
+// An error is returned if the mutation operation is not UpdateOne, or the database query fails.
+func (m *TrainingMutation) OldSpeed(ctx context.Context) (v int, err error) {
+	if !m.op.Is(OpUpdateOne) {
+		return v, errors.New("OldSpeed is only allowed on UpdateOne operations")
+	}
+	if m.id == nil || m.oldValue == nil {
+		return v, errors.New("OldSpeed requires an ID field in the mutation")
+	}
+	oldValue, err := m.oldValue(ctx)
+	if err != nil {
+		return v, fmt.Errorf("querying old value for OldSpeed: %w", err)
+	}
+	return oldValue.Speed, nil
+}
+
+// AddSpeed adds i to the "speed" field.
+func (m *TrainingMutation) AddSpeed(i int) {
+	if m.addspeed != nil {
+		*m.addspeed += i
+	} else {
+		m.addspeed = &i
+	}
+}
+
+// AddedSpeed returns the value that was added to the "speed" field in this mutation.
+func (m *TrainingMutation) AddedSpeed() (r int, exists bool) {
+	v := m.addspeed
+	if v == nil {
+		return
+	}
+	return *v, true
+}
+
+// ResetSpeed resets all changes to the "speed" field.
+func (m *TrainingMutation) ResetSpeed() {
+	m.speed = nil
+	m.addspeed = nil
 }
 
 // Where appends a list predicates to the TrainingMutation builder.
@@ -266,12 +382,18 @@ func (m *TrainingMutation) Type() string {
 // order to get all numeric fields that were incremented/decremented, call
 // AddedFields().
 func (m *TrainingMutation) Fields() []string {
-	fields := make([]string, 0, 2)
+	fields := make([]string, 0, 4)
 	if m.created_at != nil {
 		fields = append(fields, training.FieldCreatedAt)
 	}
-	if m.words != nil {
-		fields = append(fields, training.FieldWords)
+	if m.duration != nil {
+		fields = append(fields, training.FieldDuration)
+	}
+	if m.precision != nil {
+		fields = append(fields, training.FieldPrecision)
+	}
+	if m.speed != nil {
+		fields = append(fields, training.FieldSpeed)
 	}
 	return fields
 }
@@ -283,8 +405,12 @@ func (m *TrainingMutation) Field(name string) (ent.Value, bool) {
 	switch name {
 	case training.FieldCreatedAt:
 		return m.CreatedAt()
-	case training.FieldWords:
-		return m.Words()
+	case training.FieldDuration:
+		return m.Duration()
+	case training.FieldPrecision:
+		return m.Precision()
+	case training.FieldSpeed:
+		return m.Speed()
 	}
 	return nil, false
 }
@@ -296,8 +422,12 @@ func (m *TrainingMutation) OldField(ctx context.Context, name string) (ent.Value
 	switch name {
 	case training.FieldCreatedAt:
 		return m.OldCreatedAt(ctx)
-	case training.FieldWords:
-		return m.OldWords(ctx)
+	case training.FieldDuration:
+		return m.OldDuration(ctx)
+	case training.FieldPrecision:
+		return m.OldPrecision(ctx)
+	case training.FieldSpeed:
+		return m.OldSpeed(ctx)
 	}
 	return nil, fmt.Errorf("unknown Training field %s", name)
 }
@@ -314,12 +444,26 @@ func (m *TrainingMutation) SetField(name string, value ent.Value) error {
 		}
 		m.SetCreatedAt(v)
 		return nil
-	case training.FieldWords:
+	case training.FieldDuration:
 		v, ok := value.(int)
 		if !ok {
 			return fmt.Errorf("unexpected type %T for field %s", value, name)
 		}
-		m.SetWords(v)
+		m.SetDuration(v)
+		return nil
+	case training.FieldPrecision:
+		v, ok := value.(int)
+		if !ok {
+			return fmt.Errorf("unexpected type %T for field %s", value, name)
+		}
+		m.SetPrecision(v)
+		return nil
+	case training.FieldSpeed:
+		v, ok := value.(int)
+		if !ok {
+			return fmt.Errorf("unexpected type %T for field %s", value, name)
+		}
+		m.SetSpeed(v)
 		return nil
 	}
 	return fmt.Errorf("unknown Training field %s", name)
@@ -329,8 +473,14 @@ func (m *TrainingMutation) SetField(name string, value ent.Value) error {
 // this mutation.
 func (m *TrainingMutation) AddedFields() []string {
 	var fields []string
-	if m.addwords != nil {
-		fields = append(fields, training.FieldWords)
+	if m.addduration != nil {
+		fields = append(fields, training.FieldDuration)
+	}
+	if m.addprecision != nil {
+		fields = append(fields, training.FieldPrecision)
+	}
+	if m.addspeed != nil {
+		fields = append(fields, training.FieldSpeed)
 	}
 	return fields
 }
@@ -340,8 +490,12 @@ func (m *TrainingMutation) AddedFields() []string {
 // was not set, or was not defined in the schema.
 func (m *TrainingMutation) AddedField(name string) (ent.Value, bool) {
 	switch name {
-	case training.FieldWords:
-		return m.AddedWords()
+	case training.FieldDuration:
+		return m.AddedDuration()
+	case training.FieldPrecision:
+		return m.AddedPrecision()
+	case training.FieldSpeed:
+		return m.AddedSpeed()
 	}
 	return nil, false
 }
@@ -351,12 +505,26 @@ func (m *TrainingMutation) AddedField(name string) (ent.Value, bool) {
 // type.
 func (m *TrainingMutation) AddField(name string, value ent.Value) error {
 	switch name {
-	case training.FieldWords:
+	case training.FieldDuration:
 		v, ok := value.(int)
 		if !ok {
 			return fmt.Errorf("unexpected type %T for field %s", value, name)
 		}
-		m.AddWords(v)
+		m.AddDuration(v)
+		return nil
+	case training.FieldPrecision:
+		v, ok := value.(int)
+		if !ok {
+			return fmt.Errorf("unexpected type %T for field %s", value, name)
+		}
+		m.AddPrecision(v)
+		return nil
+	case training.FieldSpeed:
+		v, ok := value.(int)
+		if !ok {
+			return fmt.Errorf("unexpected type %T for field %s", value, name)
+		}
+		m.AddSpeed(v)
 		return nil
 	}
 	return fmt.Errorf("unknown Training numeric field %s", name)
@@ -388,8 +556,14 @@ func (m *TrainingMutation) ResetField(name string) error {
 	case training.FieldCreatedAt:
 		m.ResetCreatedAt()
 		return nil
-	case training.FieldWords:
-		m.ResetWords()
+	case training.FieldDuration:
+		m.ResetDuration()
+		return nil
+	case training.FieldPrecision:
+		m.ResetPrecision()
+		return nil
+	case training.FieldSpeed:
+		m.ResetSpeed()
 		return nil
 	}
 	return fmt.Errorf("unknown Training field %s", name)

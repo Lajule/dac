@@ -18,7 +18,11 @@ func (Training) Fields() []ent.Field {
 		field.Time("created_at").
 			Default(time.Now).
 			Immutable(),
-		field.Int("words").
+		field.Int("duration").
+			Default(0),
+		field.Int("precision").
+			Default(0),
+		field.Int("speed").
 			Default(0),
 	}
 }

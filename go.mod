@@ -5,6 +5,7 @@ go 1.19
 require (
 	entgo.io/ent v0.12.3
 	github.com/gdamore/tcell/v2 v2.6.0
+	github.com/mattn/go-sqlite3 v1.14.16
 	github.com/spf13/cobra v1.7.0
 	github.com/spf13/viper v1.15.0
 )
