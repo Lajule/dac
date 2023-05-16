@@ -48,24 +48,87 @@ func (tu *TrainingUpdate) AddDuration(i int) *TrainingUpdate {
 	return tu
 }
 
-// SetPrecision sets the "precision" field.
-func (tu *TrainingUpdate) SetPrecision(i int) *TrainingUpdate {
-	tu.mutation.ResetPrecision()
-	tu.mutation.SetPrecision(i)
+// SetTotalDuration sets the "total_duration" field.
+func (tu *TrainingUpdate) SetTotalDuration(i int) *TrainingUpdate {
+	tu.mutation.ResetTotalDuration()
+	tu.mutation.SetTotalDuration(i)
 	return tu
 }
 
-// SetNillablePrecision sets the "precision" field if the given value is not nil.
-func (tu *TrainingUpdate) SetNillablePrecision(i *int) *TrainingUpdate {
+// SetNillableTotalDuration sets the "total_duration" field if the given value is not nil.
+func (tu *TrainingUpdate) SetNillableTotalDuration(i *int) *TrainingUpdate {
 	if i != nil {
-		tu.SetPrecision(*i)
+		tu.SetTotalDuration(*i)
 	}
 	return tu
 }
 
-// AddPrecision adds i to the "precision" field.
-func (tu *TrainingUpdate) AddPrecision(i int) *TrainingUpdate {
-	tu.mutation.AddPrecision(i)
+// AddTotalDuration adds i to the "total_duration" field.
+func (tu *TrainingUpdate) AddTotalDuration(i int) *TrainingUpdate {
+	tu.mutation.AddTotalDuration(i)
+	return tu
+}
+
+// SetTextLength sets the "text_length" field.
+func (tu *TrainingUpdate) SetTextLength(i int) *TrainingUpdate {
+	tu.mutation.ResetTextLength()
+	tu.mutation.SetTextLength(i)
+	return tu
+}
+
+// SetNillableTextLength sets the "text_length" field if the given value is not nil.
+func (tu *TrainingUpdate) SetNillableTextLength(i *int) *TrainingUpdate {
+	if i != nil {
+		tu.SetTextLength(*i)
+	}
+	return tu
+}
+
+// AddTextLength adds i to the "text_length" field.
+func (tu *TrainingUpdate) AddTextLength(i int) *TrainingUpdate {
+	tu.mutation.AddTextLength(i)
+	return tu
+}
+
+// SetInputsLength sets the "inputs_length" field.
+func (tu *TrainingUpdate) SetInputsLength(i int) *TrainingUpdate {
+	tu.mutation.ResetInputsLength()
+	tu.mutation.SetInputsLength(i)
+	return tu
+}
+
+// SetNillableInputsLength sets the "inputs_length" field if the given value is not nil.
+func (tu *TrainingUpdate) SetNillableInputsLength(i *int) *TrainingUpdate {
+	if i != nil {
+		tu.SetInputsLength(*i)
+	}
+	return tu
+}
+
+// AddInputsLength adds i to the "inputs_length" field.
+func (tu *TrainingUpdate) AddInputsLength(i int) *TrainingUpdate {
+	tu.mutation.AddInputsLength(i)
+	return tu
+}
+
+// SetAccuracy sets the "accuracy" field.
+func (tu *TrainingUpdate) SetAccuracy(i int) *TrainingUpdate {
+	tu.mutation.ResetAccuracy()
+	tu.mutation.SetAccuracy(i)
+	return tu
+}
+
+// SetNillableAccuracy sets the "accuracy" field if the given value is not nil.
+func (tu *TrainingUpdate) SetNillableAccuracy(i *int) *TrainingUpdate {
+	if i != nil {
+		tu.SetAccuracy(*i)
+	}
+	return tu
+}
+
+// AddAccuracy adds i to the "accuracy" field.
+func (tu *TrainingUpdate) AddAccuracy(i int) *TrainingUpdate {
+	tu.mutation.AddAccuracy(i)
 	return tu
 }
 
@@ -137,11 +200,29 @@ func (tu *TrainingUpdate) sqlSave(ctx context.Context) (n int, err error) {
 	if value, ok := tu.mutation.AddedDuration(); ok {
 		_spec.AddField(training.FieldDuration, field.TypeInt, value)
 	}
-	if value, ok := tu.mutation.Precision(); ok {
-		_spec.SetField(training.FieldPrecision, field.TypeInt, value)
+	if value, ok := tu.mutation.TotalDuration(); ok {
+		_spec.SetField(training.FieldTotalDuration, field.TypeInt, value)
 	}
-	if value, ok := tu.mutation.AddedPrecision(); ok {
-		_spec.AddField(training.FieldPrecision, field.TypeInt, value)
+	if value, ok := tu.mutation.AddedTotalDuration(); ok {
+		_spec.AddField(training.FieldTotalDuration, field.TypeInt, value)
+	}
+	if value, ok := tu.mutation.TextLength(); ok {
+		_spec.SetField(training.FieldTextLength, field.TypeInt, value)
+	}
+	if value, ok := tu.mutation.AddedTextLength(); ok {
+		_spec.AddField(training.FieldTextLength, field.TypeInt, value)
+	}
+	if value, ok := tu.mutation.InputsLength(); ok {
+		_spec.SetField(training.FieldInputsLength, field.TypeInt, value)
+	}
+	if value, ok := tu.mutation.AddedInputsLength(); ok {
+		_spec.AddField(training.FieldInputsLength, field.TypeInt, value)
+	}
+	if value, ok := tu.mutation.Accuracy(); ok {
+		_spec.SetField(training.FieldAccuracy, field.TypeInt, value)
+	}
+	if value, ok := tu.mutation.AddedAccuracy(); ok {
+		_spec.AddField(training.FieldAccuracy, field.TypeInt, value)
 	}
 	if value, ok := tu.mutation.Speed(); ok {
 		_spec.SetField(training.FieldSpeed, field.TypeInt, value)
@@ -190,24 +271,87 @@ func (tuo *TrainingUpdateOne) AddDuration(i int) *TrainingUpdateOne {
 	return tuo
 }
 
-// SetPrecision sets the "precision" field.
-func (tuo *TrainingUpdateOne) SetPrecision(i int) *TrainingUpdateOne {
-	tuo.mutation.ResetPrecision()
-	tuo.mutation.SetPrecision(i)
+// SetTotalDuration sets the "total_duration" field.
+func (tuo *TrainingUpdateOne) SetTotalDuration(i int) *TrainingUpdateOne {
+	tuo.mutation.ResetTotalDuration()
+	tuo.mutation.SetTotalDuration(i)
 	return tuo
 }
 
-// SetNillablePrecision sets the "precision" field if the given value is not nil.
-func (tuo *TrainingUpdateOne) SetNillablePrecision(i *int) *TrainingUpdateOne {
+// SetNillableTotalDuration sets the "total_duration" field if the given value is not nil.
+func (tuo *TrainingUpdateOne) SetNillableTotalDuration(i *int) *TrainingUpdateOne {
 	if i != nil {
-		tuo.SetPrecision(*i)
+		tuo.SetTotalDuration(*i)
 	}
 	return tuo
 }
 
-// AddPrecision adds i to the "precision" field.
-func (tuo *TrainingUpdateOne) AddPrecision(i int) *TrainingUpdateOne {
-	tuo.mutation.AddPrecision(i)
+// AddTotalDuration adds i to the "total_duration" field.
+func (tuo *TrainingUpdateOne) AddTotalDuration(i int) *TrainingUpdateOne {
+	tuo.mutation.AddTotalDuration(i)
+	return tuo
+}
+
+// SetTextLength sets the "text_length" field.
+func (tuo *TrainingUpdateOne) SetTextLength(i int) *TrainingUpdateOne {
+	tuo.mutation.ResetTextLength()
+	tuo.mutation.SetTextLength(i)
+	return tuo
+}
+
+// SetNillableTextLength sets the "text_length" field if the given value is not nil.
+func (tuo *TrainingUpdateOne) SetNillableTextLength(i *int) *TrainingUpdateOne {
+	if i != nil {
+		tuo.SetTextLength(*i)
+	}
+	return tuo
+}
+
+// AddTextLength adds i to the "text_length" field.
+func (tuo *TrainingUpdateOne) AddTextLength(i int) *TrainingUpdateOne {
+	tuo.mutation.AddTextLength(i)
+	return tuo
+}
+
+// SetInputsLength sets the "inputs_length" field.
+func (tuo *TrainingUpdateOne) SetInputsLength(i int) *TrainingUpdateOne {
+	tuo.mutation.ResetInputsLength()
+	tuo.mutation.SetInputsLength(i)
+	return tuo
+}
+
+// SetNillableInputsLength sets the "inputs_length" field if the given value is not nil.
+func (tuo *TrainingUpdateOne) SetNillableInputsLength(i *int) *TrainingUpdateOne {
+	if i != nil {
+		tuo.SetInputsLength(*i)
+	}
+	return tuo
+}
+
+// AddInputsLength adds i to the "inputs_length" field.
+func (tuo *TrainingUpdateOne) AddInputsLength(i int) *TrainingUpdateOne {
+	tuo.mutation.AddInputsLength(i)
+	return tuo
+}
+
+// SetAccuracy sets the "accuracy" field.
+func (tuo *TrainingUpdateOne) SetAccuracy(i int) *TrainingUpdateOne {
+	tuo.mutation.ResetAccuracy()
+	tuo.mutation.SetAccuracy(i)
+	return tuo
+}
+
+// SetNillableAccuracy sets the "accuracy" field if the given value is not nil.
+func (tuo *TrainingUpdateOne) SetNillableAccuracy(i *int) *TrainingUpdateOne {
+	if i != nil {
+		tuo.SetAccuracy(*i)
+	}
+	return tuo
+}
+
+// AddAccuracy adds i to the "accuracy" field.
+func (tuo *TrainingUpdateOne) AddAccuracy(i int) *TrainingUpdateOne {
+	tuo.mutation.AddAccuracy(i)
 	return tuo
 }
 
@@ -309,11 +453,29 @@ func (tuo *TrainingUpdateOne) sqlSave(ctx context.Context) (_node *Training, err
 	if value, ok := tuo.mutation.AddedDuration(); ok {
 		_spec.AddField(training.FieldDuration, field.TypeInt, value)
 	}
-	if value, ok := tuo.mutation.Precision(); ok {
-		_spec.SetField(training.FieldPrecision, field.TypeInt, value)
+	if value, ok := tuo.mutation.TotalDuration(); ok {
+		_spec.SetField(training.FieldTotalDuration, field.TypeInt, value)
 	}
-	if value, ok := tuo.mutation.AddedPrecision(); ok {
-		_spec.AddField(training.FieldPrecision, field.TypeInt, value)
+	if value, ok := tuo.mutation.AddedTotalDuration(); ok {
+		_spec.AddField(training.FieldTotalDuration, field.TypeInt, value)
+	}
+	if value, ok := tuo.mutation.TextLength(); ok {
+		_spec.SetField(training.FieldTextLength, field.TypeInt, value)
+	}
+	if value, ok := tuo.mutation.AddedTextLength(); ok {
+		_spec.AddField(training.FieldTextLength, field.TypeInt, value)
+	}
+	if value, ok := tuo.mutation.InputsLength(); ok {
+		_spec.SetField(training.FieldInputsLength, field.TypeInt, value)
+	}
+	if value, ok := tuo.mutation.AddedInputsLength(); ok {
+		_spec.AddField(training.FieldInputsLength, field.TypeInt, value)
+	}
+	if value, ok := tuo.mutation.Accuracy(); ok {
+		_spec.SetField(training.FieldAccuracy, field.TypeInt, value)
+	}
+	if value, ok := tuo.mutation.AddedAccuracy(); ok {
+		_spec.AddField(training.FieldAccuracy, field.TypeInt, value)
 	}
 	if value, ok := tuo.mutation.Speed(); ok {
 		_spec.SetField(training.FieldSpeed, field.TypeInt, value)

@@ -13,7 +13,10 @@ var (
 		{Name: "id", Type: field.TypeInt, Increment: true},
 		{Name: "created_at", Type: field.TypeTime},
 		{Name: "duration", Type: field.TypeInt, Default: 0},
-		{Name: "precision", Type: field.TypeInt, Default: 0},
+		{Name: "total_duration", Type: field.TypeInt, Default: 0},
+		{Name: "text_length", Type: field.TypeInt, Default: 0},
+		{Name: "inputs_length", Type: field.TypeInt, Default: 0},
+		{Name: "accuracy", Type: field.TypeInt, Default: 0},
 		{Name: "speed", Type: field.TypeInt, Default: 0},
 	}
 	// TrainingsTable holds the schema information for the "trainings" table.

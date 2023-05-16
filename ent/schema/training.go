@@ -15,15 +15,13 @@ type Training struct {
 // Fields of the Training.
 func (Training) Fields() []ent.Field {
 	return []ent.Field{
-		field.Time("created_at").
-			Default(time.Now).
-			Immutable(),
-		field.Int("duration").
-			Default(0),
-		field.Int("precision").
-			Default(0),
-		field.Int("speed").
-			Default(0),
+		field.Time("created_at").Default(time.Now).Immutable(),
+		field.Int("duration").Default(0),
+		field.Int("total_duration").Default(0),
+		field.Int("text_length").Default(0),
+		field.Int("inputs_length").Default(0),
+		field.Int("accuracy").Default(0),
+		field.Int("speed").Default(0),
 	}
 }
 

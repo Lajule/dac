@@ -17,8 +17,14 @@ const (
 	FieldCreatedAt = "created_at"
 	// FieldDuration holds the string denoting the duration field in the database.
 	FieldDuration = "duration"
-	// FieldPrecision holds the string denoting the precision field in the database.
-	FieldPrecision = "precision"
+	// FieldTotalDuration holds the string denoting the total_duration field in the database.
+	FieldTotalDuration = "total_duration"
+	// FieldTextLength holds the string denoting the text_length field in the database.
+	FieldTextLength = "text_length"
+	// FieldInputsLength holds the string denoting the inputs_length field in the database.
+	FieldInputsLength = "inputs_length"
+	// FieldAccuracy holds the string denoting the accuracy field in the database.
+	FieldAccuracy = "accuracy"
 	// FieldSpeed holds the string denoting the speed field in the database.
 	FieldSpeed = "speed"
 	// Table holds the table name of the training in the database.
@@ -30,7 +36,10 @@ var Columns = []string{
 	FieldID,
 	FieldCreatedAt,
 	FieldDuration,
-	FieldPrecision,
+	FieldTotalDuration,
+	FieldTextLength,
+	FieldInputsLength,
+	FieldAccuracy,
 	FieldSpeed,
 }
 
@@ -49,8 +58,14 @@ var (
 	DefaultCreatedAt func() time.Time
 	// DefaultDuration holds the default value on creation for the "duration" field.
 	DefaultDuration int
-	// DefaultPrecision holds the default value on creation for the "precision" field.
-	DefaultPrecision int
+	// DefaultTotalDuration holds the default value on creation for the "total_duration" field.
+	DefaultTotalDuration int
+	// DefaultTextLength holds the default value on creation for the "text_length" field.
+	DefaultTextLength int
+	// DefaultInputsLength holds the default value on creation for the "inputs_length" field.
+	DefaultInputsLength int
+	// DefaultAccuracy holds the default value on creation for the "accuracy" field.
+	DefaultAccuracy int
 	// DefaultSpeed holds the default value on creation for the "speed" field.
 	DefaultSpeed int
 )
@@ -73,9 +88,24 @@ func ByDuration(opts ...sql.OrderTermOption) OrderOption {
 	return sql.OrderByField(FieldDuration, opts...).ToFunc()
 }
 
-// ByPrecision orders the results by the precision field.
-func ByPrecision(opts ...sql.OrderTermOption) OrderOption {
-	return sql.OrderByField(FieldPrecision, opts...).ToFunc()
+// ByTotalDuration orders the results by the total_duration field.
+func ByTotalDuration(opts ...sql.OrderTermOption) OrderOption {
+	return sql.OrderByField(FieldTotalDuration, opts...).ToFunc()
+}
+
+// ByTextLength orders the results by the text_length field.
+func ByTextLength(opts ...sql.OrderTermOption) OrderOption {
+	return sql.OrderByField(FieldTextLength, opts...).ToFunc()
+}
+
+// ByInputsLength orders the results by the inputs_length field.
+func ByInputsLength(opts ...sql.OrderTermOption) OrderOption {
+	return sql.OrderByField(FieldInputsLength, opts...).ToFunc()
+}
+
+// ByAccuracy orders the results by the accuracy field.
+func ByAccuracy(opts ...sql.OrderTermOption) OrderOption {
+	return sql.OrderByField(FieldAccuracy, opts...).ToFunc()
 }
 
 // BySpeed orders the results by the speed field.

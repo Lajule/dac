@@ -48,16 +48,58 @@ func (tc *TrainingCreate) SetNillableDuration(i *int) *TrainingCreate {
 	return tc
 }
 
-// SetPrecision sets the "precision" field.
-func (tc *TrainingCreate) SetPrecision(i int) *TrainingCreate {
-	tc.mutation.SetPrecision(i)
+// SetTotalDuration sets the "total_duration" field.
+func (tc *TrainingCreate) SetTotalDuration(i int) *TrainingCreate {
+	tc.mutation.SetTotalDuration(i)
 	return tc
 }
 
-// SetNillablePrecision sets the "precision" field if the given value is not nil.
-func (tc *TrainingCreate) SetNillablePrecision(i *int) *TrainingCreate {
+// SetNillableTotalDuration sets the "total_duration" field if the given value is not nil.
+func (tc *TrainingCreate) SetNillableTotalDuration(i *int) *TrainingCreate {
 	if i != nil {
-		tc.SetPrecision(*i)
+		tc.SetTotalDuration(*i)
+	}
+	return tc
+}
+
+// SetTextLength sets the "text_length" field.
+func (tc *TrainingCreate) SetTextLength(i int) *TrainingCreate {
+	tc.mutation.SetTextLength(i)
+	return tc
+}
+
+// SetNillableTextLength sets the "text_length" field if the given value is not nil.
+func (tc *TrainingCreate) SetNillableTextLength(i *int) *TrainingCreate {
+	if i != nil {
+		tc.SetTextLength(*i)
+	}
+	return tc
+}
+
+// SetInputsLength sets the "inputs_length" field.
+func (tc *TrainingCreate) SetInputsLength(i int) *TrainingCreate {
+	tc.mutation.SetInputsLength(i)
+	return tc
+}
+
+// SetNillableInputsLength sets the "inputs_length" field if the given value is not nil.
+func (tc *TrainingCreate) SetNillableInputsLength(i *int) *TrainingCreate {
+	if i != nil {
+		tc.SetInputsLength(*i)
+	}
+	return tc
+}
+
+// SetAccuracy sets the "accuracy" field.
+func (tc *TrainingCreate) SetAccuracy(i int) *TrainingCreate {
+	tc.mutation.SetAccuracy(i)
+	return tc
+}
+
+// SetNillableAccuracy sets the "accuracy" field if the given value is not nil.
+func (tc *TrainingCreate) SetNillableAccuracy(i *int) *TrainingCreate {
+	if i != nil {
+		tc.SetAccuracy(*i)
 	}
 	return tc
 }
@@ -119,9 +161,21 @@ func (tc *TrainingCreate) defaults() {
 		v := training.DefaultDuration
 		tc.mutation.SetDuration(v)
 	}
-	if _, ok := tc.mutation.Precision(); !ok {
-		v := training.DefaultPrecision
-		tc.mutation.SetPrecision(v)
+	if _, ok := tc.mutation.TotalDuration(); !ok {
+		v := training.DefaultTotalDuration
+		tc.mutation.SetTotalDuration(v)
+	}
+	if _, ok := tc.mutation.TextLength(); !ok {
+		v := training.DefaultTextLength
+		tc.mutation.SetTextLength(v)
+	}
+	if _, ok := tc.mutation.InputsLength(); !ok {
+		v := training.DefaultInputsLength
+		tc.mutation.SetInputsLength(v)
+	}
+	if _, ok := tc.mutation.Accuracy(); !ok {
+		v := training.DefaultAccuracy
+		tc.mutation.SetAccuracy(v)
 	}
 	if _, ok := tc.mutation.Speed(); !ok {
 		v := training.DefaultSpeed
@@ -137,8 +191,17 @@ func (tc *TrainingCreate) check() error {
 	if _, ok := tc.mutation.Duration(); !ok {
 		return &ValidationError{Name: "duration", err: errors.New(`ent: missing required field "Training.duration"`)}
 	}
-	if _, ok := tc.mutation.Precision(); !ok {
-		return &ValidationError{Name: "precision", err: errors.New(`ent: missing required field "Training.precision"`)}
+	if _, ok := tc.mutation.TotalDuration(); !ok {
+		return &ValidationError{Name: "total_duration", err: errors.New(`ent: missing required field "Training.total_duration"`)}
+	}
+	if _, ok := tc.mutation.TextLength(); !ok {
+		return &ValidationError{Name: "text_length", err: errors.New(`ent: missing required field "Training.text_length"`)}
+	}
+	if _, ok := tc.mutation.InputsLength(); !ok {
+		return &ValidationError{Name: "inputs_length", err: errors.New(`ent: missing required field "Training.inputs_length"`)}
+	}
+	if _, ok := tc.mutation.Accuracy(); !ok {
+		return &ValidationError{Name: "accuracy", err: errors.New(`ent: missing required field "Training.accuracy"`)}
 	}
 	if _, ok := tc.mutation.Speed(); !ok {
 		return &ValidationError{Name: "speed", err: errors.New(`ent: missing required field "Training.speed"`)}
@@ -177,9 +240,21 @@ func (tc *TrainingCreate) createSpec() (*Training, *sqlgraph.CreateSpec) {
 		_spec.SetField(training.FieldDuration, field.TypeInt, value)
 		_node.Duration = value
 	}
-	if value, ok := tc.mutation.Precision(); ok {
-		_spec.SetField(training.FieldPrecision, field.TypeInt, value)
-		_node.Precision = value
+	if value, ok := tc.mutation.TotalDuration(); ok {
+		_spec.SetField(training.FieldTotalDuration, field.TypeInt, value)
+		_node.TotalDuration = value
+	}
+	if value, ok := tc.mutation.TextLength(); ok {
+		_spec.SetField(training.FieldTextLength, field.TypeInt, value)
+		_node.TextLength = value
+	}
+	if value, ok := tc.mutation.InputsLength(); ok {
+		_spec.SetField(training.FieldInputsLength, field.TypeInt, value)
+		_node.InputsLength = value
+	}
+	if value, ok := tc.mutation.Accuracy(); ok {
+		_spec.SetField(training.FieldAccuracy, field.TypeInt, value)
+		_node.Accuracy = value
 	}
 	if value, ok := tc.mutation.Speed(); ok {
 		_spec.SetField(training.FieldSpeed, field.TypeInt, value)

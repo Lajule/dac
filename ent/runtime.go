@@ -23,12 +23,24 @@ func init() {
 	trainingDescDuration := trainingFields[1].Descriptor()
 	// training.DefaultDuration holds the default value on creation for the duration field.
 	training.DefaultDuration = trainingDescDuration.Default.(int)
-	// trainingDescPrecision is the schema descriptor for precision field.
-	trainingDescPrecision := trainingFields[2].Descriptor()
-	// training.DefaultPrecision holds the default value on creation for the precision field.
-	training.DefaultPrecision = trainingDescPrecision.Default.(int)
+	// trainingDescTotalDuration is the schema descriptor for total_duration field.
+	trainingDescTotalDuration := trainingFields[2].Descriptor()
+	// training.DefaultTotalDuration holds the default value on creation for the total_duration field.
+	training.DefaultTotalDuration = trainingDescTotalDuration.Default.(int)
+	// trainingDescTextLength is the schema descriptor for text_length field.
+	trainingDescTextLength := trainingFields[3].Descriptor()
+	// training.DefaultTextLength holds the default value on creation for the text_length field.
+	training.DefaultTextLength = trainingDescTextLength.Default.(int)
+	// trainingDescInputsLength is the schema descriptor for inputs_length field.
+	trainingDescInputsLength := trainingFields[4].Descriptor()
+	// training.DefaultInputsLength holds the default value on creation for the inputs_length field.
+	training.DefaultInputsLength = trainingDescInputsLength.Default.(int)
+	// trainingDescAccuracy is the schema descriptor for accuracy field.
+	trainingDescAccuracy := trainingFields[5].Descriptor()
+	// training.DefaultAccuracy holds the default value on creation for the accuracy field.
+	training.DefaultAccuracy = trainingDescAccuracy.Default.(int)
 	// trainingDescSpeed is the schema descriptor for speed field.
-	trainingDescSpeed := trainingFields[3].Descriptor()
+	trainingDescSpeed := trainingFields[6].Descriptor()
 	// training.DefaultSpeed holds the default value on creation for the speed field.
 	training.DefaultSpeed = trainingDescSpeed.Default.(int)
 }

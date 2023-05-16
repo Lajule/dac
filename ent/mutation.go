@@ -30,20 +30,26 @@ const (
 // TrainingMutation represents an operation that mutates the Training nodes in the graph.
 type TrainingMutation struct {
 	config
-	op            Op
-	typ           string
-	id            *int
-	created_at    *time.Time
-	duration      *int
-	addduration   *int
-	precision     *int
-	addprecision  *int
-	speed         *int
-	addspeed      *int
-	clearedFields map[string]struct{}
-	done          bool
-	oldValue      func(context.Context) (*Training, error)
-	predicates    []predicate.Training
+	op                Op
+	typ               string
+	id                *int
+	created_at        *time.Time
+	duration          *int
+	addduration       *int
+	total_duration    *int
+	addtotal_duration *int
+	text_length       *int
+	addtext_length    *int
+	inputs_length     *int
+	addinputs_length  *int
+	accuracy          *int
+	addaccuracy       *int
+	speed             *int
+	addspeed          *int
+	clearedFields     map[string]struct{}
+	done              bool
+	oldValue          func(context.Context) (*Training, error)
+	predicates        []predicate.Training
 }
 
 var _ ent.Mutation = (*TrainingMutation)(nil)
@@ -236,60 +242,228 @@ func (m *TrainingMutation) ResetDuration() {
 	m.addduration = nil
 }
 
-// SetPrecision sets the "precision" field.
-func (m *TrainingMutation) SetPrecision(i int) {
-	m.precision = &i
-	m.addprecision = nil
+// SetTotalDuration sets the "total_duration" field.
+func (m *TrainingMutation) SetTotalDuration(i int) {
+	m.total_duration = &i
+	m.addtotal_duration = nil
 }
 
-// Precision returns the value of the "precision" field in the mutation.
-func (m *TrainingMutation) Precision() (r int, exists bool) {
-	v := m.precision
+// TotalDuration returns the value of the "total_duration" field in the mutation.
+func (m *TrainingMutation) TotalDuration() (r int, exists bool) {
+	v := m.total_duration
 	if v == nil {
 		return
 	}
 	return *v, true
 }
 
-// OldPrecision returns the old "precision" field's value of the Training entity.
+// OldTotalDuration returns the old "total_duration" field's value of the Training entity.
 // If the Training object wasn't provided to the builder, the object is fetched from the database.
 // An error is returned if the mutation operation is not UpdateOne, or the database query fails.
-func (m *TrainingMutation) OldPrecision(ctx context.Context) (v int, err error) {
+func (m *TrainingMutation) OldTotalDuration(ctx context.Context) (v int, err error) {
 	if !m.op.Is(OpUpdateOne) {
-		return v, errors.New("OldPrecision is only allowed on UpdateOne operations")
+		return v, errors.New("OldTotalDuration is only allowed on UpdateOne operations")
 	}
 	if m.id == nil || m.oldValue == nil {
-		return v, errors.New("OldPrecision requires an ID field in the mutation")
+		return v, errors.New("OldTotalDuration requires an ID field in the mutation")
 	}
 	oldValue, err := m.oldValue(ctx)
 	if err != nil {
-		return v, fmt.Errorf("querying old value for OldPrecision: %w", err)
+		return v, fmt.Errorf("querying old value for OldTotalDuration: %w", err)
 	}
-	return oldValue.Precision, nil
+	return oldValue.TotalDuration, nil
 }
 
-// AddPrecision adds i to the "precision" field.
-func (m *TrainingMutation) AddPrecision(i int) {
-	if m.addprecision != nil {
-		*m.addprecision += i
+// AddTotalDuration adds i to the "total_duration" field.
+func (m *TrainingMutation) AddTotalDuration(i int) {
+	if m.addtotal_duration != nil {
+		*m.addtotal_duration += i
 	} else {
-		m.addprecision = &i
+		m.addtotal_duration = &i
 	}
 }
 
-// AddedPrecision returns the value that was added to the "precision" field in this mutation.
-func (m *TrainingMutation) AddedPrecision() (r int, exists bool) {
-	v := m.addprecision
+// AddedTotalDuration returns the value that was added to the "total_duration" field in this mutation.
+func (m *TrainingMutation) AddedTotalDuration() (r int, exists bool) {
+	v := m.addtotal_duration
 	if v == nil {
 		return
 	}
 	return *v, true
 }
 
-// ResetPrecision resets all changes to the "precision" field.
-func (m *TrainingMutation) ResetPrecision() {
-	m.precision = nil
-	m.addprecision = nil
+// ResetTotalDuration resets all changes to the "total_duration" field.
+func (m *TrainingMutation) ResetTotalDuration() {
+	m.total_duration = nil
+	m.addtotal_duration = nil
+}
+
+// SetTextLength sets the "text_length" field.
+func (m *TrainingMutation) SetTextLength(i int) {
+	m.text_length = &i
+	m.addtext_length = nil
+}
+
+// TextLength returns the value of the "text_length" field in the mutation.
+func (m *TrainingMutation) TextLength() (r int, exists bool) {
+	v := m.text_length
+	if v == nil {
+		return
+	}
+	return *v, true
+}
+
+// OldTextLength returns the old "text_length" field's value of the Training entity.
+// If the Training object wasn't provided to the builder, the object is fetched from the database.
+// An error is returned if the mutation operation is not UpdateOne, or the database query fails.
+func (m *TrainingMutation) OldTextLength(ctx context.Context) (v int, err error) {
+	if !m.op.Is(OpUpdateOne) {
+		return v, errors.New("OldTextLength is only allowed on UpdateOne operations")
+	}
+	if m.id == nil || m.oldValue == nil {
+		return v, errors.New("OldTextLength requires an ID field in the mutation")
+	}
+	oldValue, err := m.oldValue(ctx)
+	if err != nil {
+		return v, fmt.Errorf("querying old value for OldTextLength: %w", err)
+	}
+	return oldValue.TextLength, nil
+}
+
+// AddTextLength adds i to the "text_length" field.
+func (m *TrainingMutation) AddTextLength(i int) {
+	if m.addtext_length != nil {
+		*m.addtext_length += i
+	} else {
+		m.addtext_length = &i
+	}
+}
+
+// AddedTextLength returns the value that was added to the "text_length" field in this mutation.
+func (m *TrainingMutation) AddedTextLength() (r int, exists bool) {
+	v := m.addtext_length
+	if v == nil {
+		return
+	}
+	return *v, true
+}
+
+// ResetTextLength resets all changes to the "text_length" field.
+func (m *TrainingMutation) ResetTextLength() {
+	m.text_length = nil
+	m.addtext_length = nil
+}
+
+// SetInputsLength sets the "inputs_length" field.
+func (m *TrainingMutation) SetInputsLength(i int) {
+	m.inputs_length = &i
+	m.addinputs_length = nil
+}
+
+// InputsLength returns the value of the "inputs_length" field in the mutation.
+func (m *TrainingMutation) InputsLength() (r int, exists bool) {
+	v := m.inputs_length
+	if v == nil {
+		return
+	}
+	return *v, true
+}
+
+// OldInputsLength returns the old "inputs_length" field's value of the Training entity.
+// If the Training object wasn't provided to the builder, the object is fetched from the database.
+// An error is returned if the mutation operation is not UpdateOne, or the database query fails.
+func (m *TrainingMutation) OldInputsLength(ctx context.Context) (v int, err error) {
+	if !m.op.Is(OpUpdateOne) {
+		return v, errors.New("OldInputsLength is only allowed on UpdateOne operations")
+	}
+	if m.id == nil || m.oldValue == nil {
+		return v, errors.New("OldInputsLength requires an ID field in the mutation")
+	}
+	oldValue, err := m.oldValue(ctx)
+	if err != nil {
+		return v, fmt.Errorf("querying old value for OldInputsLength: %w", err)
+	}
+	return oldValue.InputsLength, nil
+}
+
+// AddInputsLength adds i to the "inputs_length" field.
+func (m *TrainingMutation) AddInputsLength(i int) {
+	if m.addinputs_length != nil {
+		*m.addinputs_length += i
+	} else {
+		m.addinputs_length = &i
+	}
+}
+
+// AddedInputsLength returns the value that was added to the "inputs_length" field in this mutation.
+func (m *TrainingMutation) AddedInputsLength() (r int, exists bool) {
+	v := m.addinputs_length
+	if v == nil {
+		return
+	}
+	return *v, true
+}
+
+// ResetInputsLength resets all changes to the "inputs_length" field.
+func (m *TrainingMutation) ResetInputsLength() {
+	m.inputs_length = nil
+	m.addinputs_length = nil
+}
+
+// SetAccuracy sets the "accuracy" field.
+func (m *TrainingMutation) SetAccuracy(i int) {
+	m.accuracy = &i
+	m.addaccuracy = nil
+}
+
+// Accuracy returns the value of the "accuracy" field in the mutation.
+func (m *TrainingMutation) Accuracy() (r int, exists bool) {
+	v := m.accuracy
+	if v == nil {
+		return
+	}
+	return *v, true
+}
+
+// OldAccuracy returns the old "accuracy" field's value of the Training entity.
+// If the Training object wasn't provided to the builder, the object is fetched from the database.
+// An error is returned if the mutation operation is not UpdateOne, or the database query fails.
+func (m *TrainingMutation) OldAccuracy(ctx context.Context) (v int, err error) {
+	if !m.op.Is(OpUpdateOne) {
+		return v, errors.New("OldAccuracy is only allowed on UpdateOne operations")
+	}
+	if m.id == nil || m.oldValue == nil {
+		return v, errors.New("OldAccuracy requires an ID field in the mutation")
+	}
+	oldValue, err := m.oldValue(ctx)
+	if err != nil {
+		return v, fmt.Errorf("querying old value for OldAccuracy: %w", err)
+	}
+	return oldValue.Accuracy, nil
+}
+
+// AddAccuracy adds i to the "accuracy" field.
+func (m *TrainingMutation) AddAccuracy(i int) {
+	if m.addaccuracy != nil {
+		*m.addaccuracy += i
+	} else {
+		m.addaccuracy = &i
+	}
+}
+
+// AddedAccuracy returns the value that was added to the "accuracy" field in this mutation.
+func (m *TrainingMutation) AddedAccuracy() (r int, exists bool) {
+	v := m.addaccuracy
+	if v == nil {
+		return
+	}
+	return *v, true
+}
+
+// ResetAccuracy resets all changes to the "accuracy" field.
+func (m *TrainingMutation) ResetAccuracy() {
+	m.accuracy = nil
+	m.addaccuracy = nil
 }
 
 // SetSpeed sets the "speed" field.
@@ -382,15 +556,24 @@ func (m *TrainingMutation) Type() string {
 // order to get all numeric fields that were incremented/decremented, call
 // AddedFields().
 func (m *TrainingMutation) Fields() []string {
-	fields := make([]string, 0, 4)
+	fields := make([]string, 0, 7)
 	if m.created_at != nil {
 		fields = append(fields, training.FieldCreatedAt)
 	}
 	if m.duration != nil {
 		fields = append(fields, training.FieldDuration)
 	}
-	if m.precision != nil {
-		fields = append(fields, training.FieldPrecision)
+	if m.total_duration != nil {
+		fields = append(fields, training.FieldTotalDuration)
+	}
+	if m.text_length != nil {
+		fields = append(fields, training.FieldTextLength)
+	}
+	if m.inputs_length != nil {
+		fields = append(fields, training.FieldInputsLength)
+	}
+	if m.accuracy != nil {
+		fields = append(fields, training.FieldAccuracy)
 	}
 	if m.speed != nil {
 		fields = append(fields, training.FieldSpeed)
@@ -407,8 +590,14 @@ func (m *TrainingMutation) Field(name string) (ent.Value, bool) {
 		return m.CreatedAt()
 	case training.FieldDuration:
 		return m.Duration()
-	case training.FieldPrecision:
-		return m.Precision()
+	case training.FieldTotalDuration:
+		return m.TotalDuration()
+	case training.FieldTextLength:
+		return m.TextLength()
+	case training.FieldInputsLength:
+		return m.InputsLength()
+	case training.FieldAccuracy:
+		return m.Accuracy()
 	case training.FieldSpeed:
 		return m.Speed()
 	}
@@ -424,8 +613,14 @@ func (m *TrainingMutation) OldField(ctx context.Context, name string) (ent.Value
 		return m.OldCreatedAt(ctx)
 	case training.FieldDuration:
 		return m.OldDuration(ctx)
-	case training.FieldPrecision:
-		return m.OldPrecision(ctx)
+	case training.FieldTotalDuration:
+		return m.OldTotalDuration(ctx)
+	case training.FieldTextLength:
+		return m.OldTextLength(ctx)
+	case training.FieldInputsLength:
+		return m.OldInputsLength(ctx)
+	case training.FieldAccuracy:
+		return m.OldAccuracy(ctx)
 	case training.FieldSpeed:
 		return m.OldSpeed(ctx)
 	}
@@ -451,12 +646,33 @@ func (m *TrainingMutation) SetField(name string, value ent.Value) error {
 		}
 		m.SetDuration(v)
 		return nil
-	case training.FieldPrecision:
+	case training.FieldTotalDuration:
 		v, ok := value.(int)
 		if !ok {
 			return fmt.Errorf("unexpected type %T for field %s", value, name)
 		}
-		m.SetPrecision(v)
+		m.SetTotalDuration(v)
+		return nil
+	case training.FieldTextLength:
+		v, ok := value.(int)
+		if !ok {
+			return fmt.Errorf("unexpected type %T for field %s", value, name)
+		}
+		m.SetTextLength(v)
+		return nil
+	case training.FieldInputsLength:
+		v, ok := value.(int)
+		if !ok {
+			return fmt.Errorf("unexpected type %T for field %s", value, name)
+		}
+		m.SetInputsLength(v)
+		return nil
+	case training.FieldAccuracy:
+		v, ok := value.(int)
+		if !ok {
+			return fmt.Errorf("unexpected type %T for field %s", value, name)
+		}
+		m.SetAccuracy(v)
 		return nil
 	case training.FieldSpeed:
 		v, ok := value.(int)
@@ -476,8 +692,17 @@ func (m *TrainingMutation) AddedFields() []string {
 	if m.addduration != nil {
 		fields = append(fields, training.FieldDuration)
 	}
-	if m.addprecision != nil {
-		fields = append(fields, training.FieldPrecision)
+	if m.addtotal_duration != nil {
+		fields = append(fields, training.FieldTotalDuration)
+	}
+	if m.addtext_length != nil {
+		fields = append(fields, training.FieldTextLength)
+	}
+	if m.addinputs_length != nil {
+		fields = append(fields, training.FieldInputsLength)
+	}
+	if m.addaccuracy != nil {
+		fields = append(fields, training.FieldAccuracy)
 	}
 	if m.addspeed != nil {
 		fields = append(fields, training.FieldSpeed)
@@ -492,8 +717,14 @@ func (m *TrainingMutation) AddedField(name string) (ent.Value, bool) {
 	switch name {
 	case training.FieldDuration:
 		return m.AddedDuration()
-	case training.FieldPrecision:
-		return m.AddedPrecision()
+	case training.FieldTotalDuration:
+		return m.AddedTotalDuration()
+	case training.FieldTextLength:
+		return m.AddedTextLength()
+	case training.FieldInputsLength:
+		return m.AddedInputsLength()
+	case training.FieldAccuracy:
+		return m.AddedAccuracy()
 	case training.FieldSpeed:
 		return m.AddedSpeed()
 	}
@@ -512,12 +743,33 @@ func (m *TrainingMutation) AddField(name string, value ent.Value) error {
 		}
 		m.AddDuration(v)
 		return nil
-	case training.FieldPrecision:
+	case training.FieldTotalDuration:
 		v, ok := value.(int)
 		if !ok {
 			return fmt.Errorf("unexpected type %T for field %s", value, name)
 		}
-		m.AddPrecision(v)
+		m.AddTotalDuration(v)
+		return nil
+	case training.FieldTextLength:
+		v, ok := value.(int)
+		if !ok {
+			return fmt.Errorf("unexpected type %T for field %s", value, name)
+		}
+		m.AddTextLength(v)
+		return nil
+	case training.FieldInputsLength:
+		v, ok := value.(int)
+		if !ok {
+			return fmt.Errorf("unexpected type %T for field %s", value, name)
+		}
+		m.AddInputsLength(v)
+		return nil
+	case training.FieldAccuracy:
+		v, ok := value.(int)
+		if !ok {
+			return fmt.Errorf("unexpected type %T for field %s", value, name)
+		}
+		m.AddAccuracy(v)
 		return nil
 	case training.FieldSpeed:
 		v, ok := value.(int)
@@ -559,8 +811,17 @@ func (m *TrainingMutation) ResetField(name string) error {
 	case training.FieldDuration:
 		m.ResetDuration()
 		return nil
-	case training.FieldPrecision:
-		m.ResetPrecision()
+	case training.FieldTotalDuration:
+		m.ResetTotalDuration()
+		return nil
+	case training.FieldTextLength:
+		m.ResetTextLength()
+		return nil
+	case training.FieldInputsLength:
+		m.ResetInputsLength()
+		return nil
+	case training.FieldAccuracy:
+		m.ResetAccuracy()
 		return nil
 	case training.FieldSpeed:
 		m.ResetSpeed()

@@ -64,9 +64,24 @@ func Duration(v int) predicate.Training {
 	return predicate.Training(sql.FieldEQ(FieldDuration, v))
 }
 
-// Precision applies equality check predicate on the "precision" field. It's identical to PrecisionEQ.
-func Precision(v int) predicate.Training {
-	return predicate.Training(sql.FieldEQ(FieldPrecision, v))
+// TotalDuration applies equality check predicate on the "total_duration" field. It's identical to TotalDurationEQ.
+func TotalDuration(v int) predicate.Training {
+	return predicate.Training(sql.FieldEQ(FieldTotalDuration, v))
+}
+
+// TextLength applies equality check predicate on the "text_length" field. It's identical to TextLengthEQ.
+func TextLength(v int) predicate.Training {
+	return predicate.Training(sql.FieldEQ(FieldTextLength, v))
+}
+
+// InputsLength applies equality check predicate on the "inputs_length" field. It's identical to InputsLengthEQ.
+func InputsLength(v int) predicate.Training {
+	return predicate.Training(sql.FieldEQ(FieldInputsLength, v))
+}
+
+// Accuracy applies equality check predicate on the "accuracy" field. It's identical to AccuracyEQ.
+func Accuracy(v int) predicate.Training {
+	return predicate.Training(sql.FieldEQ(FieldAccuracy, v))
 }
 
 // Speed applies equality check predicate on the "speed" field. It's identical to SpeedEQ.
@@ -154,44 +169,164 @@ func DurationLTE(v int) predicate.Training {
 	return predicate.Training(sql.FieldLTE(FieldDuration, v))
 }
 
-// PrecisionEQ applies the EQ predicate on the "precision" field.
-func PrecisionEQ(v int) predicate.Training {
-	return predicate.Training(sql.FieldEQ(FieldPrecision, v))
+// TotalDurationEQ applies the EQ predicate on the "total_duration" field.
+func TotalDurationEQ(v int) predicate.Training {
+	return predicate.Training(sql.FieldEQ(FieldTotalDuration, v))
 }
 
-// PrecisionNEQ applies the NEQ predicate on the "precision" field.
-func PrecisionNEQ(v int) predicate.Training {
-	return predicate.Training(sql.FieldNEQ(FieldPrecision, v))
+// TotalDurationNEQ applies the NEQ predicate on the "total_duration" field.
+func TotalDurationNEQ(v int) predicate.Training {
+	return predicate.Training(sql.FieldNEQ(FieldTotalDuration, v))
 }
 
-// PrecisionIn applies the In predicate on the "precision" field.
-func PrecisionIn(vs ...int) predicate.Training {
-	return predicate.Training(sql.FieldIn(FieldPrecision, vs...))
+// TotalDurationIn applies the In predicate on the "total_duration" field.
+func TotalDurationIn(vs ...int) predicate.Training {
+	return predicate.Training(sql.FieldIn(FieldTotalDuration, vs...))
 }
 
-// PrecisionNotIn applies the NotIn predicate on the "precision" field.
-func PrecisionNotIn(vs ...int) predicate.Training {
-	return predicate.Training(sql.FieldNotIn(FieldPrecision, vs...))
+// TotalDurationNotIn applies the NotIn predicate on the "total_duration" field.
+func TotalDurationNotIn(vs ...int) predicate.Training {
+	return predicate.Training(sql.FieldNotIn(FieldTotalDuration, vs...))
 }
 
-// PrecisionGT applies the GT predicate on the "precision" field.
-func PrecisionGT(v int) predicate.Training {
-	return predicate.Training(sql.FieldGT(FieldPrecision, v))
+// TotalDurationGT applies the GT predicate on the "total_duration" field.
+func TotalDurationGT(v int) predicate.Training {
+	return predicate.Training(sql.FieldGT(FieldTotalDuration, v))
 }
 
-// PrecisionGTE applies the GTE predicate on the "precision" field.
-func PrecisionGTE(v int) predicate.Training {
-	return predicate.Training(sql.FieldGTE(FieldPrecision, v))
+// TotalDurationGTE applies the GTE predicate on the "total_duration" field.
+func TotalDurationGTE(v int) predicate.Training {
+	return predicate.Training(sql.FieldGTE(FieldTotalDuration, v))
 }
 
-// PrecisionLT applies the LT predicate on the "precision" field.
-func PrecisionLT(v int) predicate.Training {
-	return predicate.Training(sql.FieldLT(FieldPrecision, v))
+// TotalDurationLT applies the LT predicate on the "total_duration" field.
+func TotalDurationLT(v int) predicate.Training {
+	return predicate.Training(sql.FieldLT(FieldTotalDuration, v))
 }
 
-// PrecisionLTE applies the LTE predicate on the "precision" field.
-func PrecisionLTE(v int) predicate.Training {
-	return predicate.Training(sql.FieldLTE(FieldPrecision, v))
+// TotalDurationLTE applies the LTE predicate on the "total_duration" field.
+func TotalDurationLTE(v int) predicate.Training {
+	return predicate.Training(sql.FieldLTE(FieldTotalDuration, v))
+}
+
+// TextLengthEQ applies the EQ predicate on the "text_length" field.
+func TextLengthEQ(v int) predicate.Training {
+	return predicate.Training(sql.FieldEQ(FieldTextLength, v))
+}
+
+// TextLengthNEQ applies the NEQ predicate on the "text_length" field.
+func TextLengthNEQ(v int) predicate.Training {
+	return predicate.Training(sql.FieldNEQ(FieldTextLength, v))
+}
+
+// TextLengthIn applies the In predicate on the "text_length" field.
+func TextLengthIn(vs ...int) predicate.Training {
+	return predicate.Training(sql.FieldIn(FieldTextLength, vs...))
+}
+
+// TextLengthNotIn applies the NotIn predicate on the "text_length" field.
+func TextLengthNotIn(vs ...int) predicate.Training {
+	return predicate.Training(sql.FieldNotIn(FieldTextLength, vs...))
+}
+
+// TextLengthGT applies the GT predicate on the "text_length" field.
+func TextLengthGT(v int) predicate.Training {
+	return predicate.Training(sql.FieldGT(FieldTextLength, v))
+}
+
+// TextLengthGTE applies the GTE predicate on the "text_length" field.
+func TextLengthGTE(v int) predicate.Training {
+	return predicate.Training(sql.FieldGTE(FieldTextLength, v))
+}
+
+// TextLengthLT applies the LT predicate on the "text_length" field.
+func TextLengthLT(v int) predicate.Training {
+	return predicate.Training(sql.FieldLT(FieldTextLength, v))
+}
+
+// TextLengthLTE applies the LTE predicate on the "text_length" field.
+func TextLengthLTE(v int) predicate.Training {
+	return predicate.Training(sql.FieldLTE(FieldTextLength, v))
+}
+
+// InputsLengthEQ applies the EQ predicate on the "inputs_length" field.
+func InputsLengthEQ(v int) predicate.Training {
+	return predicate.Training(sql.FieldEQ(FieldInputsLength, v))
+}
+
+// InputsLengthNEQ applies the NEQ predicate on the "inputs_length" field.
+func InputsLengthNEQ(v int) predicate.Training {
+	return predicate.Training(sql.FieldNEQ(FieldInputsLength, v))
+}
+
+// InputsLengthIn applies the In predicate on the "inputs_length" field.
+func InputsLengthIn(vs ...int) predicate.Training {
+	return predicate.Training(sql.FieldIn(FieldInputsLength, vs...))
+}
+
+// InputsLengthNotIn applies the NotIn predicate on the "inputs_length" field.
+func InputsLengthNotIn(vs ...int) predicate.Training {
+	return predicate.Training(sql.FieldNotIn(FieldInputsLength, vs...))
+}
+
+// InputsLengthGT applies the GT predicate on the "inputs_length" field.
+func InputsLengthGT(v int) predicate.Training {
+	return predicate.Training(sql.FieldGT(FieldInputsLength, v))
+}
+
+// InputsLengthGTE applies the GTE predicate on the "inputs_length" field.
+func InputsLengthGTE(v int) predicate.Training {
+	return predicate.Training(sql.FieldGTE(FieldInputsLength, v))
+}
+
+// InputsLengthLT applies the LT predicate on the "inputs_length" field.
+func InputsLengthLT(v int) predicate.Training {
+	return predicate.Training(sql.FieldLT(FieldInputsLength, v))
+}
+
+// InputsLengthLTE applies the LTE predicate on the "inputs_length" field.
+func InputsLengthLTE(v int) predicate.Training {
+	return predicate.Training(sql.FieldLTE(FieldInputsLength, v))
+}
+
+// AccuracyEQ applies the EQ predicate on the "accuracy" field.
+func AccuracyEQ(v int) predicate.Training {
+	return predicate.Training(sql.FieldEQ(FieldAccuracy, v))
+}
+
+// AccuracyNEQ applies the NEQ predicate on the "accuracy" field.
+func AccuracyNEQ(v int) predicate.Training {
+	return predicate.Training(sql.FieldNEQ(FieldAccuracy, v))
+}
+
+// AccuracyIn applies the In predicate on the "accuracy" field.
+func AccuracyIn(vs ...int) predicate.Training {
+	return predicate.Training(sql.FieldIn(FieldAccuracy, vs...))
+}
+
+// AccuracyNotIn applies the NotIn predicate on the "accuracy" field.
+func AccuracyNotIn(vs ...int) predicate.Training {
+	return predicate.Training(sql.FieldNotIn(FieldAccuracy, vs...))
+}
+
+// AccuracyGT applies the GT predicate on the "accuracy" field.
+func AccuracyGT(v int) predicate.Training {
+	return predicate.Training(sql.FieldGT(FieldAccuracy, v))
+}
+
+// AccuracyGTE applies the GTE predicate on the "accuracy" field.
+func AccuracyGTE(v int) predicate.Training {
+	return predicate.Training(sql.FieldGTE(FieldAccuracy, v))
+}
+
+// AccuracyLT applies the LT predicate on the "accuracy" field.
+func AccuracyLT(v int) predicate.Training {
+	return predicate.Training(sql.FieldLT(FieldAccuracy, v))
+}
+
+// AccuracyLTE applies the LTE predicate on the "accuracy" field.
+func AccuracyLTE(v int) predicate.Training {
+	return predicate.Training(sql.FieldLTE(FieldAccuracy, v))
 }
 
 // SpeedEQ applies the EQ predicate on the "speed" field.

@@ -5,6 +5,7 @@ import (
 	"fmt"
 	"io"
 	"log"
+	"time"
 	"os"
 
 	"github.com/Lajule/dac/app"
@@ -15,6 +16,12 @@ import (
 
 var (
 	dbFile string
+
+	duration time.Duration
+
+	close bool
+
+	save bool
 
 	rootCmd = &cobra.Command{
 		Use:   "dac",
@@ -41,19 +48,18 @@ var (
 				os.Exit(1)
 			}
 
-			duration, err := cmd.Flags().GetDuration("duration")
-			if err != nil {
-				log.Fatalf("failed getting duration: %v", err)
-			}
-
-			close, err := cmd.Flags().GetBool("close")
-			if err != nil {
-				log.Fatalf("failed getting close: %v", err)
-			}
-
 			if close && duration == 0 {
 				log.Println("a duration must be defined")
 				os.Exit(1)
+			}
+
+			client, err := ent.Open("sqlite3", fmt.Sprintf("file:%s?cache=shared&_fk=1", dbFile))
+			if err != nil {
+				log.Fatalf("failed opening connection to sqlite: %v", err)
+			}
+			defer client.Close()
+			if err := client.Schema.Create(context.Background()); err != nil {
+				log.Fatalf("failed creating schema resources: %v", err)
 			}
 
 			d, err := app.NewDac(duration, close, string(b))
@@ -62,30 +68,6 @@ var (
 			}
 
 			d.Start()
-
-			save, err := cmd.Flags().GetBool("close")
-			if err != nil {
-				log.Fatalf("failed getting save: %v", err)
-			}
-
-			if save {
-				client, err := ent.Open("sqlite3", fmt.Sprintf("file:%s?cache=shared&_fk=1", dbFile))
-				if err != nil {
-					log.Fatalf("failed opening connection to sqlite: %v", err)
-				}
-				defer client.Close()
-				if err := client.Schema.Create(context.Background()); err != nil {
-					log.Fatalf("failed creating schema resources: %v", err)
-				}
-				if _, err := client.Training.
-					Create().
-					SetDuration(int(d.Duration)).
-					SetSpeed(d.Speed).
-					SetPrecision(d.Precision).
-					Save(context.Background()); err != nil {
-					log.Fatalf("failed creating training: %v", err)
-				}
-			}
 		},
 	}
 )
@@ -97,8 +79,8 @@ func Execute() {
 }
 
 func init() {
-	rootCmd.PersistentFlags().StringVar(&dbFile, "db", "dac.db", "Database file (default is dac.db)")
-	rootCmd.Flags().DurationP("duration", "d", 0, "Duration of the training session")
-	rootCmd.Flags().BoolP("close", "c", false, "Close on session timeout")
-	rootCmd.Flags().BoolP("save", "s", true, "Save session in database")
+	rootCmd.PersistentFlags().StringVar(&dbFile, "database", "dac.db", "Database file (default is dac.db)")
+	rootCmd.Flags().DurationVarP(&duration, "duration", "d", 0, "Duration of the training session")
+	rootCmd.Flags().BoolVarP(&close, "close", "c", false, "Close on session timeout")
+	rootCmd.Flags().BoolVarP(&save, "save", "s", true, "Save session in database")
 }
