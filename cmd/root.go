@@ -17,6 +17,8 @@ import (
 var (
 	dbFile string
 
+	theme string
+
 	duration time.Duration
 
 	close bool
@@ -80,6 +82,7 @@ func Execute() {
 
 func init() {
 	rootCmd.PersistentFlags().StringVar(&dbFile, "database", "dac.db", "Database file (default is dac.db)")
+	rootCmd.PersistentFlags().StringVar(&theme, "theme", "green", "Color theme (default is green)")
 	rootCmd.Flags().DurationVarP(&duration, "duration", "d", 0, "Duration of the training session")
 	rootCmd.Flags().BoolVarP(&close, "close", "c", false, "Close on session timeout")
 	rootCmd.Flags().BoolVarP(&save, "save", "s", true, "Save session in database")
