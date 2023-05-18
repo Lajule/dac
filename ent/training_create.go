@@ -48,44 +48,44 @@ func (tc *TrainingCreate) SetNillableDuration(i *int) *TrainingCreate {
 	return tc
 }
 
-// SetTotalDuration sets the "total_duration" field.
-func (tc *TrainingCreate) SetTotalDuration(i int) *TrainingCreate {
-	tc.mutation.SetTotalDuration(i)
+// SetClosable sets the "closable" field.
+func (tc *TrainingCreate) SetClosable(b bool) *TrainingCreate {
+	tc.mutation.SetClosable(b)
 	return tc
 }
 
-// SetNillableTotalDuration sets the "total_duration" field if the given value is not nil.
-func (tc *TrainingCreate) SetNillableTotalDuration(i *int) *TrainingCreate {
-	if i != nil {
-		tc.SetTotalDuration(*i)
+// SetNillableClosable sets the "closable" field if the given value is not nil.
+func (tc *TrainingCreate) SetNillableClosable(b *bool) *TrainingCreate {
+	if b != nil {
+		tc.SetClosable(*b)
 	}
 	return tc
 }
 
-// SetTextLength sets the "text_length" field.
-func (tc *TrainingCreate) SetTextLength(i int) *TrainingCreate {
-	tc.mutation.SetTextLength(i)
+// SetStopwatch sets the "stopwatch" field.
+func (tc *TrainingCreate) SetStopwatch(i int) *TrainingCreate {
+	tc.mutation.SetStopwatch(i)
 	return tc
 }
 
-// SetNillableTextLength sets the "text_length" field if the given value is not nil.
-func (tc *TrainingCreate) SetNillableTextLength(i *int) *TrainingCreate {
+// SetNillableStopwatch sets the "stopwatch" field if the given value is not nil.
+func (tc *TrainingCreate) SetNillableStopwatch(i *int) *TrainingCreate {
 	if i != nil {
-		tc.SetTextLength(*i)
+		tc.SetStopwatch(*i)
 	}
 	return tc
 }
 
-// SetInputsLength sets the "inputs_length" field.
-func (tc *TrainingCreate) SetInputsLength(i int) *TrainingCreate {
-	tc.mutation.SetInputsLength(i)
+// SetProgress sets the "progress" field.
+func (tc *TrainingCreate) SetProgress(i int) *TrainingCreate {
+	tc.mutation.SetProgress(i)
 	return tc
 }
 
-// SetNillableInputsLength sets the "inputs_length" field if the given value is not nil.
-func (tc *TrainingCreate) SetNillableInputsLength(i *int) *TrainingCreate {
+// SetNillableProgress sets the "progress" field if the given value is not nil.
+func (tc *TrainingCreate) SetNillableProgress(i *int) *TrainingCreate {
 	if i != nil {
-		tc.SetInputsLength(*i)
+		tc.SetProgress(*i)
 	}
 	return tc
 }
@@ -161,17 +161,17 @@ func (tc *TrainingCreate) defaults() {
 		v := training.DefaultDuration
 		tc.mutation.SetDuration(v)
 	}
-	if _, ok := tc.mutation.TotalDuration(); !ok {
-		v := training.DefaultTotalDuration
-		tc.mutation.SetTotalDuration(v)
+	if _, ok := tc.mutation.Closable(); !ok {
+		v := training.DefaultClosable
+		tc.mutation.SetClosable(v)
 	}
-	if _, ok := tc.mutation.TextLength(); !ok {
-		v := training.DefaultTextLength
-		tc.mutation.SetTextLength(v)
+	if _, ok := tc.mutation.Stopwatch(); !ok {
+		v := training.DefaultStopwatch
+		tc.mutation.SetStopwatch(v)
 	}
-	if _, ok := tc.mutation.InputsLength(); !ok {
-		v := training.DefaultInputsLength
-		tc.mutation.SetInputsLength(v)
+	if _, ok := tc.mutation.Progress(); !ok {
+		v := training.DefaultProgress
+		tc.mutation.SetProgress(v)
 	}
 	if _, ok := tc.mutation.Accuracy(); !ok {
 		v := training.DefaultAccuracy
@@ -191,14 +191,14 @@ func (tc *TrainingCreate) check() error {
 	if _, ok := tc.mutation.Duration(); !ok {
 		return &ValidationError{Name: "duration", err: errors.New(`ent: missing required field "Training.duration"`)}
 	}
-	if _, ok := tc.mutation.TotalDuration(); !ok {
-		return &ValidationError{Name: "total_duration", err: errors.New(`ent: missing required field "Training.total_duration"`)}
+	if _, ok := tc.mutation.Closable(); !ok {
+		return &ValidationError{Name: "closable", err: errors.New(`ent: missing required field "Training.closable"`)}
 	}
-	if _, ok := tc.mutation.TextLength(); !ok {
-		return &ValidationError{Name: "text_length", err: errors.New(`ent: missing required field "Training.text_length"`)}
+	if _, ok := tc.mutation.Stopwatch(); !ok {
+		return &ValidationError{Name: "stopwatch", err: errors.New(`ent: missing required field "Training.stopwatch"`)}
 	}
-	if _, ok := tc.mutation.InputsLength(); !ok {
-		return &ValidationError{Name: "inputs_length", err: errors.New(`ent: missing required field "Training.inputs_length"`)}
+	if _, ok := tc.mutation.Progress(); !ok {
+		return &ValidationError{Name: "progress", err: errors.New(`ent: missing required field "Training.progress"`)}
 	}
 	if _, ok := tc.mutation.Accuracy(); !ok {
 		return &ValidationError{Name: "accuracy", err: errors.New(`ent: missing required field "Training.accuracy"`)}
@@ -240,17 +240,17 @@ func (tc *TrainingCreate) createSpec() (*Training, *sqlgraph.CreateSpec) {
 		_spec.SetField(training.FieldDuration, field.TypeInt, value)
 		_node.Duration = value
 	}
-	if value, ok := tc.mutation.TotalDuration(); ok {
-		_spec.SetField(training.FieldTotalDuration, field.TypeInt, value)
-		_node.TotalDuration = value
+	if value, ok := tc.mutation.Closable(); ok {
+		_spec.SetField(training.FieldClosable, field.TypeBool, value)
+		_node.Closable = value
 	}
-	if value, ok := tc.mutation.TextLength(); ok {
-		_spec.SetField(training.FieldTextLength, field.TypeInt, value)
-		_node.TextLength = value
+	if value, ok := tc.mutation.Stopwatch(); ok {
+		_spec.SetField(training.FieldStopwatch, field.TypeInt, value)
+		_node.Stopwatch = value
 	}
-	if value, ok := tc.mutation.InputsLength(); ok {
-		_spec.SetField(training.FieldInputsLength, field.TypeInt, value)
-		_node.InputsLength = value
+	if value, ok := tc.mutation.Progress(); ok {
+		_spec.SetField(training.FieldProgress, field.TypeInt, value)
+		_node.Progress = value
 	}
 	if value, ok := tc.mutation.Accuracy(); ok {
 		_spec.SetField(training.FieldAccuracy, field.TypeInt, value)

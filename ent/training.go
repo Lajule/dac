@@ -21,12 +21,12 @@ type Training struct {
 	CreatedAt time.Time `json:"created_at,omitempty"`
 	// Duration holds the value of the "duration" field.
 	Duration int `json:"duration,omitempty"`
-	// TotalDuration holds the value of the "total_duration" field.
-	TotalDuration int `json:"total_duration,omitempty"`
-	// TextLength holds the value of the "text_length" field.
-	TextLength int `json:"text_length,omitempty"`
-	// InputsLength holds the value of the "inputs_length" field.
-	InputsLength int `json:"inputs_length,omitempty"`
+	// Closable holds the value of the "closable" field.
+	Closable bool `json:"closable,omitempty"`
+	// Stopwatch holds the value of the "stopwatch" field.
+	Stopwatch int `json:"stopwatch,omitempty"`
+	// Progress holds the value of the "progress" field.
+	Progress int `json:"progress,omitempty"`
 	// Accuracy holds the value of the "accuracy" field.
 	Accuracy int `json:"accuracy,omitempty"`
 	// Speed holds the value of the "speed" field.
@@ -39,7 +39,9 @@ func (*Training) scanValues(columns []string) ([]any, error) {
 	values := make([]any, len(columns))
 	for i := range columns {
 		switch columns[i] {
-		case training.FieldID, training.FieldDuration, training.FieldTotalDuration, training.FieldTextLength, training.FieldInputsLength, training.FieldAccuracy, training.FieldSpeed:
+		case training.FieldClosable:
+			values[i] = new(sql.NullBool)
+		case training.FieldID, training.FieldDuration, training.FieldStopwatch, training.FieldProgress, training.FieldAccuracy, training.FieldSpeed:
 			values[i] = new(sql.NullInt64)
 		case training.FieldCreatedAt:
 			values[i] = new(sql.NullTime)
@@ -76,23 +78,23 @@ func (t *Training) assignValues(columns []string, values []any) error {
 			} else if value.Valid {
 				t.Duration = int(value.Int64)
 			}
-		case training.FieldTotalDuration:
-			if value, ok := values[i].(*sql.NullInt64); !ok {
-				return fmt.Errorf("unexpected type %T for field total_duration", values[i])
+		case training.FieldClosable:
+			if value, ok := values[i].(*sql.NullBool); !ok {
+				return fmt.Errorf("unexpected type %T for field closable", values[i])
 			} else if value.Valid {
-				t.TotalDuration = int(value.Int64)
+				t.Closable = value.Bool
 			}
-		case training.FieldTextLength:
+		case training.FieldStopwatch:
 			if value, ok := values[i].(*sql.NullInt64); !ok {
-				return fmt.Errorf("unexpected type %T for field text_length", values[i])
+				return fmt.Errorf("unexpected type %T for field stopwatch", values[i])
 			} else if value.Valid {
-				t.TextLength = int(value.Int64)
+				t.Stopwatch = int(value.Int64)
 			}
-		case training.FieldInputsLength:
+		case training.FieldProgress:
 			if value, ok := values[i].(*sql.NullInt64); !ok {
-				return fmt.Errorf("unexpected type %T for field inputs_length", values[i])
+				return fmt.Errorf("unexpected type %T for field progress", values[i])
 			} else if value.Valid {
-				t.InputsLength = int(value.Int64)
+				t.Progress = int(value.Int64)
 			}
 		case training.FieldAccuracy:
 			if value, ok := values[i].(*sql.NullInt64); !ok {
@@ -148,14 +150,14 @@ func (t *Training) String() string {
 	builder.WriteString("duration=")
 	builder.WriteString(fmt.Sprintf("%v", t.Duration))
 	builder.WriteString(", ")
-	builder.WriteString("total_duration=")
-	builder.WriteString(fmt.Sprintf("%v", t.TotalDuration))
+	builder.WriteString("closable=")
+	builder.WriteString(fmt.Sprintf("%v", t.Closable))
 	builder.WriteString(", ")
-	builder.WriteString("text_length=")
-	builder.WriteString(fmt.Sprintf("%v", t.TextLength))
+	builder.WriteString("stopwatch=")
+	builder.WriteString(fmt.Sprintf("%v", t.Stopwatch))
 	builder.WriteString(", ")
-	builder.WriteString("inputs_length=")
-	builder.WriteString(fmt.Sprintf("%v", t.InputsLength))
+	builder.WriteString("progress=")
+	builder.WriteString(fmt.Sprintf("%v", t.Progress))
 	builder.WriteString(", ")
 	builder.WriteString("accuracy=")
 	builder.WriteString(fmt.Sprintf("%v", t.Accuracy))

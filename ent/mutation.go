@@ -30,26 +30,25 @@ const (
 // TrainingMutation represents an operation that mutates the Training nodes in the graph.
 type TrainingMutation struct {
 	config
-	op                Op
-	typ               string
-	id                *int
-	created_at        *time.Time
-	duration          *int
-	addduration       *int
-	total_duration    *int
-	addtotal_duration *int
-	text_length       *int
-	addtext_length    *int
-	inputs_length     *int
-	addinputs_length  *int
-	accuracy          *int
-	addaccuracy       *int
-	speed             *int
-	addspeed          *int
-	clearedFields     map[string]struct{}
-	done              bool
-	oldValue          func(context.Context) (*Training, error)
-	predicates        []predicate.Training
+	op            Op
+	typ           string
+	id            *int
+	created_at    *time.Time
+	duration      *int
+	addduration   *int
+	closable      *bool
+	stopwatch     *int
+	addstopwatch  *int
+	progress      *int
+	addprogress   *int
+	accuracy      *int
+	addaccuracy   *int
+	speed         *int
+	addspeed      *int
+	clearedFields map[string]struct{}
+	done          bool
+	oldValue      func(context.Context) (*Training, error)
+	predicates    []predicate.Training
 }
 
 var _ ent.Mutation = (*TrainingMutation)(nil)
@@ -242,172 +241,152 @@ func (m *TrainingMutation) ResetDuration() {
 	m.addduration = nil
 }
 
-// SetTotalDuration sets the "total_duration" field.
-func (m *TrainingMutation) SetTotalDuration(i int) {
-	m.total_duration = &i
-	m.addtotal_duration = nil
+// SetClosable sets the "closable" field.
+func (m *TrainingMutation) SetClosable(b bool) {
+	m.closable = &b
 }
 
-// TotalDuration returns the value of the "total_duration" field in the mutation.
-func (m *TrainingMutation) TotalDuration() (r int, exists bool) {
-	v := m.total_duration
+// Closable returns the value of the "closable" field in the mutation.
+func (m *TrainingMutation) Closable() (r bool, exists bool) {
+	v := m.closable
 	if v == nil {
 		return
 	}
 	return *v, true
 }
 
-// OldTotalDuration returns the old "total_duration" field's value of the Training entity.
+// OldClosable returns the old "closable" field's value of the Training entity.
 // If the Training object wasn't provided to the builder, the object is fetched from the database.
 // An error is returned if the mutation operation is not UpdateOne, or the database query fails.
-func (m *TrainingMutation) OldTotalDuration(ctx context.Context) (v int, err error) {
+func (m *TrainingMutation) OldClosable(ctx context.Context) (v bool, err error) {
 	if !m.op.Is(OpUpdateOne) {
-		return v, errors.New("OldTotalDuration is only allowed on UpdateOne operations")
+		return v, errors.New("OldClosable is only allowed on UpdateOne operations")
 	}
 	if m.id == nil || m.oldValue == nil {
-		return v, errors.New("OldTotalDuration requires an ID field in the mutation")
+		return v, errors.New("OldClosable requires an ID field in the mutation")
 	}
 	oldValue, err := m.oldValue(ctx)
 	if err != nil {
-		return v, fmt.Errorf("querying old value for OldTotalDuration: %w", err)
+		return v, fmt.Errorf("querying old value for OldClosable: %w", err)
 	}
-	return oldValue.TotalDuration, nil
+	return oldValue.Closable, nil
 }
 
-// AddTotalDuration adds i to the "total_duration" field.
-func (m *TrainingMutation) AddTotalDuration(i int) {
-	if m.addtotal_duration != nil {
-		*m.addtotal_duration += i
-	} else {
-		m.addtotal_duration = &i
-	}
+// ResetClosable resets all changes to the "closable" field.
+func (m *TrainingMutation) ResetClosable() {
+	m.closable = nil
 }
 
-// AddedTotalDuration returns the value that was added to the "total_duration" field in this mutation.
-func (m *TrainingMutation) AddedTotalDuration() (r int, exists bool) {
-	v := m.addtotal_duration
+// SetStopwatch sets the "stopwatch" field.
+func (m *TrainingMutation) SetStopwatch(i int) {
+	m.stopwatch = &i
+	m.addstopwatch = nil
+}
+
+// Stopwatch returns the value of the "stopwatch" field in the mutation.
+func (m *TrainingMutation) Stopwatch() (r int, exists bool) {
+	v := m.stopwatch
 	if v == nil {
 		return
 	}
 	return *v, true
 }
 
-// ResetTotalDuration resets all changes to the "total_duration" field.
-func (m *TrainingMutation) ResetTotalDuration() {
-	m.total_duration = nil
-	m.addtotal_duration = nil
-}
-
-// SetTextLength sets the "text_length" field.
-func (m *TrainingMutation) SetTextLength(i int) {
-	m.text_length = &i
-	m.addtext_length = nil
-}
-
-// TextLength returns the value of the "text_length" field in the mutation.
-func (m *TrainingMutation) TextLength() (r int, exists bool) {
-	v := m.text_length
-	if v == nil {
-		return
-	}
-	return *v, true
-}
-
-// OldTextLength returns the old "text_length" field's value of the Training entity.
+// OldStopwatch returns the old "stopwatch" field's value of the Training entity.
 // If the Training object wasn't provided to the builder, the object is fetched from the database.
 // An error is returned if the mutation operation is not UpdateOne, or the database query fails.
-func (m *TrainingMutation) OldTextLength(ctx context.Context) (v int, err error) {
+func (m *TrainingMutation) OldStopwatch(ctx context.Context) (v int, err error) {
 	if !m.op.Is(OpUpdateOne) {
-		return v, errors.New("OldTextLength is only allowed on UpdateOne operations")
+		return v, errors.New("OldStopwatch is only allowed on UpdateOne operations")
 	}
 	if m.id == nil || m.oldValue == nil {
-		return v, errors.New("OldTextLength requires an ID field in the mutation")
+		return v, errors.New("OldStopwatch requires an ID field in the mutation")
 	}
 	oldValue, err := m.oldValue(ctx)
 	if err != nil {
-		return v, fmt.Errorf("querying old value for OldTextLength: %w", err)
+		return v, fmt.Errorf("querying old value for OldStopwatch: %w", err)
 	}
-	return oldValue.TextLength, nil
+	return oldValue.Stopwatch, nil
 }
 
-// AddTextLength adds i to the "text_length" field.
-func (m *TrainingMutation) AddTextLength(i int) {
-	if m.addtext_length != nil {
-		*m.addtext_length += i
+// AddStopwatch adds i to the "stopwatch" field.
+func (m *TrainingMutation) AddStopwatch(i int) {
+	if m.addstopwatch != nil {
+		*m.addstopwatch += i
 	} else {
-		m.addtext_length = &i
+		m.addstopwatch = &i
 	}
 }
 
-// AddedTextLength returns the value that was added to the "text_length" field in this mutation.
-func (m *TrainingMutation) AddedTextLength() (r int, exists bool) {
-	v := m.addtext_length
+// AddedStopwatch returns the value that was added to the "stopwatch" field in this mutation.
+func (m *TrainingMutation) AddedStopwatch() (r int, exists bool) {
+	v := m.addstopwatch
 	if v == nil {
 		return
 	}
 	return *v, true
 }
 
-// ResetTextLength resets all changes to the "text_length" field.
-func (m *TrainingMutation) ResetTextLength() {
-	m.text_length = nil
-	m.addtext_length = nil
+// ResetStopwatch resets all changes to the "stopwatch" field.
+func (m *TrainingMutation) ResetStopwatch() {
+	m.stopwatch = nil
+	m.addstopwatch = nil
 }
 
-// SetInputsLength sets the "inputs_length" field.
-func (m *TrainingMutation) SetInputsLength(i int) {
-	m.inputs_length = &i
-	m.addinputs_length = nil
+// SetProgress sets the "progress" field.
+func (m *TrainingMutation) SetProgress(i int) {
+	m.progress = &i
+	m.addprogress = nil
 }
 
-// InputsLength returns the value of the "inputs_length" field in the mutation.
-func (m *TrainingMutation) InputsLength() (r int, exists bool) {
-	v := m.inputs_length
+// Progress returns the value of the "progress" field in the mutation.
+func (m *TrainingMutation) Progress() (r int, exists bool) {
+	v := m.progress
 	if v == nil {
 		return
 	}
 	return *v, true
 }
 
-// OldInputsLength returns the old "inputs_length" field's value of the Training entity.
+// OldProgress returns the old "progress" field's value of the Training entity.
 // If the Training object wasn't provided to the builder, the object is fetched from the database.
 // An error is returned if the mutation operation is not UpdateOne, or the database query fails.
-func (m *TrainingMutation) OldInputsLength(ctx context.Context) (v int, err error) {
+func (m *TrainingMutation) OldProgress(ctx context.Context) (v int, err error) {
 	if !m.op.Is(OpUpdateOne) {
-		return v, errors.New("OldInputsLength is only allowed on UpdateOne operations")
+		return v, errors.New("OldProgress is only allowed on UpdateOne operations")
 	}
 	if m.id == nil || m.oldValue == nil {
-		return v, errors.New("OldInputsLength requires an ID field in the mutation")
+		return v, errors.New("OldProgress requires an ID field in the mutation")
 	}
 	oldValue, err := m.oldValue(ctx)
 	if err != nil {
-		return v, fmt.Errorf("querying old value for OldInputsLength: %w", err)
+		return v, fmt.Errorf("querying old value for OldProgress: %w", err)
 	}
-	return oldValue.InputsLength, nil
+	return oldValue.Progress, nil
 }
 
-// AddInputsLength adds i to the "inputs_length" field.
-func (m *TrainingMutation) AddInputsLength(i int) {
-	if m.addinputs_length != nil {
-		*m.addinputs_length += i
+// AddProgress adds i to the "progress" field.
+func (m *TrainingMutation) AddProgress(i int) {
+	if m.addprogress != nil {
+		*m.addprogress += i
 	} else {
-		m.addinputs_length = &i
+		m.addprogress = &i
 	}
 }
 
-// AddedInputsLength returns the value that was added to the "inputs_length" field in this mutation.
-func (m *TrainingMutation) AddedInputsLength() (r int, exists bool) {
-	v := m.addinputs_length
+// AddedProgress returns the value that was added to the "progress" field in this mutation.
+func (m *TrainingMutation) AddedProgress() (r int, exists bool) {
+	v := m.addprogress
 	if v == nil {
 		return
 	}
 	return *v, true
 }
 
-// ResetInputsLength resets all changes to the "inputs_length" field.
-func (m *TrainingMutation) ResetInputsLength() {
-	m.inputs_length = nil
-	m.addinputs_length = nil
+// ResetProgress resets all changes to the "progress" field.
+func (m *TrainingMutation) ResetProgress() {
+	m.progress = nil
+	m.addprogress = nil
 }
 
 // SetAccuracy sets the "accuracy" field.
@@ -563,14 +542,14 @@ func (m *TrainingMutation) Fields() []string {
 	if m.duration != nil {
 		fields = append(fields, training.FieldDuration)
 	}
-	if m.total_duration != nil {
-		fields = append(fields, training.FieldTotalDuration)
+	if m.closable != nil {
+		fields = append(fields, training.FieldClosable)
 	}
-	if m.text_length != nil {
-		fields = append(fields, training.FieldTextLength)
+	if m.stopwatch != nil {
+		fields = append(fields, training.FieldStopwatch)
 	}
-	if m.inputs_length != nil {
-		fields = append(fields, training.FieldInputsLength)
+	if m.progress != nil {
+		fields = append(fields, training.FieldProgress)
 	}
 	if m.accuracy != nil {
 		fields = append(fields, training.FieldAccuracy)
@@ -590,12 +569,12 @@ func (m *TrainingMutation) Field(name string) (ent.Value, bool) {
 		return m.CreatedAt()
 	case training.FieldDuration:
 		return m.Duration()
-	case training.FieldTotalDuration:
-		return m.TotalDuration()
-	case training.FieldTextLength:
-		return m.TextLength()
-	case training.FieldInputsLength:
-		return m.InputsLength()
+	case training.FieldClosable:
+		return m.Closable()
+	case training.FieldStopwatch:
+		return m.Stopwatch()
+	case training.FieldProgress:
+		return m.Progress()
 	case training.FieldAccuracy:
 		return m.Accuracy()
 	case training.FieldSpeed:
@@ -613,12 +592,12 @@ func (m *TrainingMutation) OldField(ctx context.Context, name string) (ent.Value
 		return m.OldCreatedAt(ctx)
 	case training.FieldDuration:
 		return m.OldDuration(ctx)
-	case training.FieldTotalDuration:
-		return m.OldTotalDuration(ctx)
-	case training.FieldTextLength:
-		return m.OldTextLength(ctx)
-	case training.FieldInputsLength:
-		return m.OldInputsLength(ctx)
+	case training.FieldClosable:
+		return m.OldClosable(ctx)
+	case training.FieldStopwatch:
+		return m.OldStopwatch(ctx)
+	case training.FieldProgress:
+		return m.OldProgress(ctx)
 	case training.FieldAccuracy:
 		return m.OldAccuracy(ctx)
 	case training.FieldSpeed:
@@ -646,26 +625,26 @@ func (m *TrainingMutation) SetField(name string, value ent.Value) error {
 		}
 		m.SetDuration(v)
 		return nil
-	case training.FieldTotalDuration:
-		v, ok := value.(int)
+	case training.FieldClosable:
+		v, ok := value.(bool)
 		if !ok {
 			return fmt.Errorf("unexpected type %T for field %s", value, name)
 		}
-		m.SetTotalDuration(v)
+		m.SetClosable(v)
 		return nil
-	case training.FieldTextLength:
+	case training.FieldStopwatch:
 		v, ok := value.(int)
 		if !ok {
 			return fmt.Errorf("unexpected type %T for field %s", value, name)
 		}
-		m.SetTextLength(v)
+		m.SetStopwatch(v)
 		return nil
-	case training.FieldInputsLength:
+	case training.FieldProgress:
 		v, ok := value.(int)
 		if !ok {
 			return fmt.Errorf("unexpected type %T for field %s", value, name)
 		}
-		m.SetInputsLength(v)
+		m.SetProgress(v)
 		return nil
 	case training.FieldAccuracy:
 		v, ok := value.(int)
@@ -692,14 +671,11 @@ func (m *TrainingMutation) AddedFields() []string {
 	if m.addduration != nil {
 		fields = append(fields, training.FieldDuration)
 	}
-	if m.addtotal_duration != nil {
-		fields = append(fields, training.FieldTotalDuration)
+	if m.addstopwatch != nil {
+		fields = append(fields, training.FieldStopwatch)
 	}
-	if m.addtext_length != nil {
-		fields = append(fields, training.FieldTextLength)
-	}
-	if m.addinputs_length != nil {
-		fields = append(fields, training.FieldInputsLength)
+	if m.addprogress != nil {
+		fields = append(fields, training.FieldProgress)
 	}
 	if m.addaccuracy != nil {
 		fields = append(fields, training.FieldAccuracy)
@@ -717,12 +693,10 @@ func (m *TrainingMutation) AddedField(name string) (ent.Value, bool) {
 	switch name {
 	case training.FieldDuration:
 		return m.AddedDuration()
-	case training.FieldTotalDuration:
-		return m.AddedTotalDuration()
-	case training.FieldTextLength:
-		return m.AddedTextLength()
-	case training.FieldInputsLength:
-		return m.AddedInputsLength()
+	case training.FieldStopwatch:
+		return m.AddedStopwatch()
+	case training.FieldProgress:
+		return m.AddedProgress()
 	case training.FieldAccuracy:
 		return m.AddedAccuracy()
 	case training.FieldSpeed:
@@ -743,26 +717,19 @@ func (m *TrainingMutation) AddField(name string, value ent.Value) error {
 		}
 		m.AddDuration(v)
 		return nil
-	case training.FieldTotalDuration:
+	case training.FieldStopwatch:
 		v, ok := value.(int)
 		if !ok {
 			return fmt.Errorf("unexpected type %T for field %s", value, name)
 		}
-		m.AddTotalDuration(v)
+		m.AddStopwatch(v)
 		return nil
-	case training.FieldTextLength:
+	case training.FieldProgress:
 		v, ok := value.(int)
 		if !ok {
 			return fmt.Errorf("unexpected type %T for field %s", value, name)
 		}
-		m.AddTextLength(v)
-		return nil
-	case training.FieldInputsLength:
-		v, ok := value.(int)
-		if !ok {
-			return fmt.Errorf("unexpected type %T for field %s", value, name)
-		}
-		m.AddInputsLength(v)
+		m.AddProgress(v)
 		return nil
 	case training.FieldAccuracy:
 		v, ok := value.(int)
@@ -811,14 +778,14 @@ func (m *TrainingMutation) ResetField(name string) error {
 	case training.FieldDuration:
 		m.ResetDuration()
 		return nil
-	case training.FieldTotalDuration:
-		m.ResetTotalDuration()
+	case training.FieldClosable:
+		m.ResetClosable()
 		return nil
-	case training.FieldTextLength:
-		m.ResetTextLength()
+	case training.FieldStopwatch:
+		m.ResetStopwatch()
 		return nil
-	case training.FieldInputsLength:
-		m.ResetInputsLength()
+	case training.FieldProgress:
+		m.ResetProgress()
 		return nil
 	case training.FieldAccuracy:
 		m.ResetAccuracy()

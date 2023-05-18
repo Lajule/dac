@@ -17,12 +17,12 @@ const (
 	FieldCreatedAt = "created_at"
 	// FieldDuration holds the string denoting the duration field in the database.
 	FieldDuration = "duration"
-	// FieldTotalDuration holds the string denoting the total_duration field in the database.
-	FieldTotalDuration = "total_duration"
-	// FieldTextLength holds the string denoting the text_length field in the database.
-	FieldTextLength = "text_length"
-	// FieldInputsLength holds the string denoting the inputs_length field in the database.
-	FieldInputsLength = "inputs_length"
+	// FieldClosable holds the string denoting the closable field in the database.
+	FieldClosable = "closable"
+	// FieldStopwatch holds the string denoting the stopwatch field in the database.
+	FieldStopwatch = "stopwatch"
+	// FieldProgress holds the string denoting the progress field in the database.
+	FieldProgress = "progress"
 	// FieldAccuracy holds the string denoting the accuracy field in the database.
 	FieldAccuracy = "accuracy"
 	// FieldSpeed holds the string denoting the speed field in the database.
@@ -36,9 +36,9 @@ var Columns = []string{
 	FieldID,
 	FieldCreatedAt,
 	FieldDuration,
-	FieldTotalDuration,
-	FieldTextLength,
-	FieldInputsLength,
+	FieldClosable,
+	FieldStopwatch,
+	FieldProgress,
 	FieldAccuracy,
 	FieldSpeed,
 }
@@ -58,12 +58,12 @@ var (
 	DefaultCreatedAt func() time.Time
 	// DefaultDuration holds the default value on creation for the "duration" field.
 	DefaultDuration int
-	// DefaultTotalDuration holds the default value on creation for the "total_duration" field.
-	DefaultTotalDuration int
-	// DefaultTextLength holds the default value on creation for the "text_length" field.
-	DefaultTextLength int
-	// DefaultInputsLength holds the default value on creation for the "inputs_length" field.
-	DefaultInputsLength int
+	// DefaultClosable holds the default value on creation for the "closable" field.
+	DefaultClosable bool
+	// DefaultStopwatch holds the default value on creation for the "stopwatch" field.
+	DefaultStopwatch int
+	// DefaultProgress holds the default value on creation for the "progress" field.
+	DefaultProgress int
 	// DefaultAccuracy holds the default value on creation for the "accuracy" field.
 	DefaultAccuracy int
 	// DefaultSpeed holds the default value on creation for the "speed" field.
@@ -88,19 +88,19 @@ func ByDuration(opts ...sql.OrderTermOption) OrderOption {
 	return sql.OrderByField(FieldDuration, opts...).ToFunc()
 }
 
-// ByTotalDuration orders the results by the total_duration field.
-func ByTotalDuration(opts ...sql.OrderTermOption) OrderOption {
-	return sql.OrderByField(FieldTotalDuration, opts...).ToFunc()
+// ByClosable orders the results by the closable field.
+func ByClosable(opts ...sql.OrderTermOption) OrderOption {
+	return sql.OrderByField(FieldClosable, opts...).ToFunc()
 }
 
-// ByTextLength orders the results by the text_length field.
-func ByTextLength(opts ...sql.OrderTermOption) OrderOption {
-	return sql.OrderByField(FieldTextLength, opts...).ToFunc()
+// ByStopwatch orders the results by the stopwatch field.
+func ByStopwatch(opts ...sql.OrderTermOption) OrderOption {
+	return sql.OrderByField(FieldStopwatch, opts...).ToFunc()
 }
 
-// ByInputsLength orders the results by the inputs_length field.
-func ByInputsLength(opts ...sql.OrderTermOption) OrderOption {
-	return sql.OrderByField(FieldInputsLength, opts...).ToFunc()
+// ByProgress orders the results by the progress field.
+func ByProgress(opts ...sql.OrderTermOption) OrderOption {
+	return sql.OrderByField(FieldProgress, opts...).ToFunc()
 }
 
 // ByAccuracy orders the results by the accuracy field.

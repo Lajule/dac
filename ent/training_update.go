@@ -48,66 +48,59 @@ func (tu *TrainingUpdate) AddDuration(i int) *TrainingUpdate {
 	return tu
 }
 
-// SetTotalDuration sets the "total_duration" field.
-func (tu *TrainingUpdate) SetTotalDuration(i int) *TrainingUpdate {
-	tu.mutation.ResetTotalDuration()
-	tu.mutation.SetTotalDuration(i)
+// SetClosable sets the "closable" field.
+func (tu *TrainingUpdate) SetClosable(b bool) *TrainingUpdate {
+	tu.mutation.SetClosable(b)
 	return tu
 }
 
-// SetNillableTotalDuration sets the "total_duration" field if the given value is not nil.
-func (tu *TrainingUpdate) SetNillableTotalDuration(i *int) *TrainingUpdate {
-	if i != nil {
-		tu.SetTotalDuration(*i)
+// SetNillableClosable sets the "closable" field if the given value is not nil.
+func (tu *TrainingUpdate) SetNillableClosable(b *bool) *TrainingUpdate {
+	if b != nil {
+		tu.SetClosable(*b)
 	}
 	return tu
 }
 
-// AddTotalDuration adds i to the "total_duration" field.
-func (tu *TrainingUpdate) AddTotalDuration(i int) *TrainingUpdate {
-	tu.mutation.AddTotalDuration(i)
+// SetStopwatch sets the "stopwatch" field.
+func (tu *TrainingUpdate) SetStopwatch(i int) *TrainingUpdate {
+	tu.mutation.ResetStopwatch()
+	tu.mutation.SetStopwatch(i)
 	return tu
 }
 
-// SetTextLength sets the "text_length" field.
-func (tu *TrainingUpdate) SetTextLength(i int) *TrainingUpdate {
-	tu.mutation.ResetTextLength()
-	tu.mutation.SetTextLength(i)
-	return tu
-}
-
-// SetNillableTextLength sets the "text_length" field if the given value is not nil.
-func (tu *TrainingUpdate) SetNillableTextLength(i *int) *TrainingUpdate {
+// SetNillableStopwatch sets the "stopwatch" field if the given value is not nil.
+func (tu *TrainingUpdate) SetNillableStopwatch(i *int) *TrainingUpdate {
 	if i != nil {
-		tu.SetTextLength(*i)
+		tu.SetStopwatch(*i)
 	}
 	return tu
 }
 
-// AddTextLength adds i to the "text_length" field.
-func (tu *TrainingUpdate) AddTextLength(i int) *TrainingUpdate {
-	tu.mutation.AddTextLength(i)
+// AddStopwatch adds i to the "stopwatch" field.
+func (tu *TrainingUpdate) AddStopwatch(i int) *TrainingUpdate {
+	tu.mutation.AddStopwatch(i)
 	return tu
 }
 
-// SetInputsLength sets the "inputs_length" field.
-func (tu *TrainingUpdate) SetInputsLength(i int) *TrainingUpdate {
-	tu.mutation.ResetInputsLength()
-	tu.mutation.SetInputsLength(i)
+// SetProgress sets the "progress" field.
+func (tu *TrainingUpdate) SetProgress(i int) *TrainingUpdate {
+	tu.mutation.ResetProgress()
+	tu.mutation.SetProgress(i)
 	return tu
 }
 
-// SetNillableInputsLength sets the "inputs_length" field if the given value is not nil.
-func (tu *TrainingUpdate) SetNillableInputsLength(i *int) *TrainingUpdate {
+// SetNillableProgress sets the "progress" field if the given value is not nil.
+func (tu *TrainingUpdate) SetNillableProgress(i *int) *TrainingUpdate {
 	if i != nil {
-		tu.SetInputsLength(*i)
+		tu.SetProgress(*i)
 	}
 	return tu
 }
 
-// AddInputsLength adds i to the "inputs_length" field.
-func (tu *TrainingUpdate) AddInputsLength(i int) *TrainingUpdate {
-	tu.mutation.AddInputsLength(i)
+// AddProgress adds i to the "progress" field.
+func (tu *TrainingUpdate) AddProgress(i int) *TrainingUpdate {
+	tu.mutation.AddProgress(i)
 	return tu
 }
 
@@ -200,23 +193,20 @@ func (tu *TrainingUpdate) sqlSave(ctx context.Context) (n int, err error) {
 	if value, ok := tu.mutation.AddedDuration(); ok {
 		_spec.AddField(training.FieldDuration, field.TypeInt, value)
 	}
-	if value, ok := tu.mutation.TotalDuration(); ok {
-		_spec.SetField(training.FieldTotalDuration, field.TypeInt, value)
+	if value, ok := tu.mutation.Closable(); ok {
+		_spec.SetField(training.FieldClosable, field.TypeBool, value)
 	}
-	if value, ok := tu.mutation.AddedTotalDuration(); ok {
-		_spec.AddField(training.FieldTotalDuration, field.TypeInt, value)
+	if value, ok := tu.mutation.Stopwatch(); ok {
+		_spec.SetField(training.FieldStopwatch, field.TypeInt, value)
 	}
-	if value, ok := tu.mutation.TextLength(); ok {
-		_spec.SetField(training.FieldTextLength, field.TypeInt, value)
+	if value, ok := tu.mutation.AddedStopwatch(); ok {
+		_spec.AddField(training.FieldStopwatch, field.TypeInt, value)
 	}
-	if value, ok := tu.mutation.AddedTextLength(); ok {
-		_spec.AddField(training.FieldTextLength, field.TypeInt, value)
+	if value, ok := tu.mutation.Progress(); ok {
+		_spec.SetField(training.FieldProgress, field.TypeInt, value)
 	}
-	if value, ok := tu.mutation.InputsLength(); ok {
-		_spec.SetField(training.FieldInputsLength, field.TypeInt, value)
-	}
-	if value, ok := tu.mutation.AddedInputsLength(); ok {
-		_spec.AddField(training.FieldInputsLength, field.TypeInt, value)
+	if value, ok := tu.mutation.AddedProgress(); ok {
+		_spec.AddField(training.FieldProgress, field.TypeInt, value)
 	}
 	if value, ok := tu.mutation.Accuracy(); ok {
 		_spec.SetField(training.FieldAccuracy, field.TypeInt, value)
@@ -271,66 +261,59 @@ func (tuo *TrainingUpdateOne) AddDuration(i int) *TrainingUpdateOne {
 	return tuo
 }
 
-// SetTotalDuration sets the "total_duration" field.
-func (tuo *TrainingUpdateOne) SetTotalDuration(i int) *TrainingUpdateOne {
-	tuo.mutation.ResetTotalDuration()
-	tuo.mutation.SetTotalDuration(i)
+// SetClosable sets the "closable" field.
+func (tuo *TrainingUpdateOne) SetClosable(b bool) *TrainingUpdateOne {
+	tuo.mutation.SetClosable(b)
 	return tuo
 }
 
-// SetNillableTotalDuration sets the "total_duration" field if the given value is not nil.
-func (tuo *TrainingUpdateOne) SetNillableTotalDuration(i *int) *TrainingUpdateOne {
-	if i != nil {
-		tuo.SetTotalDuration(*i)
+// SetNillableClosable sets the "closable" field if the given value is not nil.
+func (tuo *TrainingUpdateOne) SetNillableClosable(b *bool) *TrainingUpdateOne {
+	if b != nil {
+		tuo.SetClosable(*b)
 	}
 	return tuo
 }
 
-// AddTotalDuration adds i to the "total_duration" field.
-func (tuo *TrainingUpdateOne) AddTotalDuration(i int) *TrainingUpdateOne {
-	tuo.mutation.AddTotalDuration(i)
+// SetStopwatch sets the "stopwatch" field.
+func (tuo *TrainingUpdateOne) SetStopwatch(i int) *TrainingUpdateOne {
+	tuo.mutation.ResetStopwatch()
+	tuo.mutation.SetStopwatch(i)
 	return tuo
 }
 
-// SetTextLength sets the "text_length" field.
-func (tuo *TrainingUpdateOne) SetTextLength(i int) *TrainingUpdateOne {
-	tuo.mutation.ResetTextLength()
-	tuo.mutation.SetTextLength(i)
-	return tuo
-}
-
-// SetNillableTextLength sets the "text_length" field if the given value is not nil.
-func (tuo *TrainingUpdateOne) SetNillableTextLength(i *int) *TrainingUpdateOne {
+// SetNillableStopwatch sets the "stopwatch" field if the given value is not nil.
+func (tuo *TrainingUpdateOne) SetNillableStopwatch(i *int) *TrainingUpdateOne {
 	if i != nil {
-		tuo.SetTextLength(*i)
+		tuo.SetStopwatch(*i)
 	}
 	return tuo
 }
 
-// AddTextLength adds i to the "text_length" field.
-func (tuo *TrainingUpdateOne) AddTextLength(i int) *TrainingUpdateOne {
-	tuo.mutation.AddTextLength(i)
+// AddStopwatch adds i to the "stopwatch" field.
+func (tuo *TrainingUpdateOne) AddStopwatch(i int) *TrainingUpdateOne {
+	tuo.mutation.AddStopwatch(i)
 	return tuo
 }
 
-// SetInputsLength sets the "inputs_length" field.
-func (tuo *TrainingUpdateOne) SetInputsLength(i int) *TrainingUpdateOne {
-	tuo.mutation.ResetInputsLength()
-	tuo.mutation.SetInputsLength(i)
+// SetProgress sets the "progress" field.
+func (tuo *TrainingUpdateOne) SetProgress(i int) *TrainingUpdateOne {
+	tuo.mutation.ResetProgress()
+	tuo.mutation.SetProgress(i)
 	return tuo
 }
 
-// SetNillableInputsLength sets the "inputs_length" field if the given value is not nil.
-func (tuo *TrainingUpdateOne) SetNillableInputsLength(i *int) *TrainingUpdateOne {
+// SetNillableProgress sets the "progress" field if the given value is not nil.
+func (tuo *TrainingUpdateOne) SetNillableProgress(i *int) *TrainingUpdateOne {
 	if i != nil {
-		tuo.SetInputsLength(*i)
+		tuo.SetProgress(*i)
 	}
 	return tuo
 }
 
-// AddInputsLength adds i to the "inputs_length" field.
-func (tuo *TrainingUpdateOne) AddInputsLength(i int) *TrainingUpdateOne {
-	tuo.mutation.AddInputsLength(i)
+// AddProgress adds i to the "progress" field.
+func (tuo *TrainingUpdateOne) AddProgress(i int) *TrainingUpdateOne {
+	tuo.mutation.AddProgress(i)
 	return tuo
 }
 
@@ -453,23 +436,20 @@ func (tuo *TrainingUpdateOne) sqlSave(ctx context.Context) (_node *Training, err
 	if value, ok := tuo.mutation.AddedDuration(); ok {
 		_spec.AddField(training.FieldDuration, field.TypeInt, value)
 	}
-	if value, ok := tuo.mutation.TotalDuration(); ok {
-		_spec.SetField(training.FieldTotalDuration, field.TypeInt, value)
+	if value, ok := tuo.mutation.Closable(); ok {
+		_spec.SetField(training.FieldClosable, field.TypeBool, value)
 	}
-	if value, ok := tuo.mutation.AddedTotalDuration(); ok {
-		_spec.AddField(training.FieldTotalDuration, field.TypeInt, value)
+	if value, ok := tuo.mutation.Stopwatch(); ok {
+		_spec.SetField(training.FieldStopwatch, field.TypeInt, value)
 	}
-	if value, ok := tuo.mutation.TextLength(); ok {
-		_spec.SetField(training.FieldTextLength, field.TypeInt, value)
+	if value, ok := tuo.mutation.AddedStopwatch(); ok {
+		_spec.AddField(training.FieldStopwatch, field.TypeInt, value)
 	}
-	if value, ok := tuo.mutation.AddedTextLength(); ok {
-		_spec.AddField(training.FieldTextLength, field.TypeInt, value)
+	if value, ok := tuo.mutation.Progress(); ok {
+		_spec.SetField(training.FieldProgress, field.TypeInt, value)
 	}
-	if value, ok := tuo.mutation.InputsLength(); ok {
-		_spec.SetField(training.FieldInputsLength, field.TypeInt, value)
-	}
-	if value, ok := tuo.mutation.AddedInputsLength(); ok {
-		_spec.AddField(training.FieldInputsLength, field.TypeInt, value)
+	if value, ok := tuo.mutation.AddedProgress(); ok {
+		_spec.AddField(training.FieldProgress, field.TypeInt, value)
 	}
 	if value, ok := tuo.mutation.Accuracy(); ok {
 		_spec.SetField(training.FieldAccuracy, field.TypeInt, value)

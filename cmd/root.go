@@ -5,8 +5,8 @@ import (
 	"fmt"
 	"io"
 	"log"
-	"time"
 	"os"
+	"time"
 
 	"github.com/Lajule/dac/app"
 	"github.com/Lajule/dac/ent"
@@ -21,9 +21,7 @@ var (
 
 	duration time.Duration
 
-	close bool
-
-	save bool
+	closable bool
 
 	rootCmd = &cobra.Command{
 		Use:   "dac",
@@ -50,7 +48,7 @@ var (
 				os.Exit(1)
 			}
 
-			if close && duration == 0 {
+			if closable && duration == 0 {
 				log.Println("a duration must be defined")
 				os.Exit(1)
 			}
@@ -64,12 +62,19 @@ var (
 				log.Fatalf("failed creating schema resources: %v", err)
 			}
 
-			d, err := app.NewDac(duration, close, string(b))
+			d, err := app.NewDac(string(b))
 			if err != nil {
-				log.Fatalf("failed creating ui: %v", err)
+				log.Fatalf("failed creating app: %v", err)
 			}
 
-			d.Start()
+			t := client.Training.Create().
+				SetDuration(int(duration.Seconds())).
+				SetClosable(closable)
+			d.Start(t.Mutation())
+
+			if _, err := t.Save(context.Background()); err != nil {
+				log.Fatalf("failed updating training: %v", err)
+			}
 		},
 	}
 )
@@ -84,6 +89,5 @@ func init() {
 	rootCmd.PersistentFlags().StringVar(&dbFile, "database", "dac.db", "Database file (default is dac.db)")
 	rootCmd.PersistentFlags().StringVar(&theme, "theme", "green", "Color theme (default is green)")
 	rootCmd.Flags().DurationVarP(&duration, "duration", "d", 0, "Duration of the training session")
-	rootCmd.Flags().BoolVarP(&close, "close", "c", false, "Close on session timeout")
-	rootCmd.Flags().BoolVarP(&save, "save", "s", true, "Save session in database")
+	rootCmd.Flags().BoolVarP(&closable, "closable", "c", false, "Close on session timeout")
 }

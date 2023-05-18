@@ -6,22 +6,17 @@ import (
 	"time"
 	"unicode"
 
+	"github.com/Lajule/dac/ent"
 	"github.com/gdamore/tcell/v2"
 	"github.com/gdamore/tcell/v2/encoding"
 )
 
 type Dac struct {
-	Duration time.Duration
+	Training *ent.Training
 
-	Text []rune
+	text []rune
 
-	Inputs []bool
-
-	Precision int
-
-	Speed int
-
-	close bool
+	inputs []bool
 
 	screen tcell.Screen
 
@@ -30,30 +25,25 @@ type Dac struct {
 	done chan bool
 }
 
-func NewDac(duration time.Duration, close bool, text string) (*Dac, error) {
+func NewDac(text string) (*Dac, error) {
 	encoding.Register()
 	sc, err := tcell.NewScreen()
 	if err != nil {
 		return nil, fmt.Errorf("failed creating screen: %w", err)
 	}
-
 	if err := sc.Init(); err != nil {
 		return nil, fmt.Errorf("failed initializing screen: %w", err)
 	}
 
 	return &Dac{
-		Duration: duration,
-		Text:     []rune(text),
-		close:    close,
-		screen:   sc,
-		ticker:   time.NewTicker(time.Second),
-		done:     make(chan bool),
+		text:   []rune(text),
+		screen: sc,
+		ticker: time.NewTicker(time.Second),
+		done:   make(chan bool),
 	}, nil
 }
 
-func (d *Dac) Start() {
-	tics := 0
-
+func (d *Dac) Start(t *ent.TrainingMutation) {
 	go func() {
 		for {
 			select {
@@ -72,54 +62,58 @@ func (d *Dac) Start() {
 		case *tcell.EventKey:
 			switch ev.Key() {
 			case tcell.KeyRune:
-				if len(d.Inputs) == len(d.Text) {
+				if len(d.inputs) == len(d.text) {
 					d.stop()
 					return
 				}
-				d.Inputs = append(d.Inputs, d.Text[len(d.Inputs)] == ev.Rune())
-				d.precision()
-				d.draw()
+				d.inputs = append(d.inputs, d.text[len(d.inputs)] == ev.Rune())
+				d.accuracy(t)
+				d.progress(t)
+				d.draw(t)
 			case tcell.KeyBackspace2:
-				if len(d.Inputs) > 0 {
-					d.Inputs = d.Inputs[:len(d.Inputs)-1]
-					d.precision()
-					d.draw()
+				if len(d.inputs) > 0 {
+					d.inputs = d.inputs[:len(d.inputs)-1]
+					d.accuracy(t)
+					d.progress(t)
+					d.draw(t)
 				}
 			case tcell.KeyEscape:
 				d.stop()
 				return
 			case tcell.KeyCtrlL:
 				d.screen.Sync()
-				d.draw()
+				d.draw(t)
 			}
 		case *tcell.EventTime:
-			if d.close && d.Duration == 0 {
+			closable, _ := t.Closable()
+			duration, _ := t.Duration()
+			if closable && duration == 0 {
 				d.stop()
 				return
 			}
-			tics += 1
-			d.Duration -= time.Second
-			if len(d.Inputs) > 0 {
-				index := len(d.Inputs)
-				if index < len(d.Text)-1 && !unicode.IsSpace(d.Text[index+1]) {
+			t.AddStopwatch(1)
+			if len(d.inputs) > 0 {
+				index := len(d.inputs)
+				if index < len(d.text)-1 && !unicode.IsSpace(d.text[index+1]) {
 					for {
-						if index == 0 || unicode.IsSpace(d.Text[index]) {
+						if index == 0 || unicode.IsSpace(d.text[index]) {
 							break
 						}
 						index -= 1
 					}
 				}
-				words := strings.Fields(string(d.Text[:index]))
+				words := strings.Fields(string(d.text[:index]))
 				if len(words) > 0 {
-					d.Speed = (len(words) * 60) / tics
+					stopwatch, _ := t.AddedStopwatch()
+					t.SetSpeed((len(words) * 60) / stopwatch)
 				}
 			} else {
-				d.Speed = 0
+				t.SetSpeed(0)
 			}
-			d.draw()
+			d.draw(t)
 		case *tcell.EventResize:
 			d.screen.Sync()
-			d.draw()
+			d.draw(t)
 		}
 	}
 }
@@ -130,27 +124,38 @@ func (d *Dac) stop() {
 	d.screen.Fini()
 }
 
-func (d *Dac) precision() {
-	count := countValue(d.Inputs, true)
+func (d *Dac) progress(t *ent.TrainingMutation) {
+	t.SetProgress((len(d.inputs) * 100) / len(d.text))
+}
+
+func (d *Dac) accuracy(t *ent.TrainingMutation) {
+	count := countValue(d.inputs, true)
 	if count > 0 {
-		d.Precision = (count * 100) / len(d.Inputs)
+		t.SetAccuracy((count * 100) / len(d.inputs))
 	} else {
-		d.Precision = 0
+		t.SetAccuracy(0)
 	}
 }
 
-func (d *Dac) draw() {
+func (d *Dac) status(t *ent.TrainingMutation) string {
+	duration, _ := t.Duration()
+	stopwatch, _ := t.Stopwatch()
+	accuracy, _ := t.Accuracy()
+	speed, _ := t.Speed()
+	return fmt.Sprintf("(%d,%d) %d%% %dw/s %s", len(d.text), len(d.inputs), accuracy, speed, (time.Duration(duration-stopwatch) * time.Second).String())
+}
+
+func (d *Dac) draw(t *ent.TrainingMutation) {
 	w, h := d.screen.Size()
 	max := w * (h - 1)
-	status := fmt.Sprintf("(%d,%d) %d%% %dw/s %s", len(d.Text), len(d.Inputs), d.Precision, d.Speed, d.Duration.String())
-	textChunks := chunkBy(d.Text, max)
-	inputChunks := chunkBy(d.Inputs, max)
-	offset := len(d.Inputs) / max
+	textChunks := chunkBy(d.text, max)
+	inputChunks := chunkBy(d.inputs, max)
+	offset := len(d.inputs) / max
 
 	d.screen.Clear()
 
 	style := tcell.StyleDefault.Bold(true).Reverse(true)
-	for i, r := range []rune(fmt.Sprintf("%*s", w, status)) {
+	for i, r := range []rune(fmt.Sprintf("%*s", w, d.status(t))) {
 		d.screen.SetContent(i, 0, r, nil, style)
 	}
 
