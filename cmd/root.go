@@ -7,6 +7,7 @@ import (
 	"log"
 	"os"
 	"time"
+	"strings"
 
 	"github.com/Lajule/dac/app"
 	"github.com/Lajule/dac/ent"
@@ -17,8 +18,6 @@ import (
 var (
 	dbFile string
 
-	theme string
-
 	duration time.Duration
 
 	closable bool
@@ -28,6 +27,9 @@ var (
 		Short: "Typing training sessions",
 		Long:  `Dac is typing training sessions program, it's help you to improve your typing skills.`,
 		Run: func(cmd *cobra.Command, args []string) {
+			if closable && duration == 0 {
+				log.Fatal("a duration must be defined")
+			}
 			var input io.Reader
 			if len(args) > 0 {
 				file, err := os.Open(args[0])
@@ -38,21 +40,13 @@ var (
 			} else {
 				input = os.Stdin
 			}
-
 			b, err := io.ReadAll(input)
 			if err != nil {
 				log.Fatalf("failed reading input: %v", err)
 			}
 			if len(b) == 0 {
-				log.Println("input is empty")
-				os.Exit(1)
+				log.Fatal("input is empty")
 			}
-
-			if closable && duration == 0 {
-				log.Println("a duration must be defined")
-				os.Exit(1)
-			}
-
 			client, err := ent.Open("sqlite3", fmt.Sprintf("file:%s?cache=shared&_fk=1", dbFile))
 			if err != nil {
 				log.Fatalf("failed opening connection to sqlite: %v", err)
@@ -61,20 +55,19 @@ var (
 			if err := client.Schema.Create(context.Background()); err != nil {
 				log.Fatalf("failed creating schema resources: %v", err)
 			}
-
+			t := client.Training.Create().
+				SetDuration(int(duration.Seconds())).
+				SetClosable(closable)
 			d, err := app.NewDac(string(b))
 			if err != nil {
 				log.Fatalf("failed creating app: %v", err)
 			}
-
-			t := client.Training.Create().
-				SetDuration(int(duration.Seconds())).
-				SetClosable(closable)
 			d.Start(t.Mutation())
-
-			if _, err := t.Save(context.Background()); err != nil {
+			a8n, err := t.Save(context.Background())
+			if err != nil {
 				log.Fatalf("failed updating training: %v", err)
 			}
+			log.Println(a8n)
 		},
 	}
 )
@@ -87,7 +80,6 @@ func Execute() {
 
 func init() {
 	rootCmd.PersistentFlags().StringVar(&dbFile, "database", "dac.db", "Database file (default is dac.db)")
-	rootCmd.PersistentFlags().StringVar(&theme, "theme", "green", "Color theme (default is green)")
 	rootCmd.Flags().DurationVarP(&duration, "duration", "d", 0, "Duration of the training session")
 	rootCmd.Flags().BoolVarP(&closable, "closable", "c", false, "Close on session timeout")
 }

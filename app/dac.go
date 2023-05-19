@@ -12,8 +12,6 @@ import (
 )
 
 type Dac struct {
-	Training *ent.Training
-
 	text []rune
 
 	inputs []bool
@@ -34,7 +32,6 @@ func NewDac(text string) (*Dac, error) {
 	if err := sc.Init(); err != nil {
 		return nil, fmt.Errorf("failed initializing screen: %w", err)
 	}
-
 	return &Dac{
 		text:   []rune(text),
 		screen: sc,
@@ -56,20 +53,19 @@ func (d *Dac) Start(t *ent.TrainingMutation) {
 			}
 		}
 	}()
-
 	for {
 		switch ev := d.screen.PollEvent().(type) {
 		case *tcell.EventKey:
 			switch ev.Key() {
 			case tcell.KeyRune:
-				if len(d.inputs) == len(d.text) {
-					d.stop()
-					return
-				}
 				d.inputs = append(d.inputs, d.text[len(d.inputs)] == ev.Rune())
 				d.accuracy(t)
 				d.progress(t)
 				d.draw(t)
+				if len(d.inputs) == len(d.text) {
+					d.stop()
+					return
+				}
 			case tcell.KeyBackspace2:
 				if len(d.inputs) > 0 {
 					d.inputs = d.inputs[:len(d.inputs)-1]
@@ -91,25 +87,7 @@ func (d *Dac) Start(t *ent.TrainingMutation) {
 				d.stop()
 				return
 			}
-			t.AddStopwatch(1)
-			if len(d.inputs) > 0 {
-				index := len(d.inputs)
-				if index < len(d.text)-1 && !unicode.IsSpace(d.text[index+1]) {
-					for {
-						if index == 0 || unicode.IsSpace(d.text[index]) {
-							break
-						}
-						index -= 1
-					}
-				}
-				words := strings.Fields(string(d.text[:index]))
-				if len(words) > 0 {
-					stopwatch, _ := t.AddedStopwatch()
-					t.SetSpeed((len(words) * 60) / stopwatch)
-				}
-			} else {
-				t.SetSpeed(0)
-			}
+			d.speed(t)
 			d.draw(t)
 		case *tcell.EventResize:
 			d.screen.Sync()
@@ -137,28 +115,84 @@ func (d *Dac) accuracy(t *ent.TrainingMutation) {
 	}
 }
 
-func (d *Dac) status(t *ent.TrainingMutation) string {
-	duration, _ := t.Duration()
-	stopwatch, _ := t.Stopwatch()
-	accuracy, _ := t.Accuracy()
-	speed, _ := t.Speed()
-	return fmt.Sprintf("(%d,%d) %d%% %dw/s %s", len(d.text), len(d.inputs), accuracy, speed, (time.Duration(duration-stopwatch) * time.Second).String())
+func (d *Dac) speed(t *ent.TrainingMutation) {
+	t.AddStopwatch(1)
+	if len(d.inputs) > 0 {
+		index := len(d.inputs)
+		if index < len(d.text)-1 && !unicode.IsSpace(d.text[index+1]) {
+			for {
+				if index == 0 || unicode.IsSpace(d.text[index]) {
+					break
+				}
+				index -= 1
+			}
+		}
+		words := strings.Fields(string(d.text[:index]))
+		if len(words) > 0 {
+			stopwatch, _ := t.AddedStopwatch()
+			t.SetSpeed((len(words) * 60) / stopwatch)
+		}
+	} else {
+		t.SetSpeed(0)
+	}
 }
 
-func (d *Dac) draw(t *ent.TrainingMutation) {
+func (d *Dac) drawAccuracy(t *ent.TrainingMutation, x *int) {
+	accuracy, _ := t.Accuracy()
+	style := tcell.StyleDefault
+	if accuracy < 50 {
+		style = style.Foreground(tcell.ColorRed)
+	} else {
+		style = style.Foreground(tcell.ColorGreen)
+	}
+	for _, r := range fmt.Sprintf("%*d%%", 2, accuracy) {
+		d.screen.SetContent(*x, 0, r, nil, style)
+		*x++
+	}
+}
+
+func (d *Dac) drawSpeed(t *ent.TrainingMutation, x *int) {
+	speed, _ := t.Speed()
+	style := tcell.StyleDefault
+	for _, r := range fmt.Sprintf("%*dw/s", 3, speed) {
+		d.screen.SetContent(*x, 0, r, nil, style)
+		*x++
+	}
+}
+
+func (d *Dac) drawProgress(t *ent.TrainingMutation, x *int) {
+	progress, _ := t.Progress()
+	for i := 0; i < 10; i++ {
+		style := tcell.StyleDefault
+		if progress/10 > i {
+			style = style.Reverse(true)
+		}
+		d.screen.SetContent(*x, 0, ' ', nil, style)
+		*x++
+	}
+}
+
+func (d *Dac) drawStatus(t *ent.TrainingMutation) {
+	x := 0
+	sep := func() {
+		d.screen.SetContent(x, 0, '|', nil, tcell.StyleDefault)
+		x++
+	}
+	sep()
+	d.drawAccuracy(t, &x)
+	sep()
+	d.drawSpeed(t, &x)
+	sep()
+	d.drawProgress(t, &x)
+	sep()
+}
+
+func (d *Dac) drawText(t *ent.TrainingMutation) {
 	w, h := d.screen.Size()
 	max := w * (h - 1)
 	textChunks := chunkBy(d.text, max)
 	inputChunks := chunkBy(d.inputs, max)
 	offset := len(d.inputs) / max
-
-	d.screen.Clear()
-
-	style := tcell.StyleDefault.Bold(true).Reverse(true)
-	for i, r := range []rune(fmt.Sprintf("%*s", w, d.status(t))) {
-		d.screen.SetContent(i, 0, r, nil, style)
-	}
-
 	y := 1
 	for i, r := range textChunks[offset] {
 		x := i % w
@@ -166,7 +200,7 @@ func (d *Dac) draw(t *ent.TrainingMutation) {
 			if y == h {
 				break
 			}
-			y += 1
+			y++
 		}
 		style := tcell.StyleDefault
 		if len(inputChunks) > offset && i < len(inputChunks[offset]) {
@@ -182,14 +216,19 @@ func (d *Dac) draw(t *ent.TrainingMutation) {
 		}
 		d.screen.SetContent(x, y, r, nil, style)
 	}
+}
 
+func (d *Dac) draw(t *ent.TrainingMutation) {
+	d.screen.Clear()
+	d.drawStatus(t)
+	d.drawText(t)
 	d.screen.Show()
 }
 
 func countValue[T comparable](items []T, val T) (count int) {
 	for _, item := range items {
 		if item == val {
-			count += 1
+			count++
 		}
 	}
 	return
