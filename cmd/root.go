@@ -7,10 +7,10 @@ import (
 	"log"
 	"os"
 	"time"
-	"strings"
 
 	"github.com/Lajule/dac/app"
 	"github.com/Lajule/dac/ent"
+	"github.com/guptarohit/asciigraph"
 	_ "github.com/mattn/go-sqlite3"
 	"github.com/spf13/cobra"
 )
@@ -56,18 +56,35 @@ var (
 				log.Fatalf("failed creating schema resources: %v", err)
 			}
 			t := client.Training.Create().
-				SetDuration(int(duration.Seconds())).
+				SetDuration(duration.Seconds()).
 				SetClosable(closable)
 			d, err := app.NewDac(string(b))
 			if err != nil {
 				log.Fatalf("failed creating app: %v", err)
 			}
 			d.Start(t.Mutation())
-			a8n, err := t.Save(context.Background())
-			if err != nil {
+			if _, err := t.Save(context.Background()); err != nil {
 				log.Fatalf("failed updating training: %v", err)
 			}
-			log.Println(a8n)
+			speeds, err := client.Training.
+				Query().
+				Select("speed").
+				Float64s(context.Background())
+			if err != nil {
+				log.Fatalf("failed selecting speed: %v", err)
+			}
+			accuracies, err := client.Training.
+				Query().
+				Select("accuracy").
+				Float64s(context.Background())
+			if err != nil {
+				log.Fatalf("failed selecting accuracy: %v", err)
+			}
+			graph := asciigraph.PlotMany([][]float64{speeds, accuracies}, asciigraph.Height(10), asciigraph.SeriesColors(
+				asciigraph.Black,
+				asciigraph.Blue,
+			))
+			fmt.Println(graph)
 		},
 	}
 )

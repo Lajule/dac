@@ -57,17 +57,17 @@ var (
 	// DefaultCreatedAt holds the default value on creation for the "created_at" field.
 	DefaultCreatedAt func() time.Time
 	// DefaultDuration holds the default value on creation for the "duration" field.
-	DefaultDuration int
+	DefaultDuration float64
 	// DefaultClosable holds the default value on creation for the "closable" field.
 	DefaultClosable bool
 	// DefaultStopwatch holds the default value on creation for the "stopwatch" field.
-	DefaultStopwatch int
+	DefaultStopwatch float64
 	// DefaultProgress holds the default value on creation for the "progress" field.
-	DefaultProgress int
+	DefaultProgress float64
 	// DefaultAccuracy holds the default value on creation for the "accuracy" field.
-	DefaultAccuracy int
+	DefaultAccuracy float64
 	// DefaultSpeed holds the default value on creation for the "speed" field.
-	DefaultSpeed int
+	DefaultSpeed float64
 )
 
 // OrderOption defines the ordering options for the Training queries.

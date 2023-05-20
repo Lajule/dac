@@ -83,7 +83,8 @@ func (d *Dac) Start(t *ent.TrainingMutation) {
 		case *tcell.EventTime:
 			closable, _ := t.Closable()
 			duration, _ := t.Duration()
-			if closable && duration == 0 {
+			stopwatch, _ := t.AddedStopwatch()
+			if closable && duration - stopwatch == 0.0 {
 				d.stop()
 				return
 			}
@@ -103,20 +104,20 @@ func (d *Dac) stop() {
 }
 
 func (d *Dac) progress(t *ent.TrainingMutation) {
-	t.SetProgress((len(d.inputs) * 100) / len(d.text))
+	t.SetProgress(float64((len(d.inputs) * 100) / len(d.text)))
 }
 
 func (d *Dac) accuracy(t *ent.TrainingMutation) {
 	count := countValue(d.inputs, true)
 	if count > 0 {
-		t.SetAccuracy((count * 100) / len(d.inputs))
+		t.SetAccuracy(float64((count * 100) / len(d.inputs)))
 	} else {
-		t.SetAccuracy(0)
+		t.SetAccuracy(0.0)
 	}
 }
 
 func (d *Dac) speed(t *ent.TrainingMutation) {
-	t.AddStopwatch(1)
+	t.AddStopwatch(1.0)
 	if len(d.inputs) > 0 {
 		index := len(d.inputs)
 		if index < len(d.text)-1 && !unicode.IsSpace(d.text[index+1]) {
@@ -130,61 +131,53 @@ func (d *Dac) speed(t *ent.TrainingMutation) {
 		words := strings.Fields(string(d.text[:index]))
 		if len(words) > 0 {
 			stopwatch, _ := t.AddedStopwatch()
-			t.SetSpeed((len(words) * 60) / stopwatch)
+			t.SetSpeed(float64(len(words) * 60) / stopwatch)
 		}
 	} else {
-		t.SetSpeed(0)
-	}
-}
-
-func (d *Dac) drawAccuracy(t *ent.TrainingMutation, x *int) {
-	accuracy, _ := t.Accuracy()
-	style := tcell.StyleDefault
-	if accuracy < 50 {
-		style = style.Foreground(tcell.ColorRed)
-	} else {
-		style = style.Foreground(tcell.ColorGreen)
-	}
-	for _, r := range fmt.Sprintf("%*d%%", 2, accuracy) {
-		d.screen.SetContent(*x, 0, r, nil, style)
-		*x++
-	}
-}
-
-func (d *Dac) drawSpeed(t *ent.TrainingMutation, x *int) {
-	speed, _ := t.Speed()
-	style := tcell.StyleDefault
-	for _, r := range fmt.Sprintf("%*dw/s", 3, speed) {
-		d.screen.SetContent(*x, 0, r, nil, style)
-		*x++
-	}
-}
-
-func (d *Dac) drawProgress(t *ent.TrainingMutation, x *int) {
-	progress, _ := t.Progress()
-	for i := 0; i < 10; i++ {
-		style := tcell.StyleDefault
-		if progress/10 > i {
-			style = style.Reverse(true)
-		}
-		d.screen.SetContent(*x, 0, ' ', nil, style)
-		*x++
+		t.SetSpeed(0.0)
 	}
 }
 
 func (d *Dac) drawStatus(t *ent.TrainingMutation) {
 	x := 0
-	sep := func() {
-		d.screen.SetContent(x, 0, '|', nil, tcell.StyleDefault)
+	accuracy, _ := t.Accuracy()
+	style := tcell.StyleDefault
+	if accuracy < 50.0 {
+		style = style.Foreground(tcell.ColorRed)
+	} else {
+		style = style.Foreground(tcell.ColorGreen)
+	}
+	for _, r := range fmt.Sprintf("%*.0f%%", 3, accuracy) {
+		d.screen.SetContent(x, 0, r, nil, style)
 		x++
 	}
-	sep()
-	d.drawAccuracy(t, &x)
-	sep()
-	d.drawSpeed(t, &x)
-	sep()
-	d.drawProgress(t, &x)
-	sep()
+	d.screen.SetContent(x, 0, '|', nil, tcell.StyleDefault)
+	x++
+	speed, _ := t.Speed()
+	style = tcell.StyleDefault
+	for _, r := range fmt.Sprintf("%*.0fw/s", 3, speed) {
+		d.screen.SetContent(x, 0, r, nil, style)
+		x++
+	}
+	d.screen.SetContent(x, 0, '|', nil, tcell.StyleDefault)
+	x++
+	progress, _ := t.Progress()
+	for i := 0; i < 10; i++ {
+		style := tcell.StyleDefault
+		if progress/10.0 > float64(i) {
+			style = style.Reverse(true)
+		}
+		d.screen.SetContent(x, 0, ' ', nil, style)
+		x++
+	}
+	d.screen.SetContent(x, 0, '|', nil, tcell.StyleDefault)
+	x++
+	duration, _ := t.Duration()
+	stopwatch, _ := t.AddedStopwatch()
+	for _, r := range fmt.Sprintf("%s", (time.Duration(duration - stopwatch) * time.Second).String()) {
+		d.screen.SetContent(x, 0, r, nil, style)
+		x++
+	}
 }
 
 func (d *Dac) drawText(t *ent.TrainingMutation) {

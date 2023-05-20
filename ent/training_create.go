@@ -35,15 +35,15 @@ func (tc *TrainingCreate) SetNillableCreatedAt(t *time.Time) *TrainingCreate {
 }
 
 // SetDuration sets the "duration" field.
-func (tc *TrainingCreate) SetDuration(i int) *TrainingCreate {
-	tc.mutation.SetDuration(i)
+func (tc *TrainingCreate) SetDuration(f float64) *TrainingCreate {
+	tc.mutation.SetDuration(f)
 	return tc
 }
 
 // SetNillableDuration sets the "duration" field if the given value is not nil.
-func (tc *TrainingCreate) SetNillableDuration(i *int) *TrainingCreate {
-	if i != nil {
-		tc.SetDuration(*i)
+func (tc *TrainingCreate) SetNillableDuration(f *float64) *TrainingCreate {
+	if f != nil {
+		tc.SetDuration(*f)
 	}
 	return tc
 }
@@ -63,57 +63,57 @@ func (tc *TrainingCreate) SetNillableClosable(b *bool) *TrainingCreate {
 }
 
 // SetStopwatch sets the "stopwatch" field.
-func (tc *TrainingCreate) SetStopwatch(i int) *TrainingCreate {
-	tc.mutation.SetStopwatch(i)
+func (tc *TrainingCreate) SetStopwatch(f float64) *TrainingCreate {
+	tc.mutation.SetStopwatch(f)
 	return tc
 }
 
 // SetNillableStopwatch sets the "stopwatch" field if the given value is not nil.
-func (tc *TrainingCreate) SetNillableStopwatch(i *int) *TrainingCreate {
-	if i != nil {
-		tc.SetStopwatch(*i)
+func (tc *TrainingCreate) SetNillableStopwatch(f *float64) *TrainingCreate {
+	if f != nil {
+		tc.SetStopwatch(*f)
 	}
 	return tc
 }
 
 // SetProgress sets the "progress" field.
-func (tc *TrainingCreate) SetProgress(i int) *TrainingCreate {
-	tc.mutation.SetProgress(i)
+func (tc *TrainingCreate) SetProgress(f float64) *TrainingCreate {
+	tc.mutation.SetProgress(f)
 	return tc
 }
 
 // SetNillableProgress sets the "progress" field if the given value is not nil.
-func (tc *TrainingCreate) SetNillableProgress(i *int) *TrainingCreate {
-	if i != nil {
-		tc.SetProgress(*i)
+func (tc *TrainingCreate) SetNillableProgress(f *float64) *TrainingCreate {
+	if f != nil {
+		tc.SetProgress(*f)
 	}
 	return tc
 }
 
 // SetAccuracy sets the "accuracy" field.
-func (tc *TrainingCreate) SetAccuracy(i int) *TrainingCreate {
-	tc.mutation.SetAccuracy(i)
+func (tc *TrainingCreate) SetAccuracy(f float64) *TrainingCreate {
+	tc.mutation.SetAccuracy(f)
 	return tc
 }
 
 // SetNillableAccuracy sets the "accuracy" field if the given value is not nil.
-func (tc *TrainingCreate) SetNillableAccuracy(i *int) *TrainingCreate {
-	if i != nil {
-		tc.SetAccuracy(*i)
+func (tc *TrainingCreate) SetNillableAccuracy(f *float64) *TrainingCreate {
+	if f != nil {
+		tc.SetAccuracy(*f)
 	}
 	return tc
 }
 
 // SetSpeed sets the "speed" field.
-func (tc *TrainingCreate) SetSpeed(i int) *TrainingCreate {
-	tc.mutation.SetSpeed(i)
+func (tc *TrainingCreate) SetSpeed(f float64) *TrainingCreate {
+	tc.mutation.SetSpeed(f)
 	return tc
 }
 
 // SetNillableSpeed sets the "speed" field if the given value is not nil.
-func (tc *TrainingCreate) SetNillableSpeed(i *int) *TrainingCreate {
-	if i != nil {
-		tc.SetSpeed(*i)
+func (tc *TrainingCreate) SetNillableSpeed(f *float64) *TrainingCreate {
+	if f != nil {
+		tc.SetSpeed(*f)
 	}
 	return tc
 }
@@ -237,7 +237,7 @@ func (tc *TrainingCreate) createSpec() (*Training, *sqlgraph.CreateSpec) {
 		_node.CreatedAt = value
 	}
 	if value, ok := tc.mutation.Duration(); ok {
-		_spec.SetField(training.FieldDuration, field.TypeInt, value)
+		_spec.SetField(training.FieldDuration, field.TypeFloat64, value)
 		_node.Duration = value
 	}
 	if value, ok := tc.mutation.Closable(); ok {
@@ -245,19 +245,19 @@ func (tc *TrainingCreate) createSpec() (*Training, *sqlgraph.CreateSpec) {
 		_node.Closable = value
 	}
 	if value, ok := tc.mutation.Stopwatch(); ok {
-		_spec.SetField(training.FieldStopwatch, field.TypeInt, value)
+		_spec.SetField(training.FieldStopwatch, field.TypeFloat64, value)
 		_node.Stopwatch = value
 	}
 	if value, ok := tc.mutation.Progress(); ok {
-		_spec.SetField(training.FieldProgress, field.TypeInt, value)
+		_spec.SetField(training.FieldProgress, field.TypeFloat64, value)
 		_node.Progress = value
 	}
 	if value, ok := tc.mutation.Accuracy(); ok {
-		_spec.SetField(training.FieldAccuracy, field.TypeInt, value)
+		_spec.SetField(training.FieldAccuracy, field.TypeFloat64, value)
 		_node.Accuracy = value
 	}
 	if value, ok := tc.mutation.Speed(); ok {
-		_spec.SetField(training.FieldSpeed, field.TypeInt, value)
+		_spec.SetField(training.FieldSpeed, field.TypeFloat64, value)
 		_node.Speed = value
 	}
 	return _node, _spec

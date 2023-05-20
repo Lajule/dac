@@ -28,23 +28,23 @@ func (tu *TrainingUpdate) Where(ps ...predicate.Training) *TrainingUpdate {
 }
 
 // SetDuration sets the "duration" field.
-func (tu *TrainingUpdate) SetDuration(i int) *TrainingUpdate {
+func (tu *TrainingUpdate) SetDuration(f float64) *TrainingUpdate {
 	tu.mutation.ResetDuration()
-	tu.mutation.SetDuration(i)
+	tu.mutation.SetDuration(f)
 	return tu
 }
 
 // SetNillableDuration sets the "duration" field if the given value is not nil.
-func (tu *TrainingUpdate) SetNillableDuration(i *int) *TrainingUpdate {
-	if i != nil {
-		tu.SetDuration(*i)
+func (tu *TrainingUpdate) SetNillableDuration(f *float64) *TrainingUpdate {
+	if f != nil {
+		tu.SetDuration(*f)
 	}
 	return tu
 }
 
-// AddDuration adds i to the "duration" field.
-func (tu *TrainingUpdate) AddDuration(i int) *TrainingUpdate {
-	tu.mutation.AddDuration(i)
+// AddDuration adds f to the "duration" field.
+func (tu *TrainingUpdate) AddDuration(f float64) *TrainingUpdate {
+	tu.mutation.AddDuration(f)
 	return tu
 }
 
@@ -63,86 +63,86 @@ func (tu *TrainingUpdate) SetNillableClosable(b *bool) *TrainingUpdate {
 }
 
 // SetStopwatch sets the "stopwatch" field.
-func (tu *TrainingUpdate) SetStopwatch(i int) *TrainingUpdate {
+func (tu *TrainingUpdate) SetStopwatch(f float64) *TrainingUpdate {
 	tu.mutation.ResetStopwatch()
-	tu.mutation.SetStopwatch(i)
+	tu.mutation.SetStopwatch(f)
 	return tu
 }
 
 // SetNillableStopwatch sets the "stopwatch" field if the given value is not nil.
-func (tu *TrainingUpdate) SetNillableStopwatch(i *int) *TrainingUpdate {
-	if i != nil {
-		tu.SetStopwatch(*i)
+func (tu *TrainingUpdate) SetNillableStopwatch(f *float64) *TrainingUpdate {
+	if f != nil {
+		tu.SetStopwatch(*f)
 	}
 	return tu
 }
 
-// AddStopwatch adds i to the "stopwatch" field.
-func (tu *TrainingUpdate) AddStopwatch(i int) *TrainingUpdate {
-	tu.mutation.AddStopwatch(i)
+// AddStopwatch adds f to the "stopwatch" field.
+func (tu *TrainingUpdate) AddStopwatch(f float64) *TrainingUpdate {
+	tu.mutation.AddStopwatch(f)
 	return tu
 }
 
 // SetProgress sets the "progress" field.
-func (tu *TrainingUpdate) SetProgress(i int) *TrainingUpdate {
+func (tu *TrainingUpdate) SetProgress(f float64) *TrainingUpdate {
 	tu.mutation.ResetProgress()
-	tu.mutation.SetProgress(i)
+	tu.mutation.SetProgress(f)
 	return tu
 }
 
 // SetNillableProgress sets the "progress" field if the given value is not nil.
-func (tu *TrainingUpdate) SetNillableProgress(i *int) *TrainingUpdate {
-	if i != nil {
-		tu.SetProgress(*i)
+func (tu *TrainingUpdate) SetNillableProgress(f *float64) *TrainingUpdate {
+	if f != nil {
+		tu.SetProgress(*f)
 	}
 	return tu
 }
 
-// AddProgress adds i to the "progress" field.
-func (tu *TrainingUpdate) AddProgress(i int) *TrainingUpdate {
-	tu.mutation.AddProgress(i)
+// AddProgress adds f to the "progress" field.
+func (tu *TrainingUpdate) AddProgress(f float64) *TrainingUpdate {
+	tu.mutation.AddProgress(f)
 	return tu
 }
 
 // SetAccuracy sets the "accuracy" field.
-func (tu *TrainingUpdate) SetAccuracy(i int) *TrainingUpdate {
+func (tu *TrainingUpdate) SetAccuracy(f float64) *TrainingUpdate {
 	tu.mutation.ResetAccuracy()
-	tu.mutation.SetAccuracy(i)
+	tu.mutation.SetAccuracy(f)
 	return tu
 }
 
 // SetNillableAccuracy sets the "accuracy" field if the given value is not nil.
-func (tu *TrainingUpdate) SetNillableAccuracy(i *int) *TrainingUpdate {
-	if i != nil {
-		tu.SetAccuracy(*i)
+func (tu *TrainingUpdate) SetNillableAccuracy(f *float64) *TrainingUpdate {
+	if f != nil {
+		tu.SetAccuracy(*f)
 	}
 	return tu
 }
 
-// AddAccuracy adds i to the "accuracy" field.
-func (tu *TrainingUpdate) AddAccuracy(i int) *TrainingUpdate {
-	tu.mutation.AddAccuracy(i)
+// AddAccuracy adds f to the "accuracy" field.
+func (tu *TrainingUpdate) AddAccuracy(f float64) *TrainingUpdate {
+	tu.mutation.AddAccuracy(f)
 	return tu
 }
 
 // SetSpeed sets the "speed" field.
-func (tu *TrainingUpdate) SetSpeed(i int) *TrainingUpdate {
+func (tu *TrainingUpdate) SetSpeed(f float64) *TrainingUpdate {
 	tu.mutation.ResetSpeed()
-	tu.mutation.SetSpeed(i)
+	tu.mutation.SetSpeed(f)
 	return tu
 }
 
 // SetNillableSpeed sets the "speed" field if the given value is not nil.
-func (tu *TrainingUpdate) SetNillableSpeed(i *int) *TrainingUpdate {
-	if i != nil {
-		tu.SetSpeed(*i)
+func (tu *TrainingUpdate) SetNillableSpeed(f *float64) *TrainingUpdate {
+	if f != nil {
+		tu.SetSpeed(*f)
 	}
 	return tu
 }
 
-// AddSpeed adds i to the "speed" field.
-func (tu *TrainingUpdate) AddSpeed(i int) *TrainingUpdate {
-	tu.mutation.AddSpeed(i)
+// AddSpeed adds f to the "speed" field.
+func (tu *TrainingUpdate) AddSpeed(f float64) *TrainingUpdate {
+	tu.mutation.AddSpeed(f)
 	return tu
 }
 
@@ -188,37 +188,37 @@ func (tu *TrainingUpdate) sqlSave(ctx context.Context) (n int, err error) {
 		}
 	}
 	if value, ok := tu.mutation.Duration(); ok {
-		_spec.SetField(training.FieldDuration, field.TypeInt, value)
+		_spec.SetField(training.FieldDuration, field.TypeFloat64, value)
 	}
 	if value, ok := tu.mutation.AddedDuration(); ok {
-		_spec.AddField(training.FieldDuration, field.TypeInt, value)
+		_spec.AddField(training.FieldDuration, field.TypeFloat64, value)
 	}
 	if value, ok := tu.mutation.Closable(); ok {
 		_spec.SetField(training.FieldClosable, field.TypeBool, value)
 	}
 	if value, ok := tu.mutation.Stopwatch(); ok {
-		_spec.SetField(training.FieldStopwatch, field.TypeInt, value)
+		_spec.SetField(training.FieldStopwatch, field.TypeFloat64, value)
 	}
 	if value, ok := tu.mutation.AddedStopwatch(); ok {
-		_spec.AddField(training.FieldStopwatch, field.TypeInt, value)
+		_spec.AddField(training.FieldStopwatch, field.TypeFloat64, value)
 	}
 	if value, ok := tu.mutation.Progress(); ok {
-		_spec.SetField(training.FieldProgress, field.TypeInt, value)
+		_spec.SetField(training.FieldProgress, field.TypeFloat64, value)
 	}
 	if value, ok := tu.mutation.AddedProgress(); ok {
-		_spec.AddField(training.FieldProgress, field.TypeInt, value)
+		_spec.AddField(training.FieldProgress, field.TypeFloat64, value)
 	}
 	if value, ok := tu.mutation.Accuracy(); ok {
-		_spec.SetField(training.FieldAccuracy, field.TypeInt, value)
+		_spec.SetField(training.FieldAccuracy, field.TypeFloat64, value)
 	}
 	if value, ok := tu.mutation.AddedAccuracy(); ok {
-		_spec.AddField(training.FieldAccuracy, field.TypeInt, value)
+		_spec.AddField(training.FieldAccuracy, field.TypeFloat64, value)
 	}
 	if value, ok := tu.mutation.Speed(); ok {
-		_spec.SetField(training.FieldSpeed, field.TypeInt, value)
+		_spec.SetField(training.FieldSpeed, field.TypeFloat64, value)
 	}
 	if value, ok := tu.mutation.AddedSpeed(); ok {
-		_spec.AddField(training.FieldSpeed, field.TypeInt, value)
+		_spec.AddField(training.FieldSpeed, field.TypeFloat64, value)
 	}
 	if n, err = sqlgraph.UpdateNodes(ctx, tu.driver, _spec); err != nil {
 		if _, ok := err.(*sqlgraph.NotFoundError); ok {
@@ -241,23 +241,23 @@ type TrainingUpdateOne struct {
 }
 
 // SetDuration sets the "duration" field.
-func (tuo *TrainingUpdateOne) SetDuration(i int) *TrainingUpdateOne {
+func (tuo *TrainingUpdateOne) SetDuration(f float64) *TrainingUpdateOne {
 	tuo.mutation.ResetDuration()
-	tuo.mutation.SetDuration(i)
+	tuo.mutation.SetDuration(f)
 	return tuo
 }
 
 // SetNillableDuration sets the "duration" field if the given value is not nil.
-func (tuo *TrainingUpdateOne) SetNillableDuration(i *int) *TrainingUpdateOne {
-	if i != nil {
-		tuo.SetDuration(*i)
+func (tuo *TrainingUpdateOne) SetNillableDuration(f *float64) *TrainingUpdateOne {
+	if f != nil {
+		tuo.SetDuration(*f)
 	}
 	return tuo
 }
 
-// AddDuration adds i to the "duration" field.
-func (tuo *TrainingUpdateOne) AddDuration(i int) *TrainingUpdateOne {
-	tuo.mutation.AddDuration(i)
+// AddDuration adds f to the "duration" field.
+func (tuo *TrainingUpdateOne) AddDuration(f float64) *TrainingUpdateOne {
+	tuo.mutation.AddDuration(f)
 	return tuo
 }
 
@@ -276,86 +276,86 @@ func (tuo *TrainingUpdateOne) SetNillableClosable(b *bool) *TrainingUpdateOne {
 }
 
 // SetStopwatch sets the "stopwatch" field.
-func (tuo *TrainingUpdateOne) SetStopwatch(i int) *TrainingUpdateOne {
+func (tuo *TrainingUpdateOne) SetStopwatch(f float64) *TrainingUpdateOne {
 	tuo.mutation.ResetStopwatch()
-	tuo.mutation.SetStopwatch(i)
+	tuo.mutation.SetStopwatch(f)
 	return tuo
 }
 
 // SetNillableStopwatch sets the "stopwatch" field if the given value is not nil.
-func (tuo *TrainingUpdateOne) SetNillableStopwatch(i *int) *TrainingUpdateOne {
-	if i != nil {
-		tuo.SetStopwatch(*i)
+func (tuo *TrainingUpdateOne) SetNillableStopwatch(f *float64) *TrainingUpdateOne {
+	if f != nil {
+		tuo.SetStopwatch(*f)
 	}
 	return tuo
 }
 
-// AddStopwatch adds i to the "stopwatch" field.
-func (tuo *TrainingUpdateOne) AddStopwatch(i int) *TrainingUpdateOne {
-	tuo.mutation.AddStopwatch(i)
+// AddStopwatch adds f to the "stopwatch" field.
+func (tuo *TrainingUpdateOne) AddStopwatch(f float64) *TrainingUpdateOne {
+	tuo.mutation.AddStopwatch(f)
 	return tuo
 }
 
 // SetProgress sets the "progress" field.
-func (tuo *TrainingUpdateOne) SetProgress(i int) *TrainingUpdateOne {
+func (tuo *TrainingUpdateOne) SetProgress(f float64) *TrainingUpdateOne {
 	tuo.mutation.ResetProgress()
-	tuo.mutation.SetProgress(i)
+	tuo.mutation.SetProgress(f)
 	return tuo
 }
 
 // SetNillableProgress sets the "progress" field if the given value is not nil.
-func (tuo *TrainingUpdateOne) SetNillableProgress(i *int) *TrainingUpdateOne {
-	if i != nil {
-		tuo.SetProgress(*i)
+func (tuo *TrainingUpdateOne) SetNillableProgress(f *float64) *TrainingUpdateOne {
+	if f != nil {
+		tuo.SetProgress(*f)
 	}
 	return tuo
 }
 
-// AddProgress adds i to the "progress" field.
-func (tuo *TrainingUpdateOne) AddProgress(i int) *TrainingUpdateOne {
-	tuo.mutation.AddProgress(i)
+// AddProgress adds f to the "progress" field.
+func (tuo *TrainingUpdateOne) AddProgress(f float64) *TrainingUpdateOne {
+	tuo.mutation.AddProgress(f)
 	return tuo
 }
 
 // SetAccuracy sets the "accuracy" field.
-func (tuo *TrainingUpdateOne) SetAccuracy(i int) *TrainingUpdateOne {
+func (tuo *TrainingUpdateOne) SetAccuracy(f float64) *TrainingUpdateOne {
 	tuo.mutation.ResetAccuracy()
-	tuo.mutation.SetAccuracy(i)
+	tuo.mutation.SetAccuracy(f)
 	return tuo
 }
 
 // SetNillableAccuracy sets the "accuracy" field if the given value is not nil.
-func (tuo *TrainingUpdateOne) SetNillableAccuracy(i *int) *TrainingUpdateOne {
-	if i != nil {
-		tuo.SetAccuracy(*i)
+func (tuo *TrainingUpdateOne) SetNillableAccuracy(f *float64) *TrainingUpdateOne {
+	if f != nil {
+		tuo.SetAccuracy(*f)
 	}
 	return tuo
 }
 
-// AddAccuracy adds i to the "accuracy" field.
-func (tuo *TrainingUpdateOne) AddAccuracy(i int) *TrainingUpdateOne {
-	tuo.mutation.AddAccuracy(i)
+// AddAccuracy adds f to the "accuracy" field.
+func (tuo *TrainingUpdateOne) AddAccuracy(f float64) *TrainingUpdateOne {
+	tuo.mutation.AddAccuracy(f)
 	return tuo
 }
 
 // SetSpeed sets the "speed" field.
-func (tuo *TrainingUpdateOne) SetSpeed(i int) *TrainingUpdateOne {
+func (tuo *TrainingUpdateOne) SetSpeed(f float64) *TrainingUpdateOne {
 	tuo.mutation.ResetSpeed()
-	tuo.mutation.SetSpeed(i)
+	tuo.mutation.SetSpeed(f)
 	return tuo
 }
 
 // SetNillableSpeed sets the "speed" field if the given value is not nil.
-func (tuo *TrainingUpdateOne) SetNillableSpeed(i *int) *TrainingUpdateOne {
-	if i != nil {
-		tuo.SetSpeed(*i)
+func (tuo *TrainingUpdateOne) SetNillableSpeed(f *float64) *TrainingUpdateOne {
+	if f != nil {
+		tuo.SetSpeed(*f)
 	}
 	return tuo
 }
 
-// AddSpeed adds i to the "speed" field.
-func (tuo *TrainingUpdateOne) AddSpeed(i int) *TrainingUpdateOne {
-	tuo.mutation.AddSpeed(i)
+// AddSpeed adds f to the "speed" field.
+func (tuo *TrainingUpdateOne) AddSpeed(f float64) *TrainingUpdateOne {
+	tuo.mutation.AddSpeed(f)
 	return tuo
 }
 
@@ -431,37 +431,37 @@ func (tuo *TrainingUpdateOne) sqlSave(ctx context.Context) (_node *Training, err
 		}
 	}
 	if value, ok := tuo.mutation.Duration(); ok {
-		_spec.SetField(training.FieldDuration, field.TypeInt, value)
+		_spec.SetField(training.FieldDuration, field.TypeFloat64, value)
 	}
 	if value, ok := tuo.mutation.AddedDuration(); ok {
-		_spec.AddField(training.FieldDuration, field.TypeInt, value)
+		_spec.AddField(training.FieldDuration, field.TypeFloat64, value)
 	}
 	if value, ok := tuo.mutation.Closable(); ok {
 		_spec.SetField(training.FieldClosable, field.TypeBool, value)
 	}
 	if value, ok := tuo.mutation.Stopwatch(); ok {
-		_spec.SetField(training.FieldStopwatch, field.TypeInt, value)
+		_spec.SetField(training.FieldStopwatch, field.TypeFloat64, value)
 	}
 	if value, ok := tuo.mutation.AddedStopwatch(); ok {
-		_spec.AddField(training.FieldStopwatch, field.TypeInt, value)
+		_spec.AddField(training.FieldStopwatch, field.TypeFloat64, value)
 	}
 	if value, ok := tuo.mutation.Progress(); ok {
-		_spec.SetField(training.FieldProgress, field.TypeInt, value)
+		_spec.SetField(training.FieldProgress, field.TypeFloat64, value)
 	}
 	if value, ok := tuo.mutation.AddedProgress(); ok {
-		_spec.AddField(training.FieldProgress, field.TypeInt, value)
+		_spec.AddField(training.FieldProgress, field.TypeFloat64, value)
 	}
 	if value, ok := tuo.mutation.Accuracy(); ok {
-		_spec.SetField(training.FieldAccuracy, field.TypeInt, value)
+		_spec.SetField(training.FieldAccuracy, field.TypeFloat64, value)
 	}
 	if value, ok := tuo.mutation.AddedAccuracy(); ok {
-		_spec.AddField(training.FieldAccuracy, field.TypeInt, value)
+		_spec.AddField(training.FieldAccuracy, field.TypeFloat64, value)
 	}
 	if value, ok := tuo.mutation.Speed(); ok {
-		_spec.SetField(training.FieldSpeed, field.TypeInt, value)
+		_spec.SetField(training.FieldSpeed, field.TypeFloat64, value)
 	}
 	if value, ok := tuo.mutation.AddedSpeed(); ok {
-		_spec.AddField(training.FieldSpeed, field.TypeInt, value)
+		_spec.AddField(training.FieldSpeed, field.TypeFloat64, value)
 	}
 	_node = &Training{config: tuo.config}
 	_spec.Assign = _node.assignValues

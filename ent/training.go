@@ -20,17 +20,17 @@ type Training struct {
 	// CreatedAt holds the value of the "created_at" field.
 	CreatedAt time.Time `json:"created_at,omitempty"`
 	// Duration holds the value of the "duration" field.
-	Duration int `json:"duration,omitempty"`
+	Duration float64 `json:"duration,omitempty"`
 	// Closable holds the value of the "closable" field.
 	Closable bool `json:"closable,omitempty"`
 	// Stopwatch holds the value of the "stopwatch" field.
-	Stopwatch int `json:"stopwatch,omitempty"`
+	Stopwatch float64 `json:"stopwatch,omitempty"`
 	// Progress holds the value of the "progress" field.
-	Progress int `json:"progress,omitempty"`
+	Progress float64 `json:"progress,omitempty"`
 	// Accuracy holds the value of the "accuracy" field.
-	Accuracy int `json:"accuracy,omitempty"`
+	Accuracy float64 `json:"accuracy,omitempty"`
 	// Speed holds the value of the "speed" field.
-	Speed        int `json:"speed,omitempty"`
+	Speed        float64 `json:"speed,omitempty"`
 	selectValues sql.SelectValues
 }
 
@@ -41,7 +41,9 @@ func (*Training) scanValues(columns []string) ([]any, error) {
 		switch columns[i] {
 		case training.FieldClosable:
 			values[i] = new(sql.NullBool)
-		case training.FieldID, training.FieldDuration, training.FieldStopwatch, training.FieldProgress, training.FieldAccuracy, training.FieldSpeed:
+		case training.FieldDuration, training.FieldStopwatch, training.FieldProgress, training.FieldAccuracy, training.FieldSpeed:
+			values[i] = new(sql.NullFloat64)
+		case training.FieldID:
 			values[i] = new(sql.NullInt64)
 		case training.FieldCreatedAt:
 			values[i] = new(sql.NullTime)
@@ -73,10 +75,10 @@ func (t *Training) assignValues(columns []string, values []any) error {
 				t.CreatedAt = value.Time
 			}
 		case training.FieldDuration:
-			if value, ok := values[i].(*sql.NullInt64); !ok {
+			if value, ok := values[i].(*sql.NullFloat64); !ok {
 				return fmt.Errorf("unexpected type %T for field duration", values[i])
 			} else if value.Valid {
-				t.Duration = int(value.Int64)
+				t.Duration = value.Float64
 			}
 		case training.FieldClosable:
 			if value, ok := values[i].(*sql.NullBool); !ok {
@@ -85,28 +87,28 @@ func (t *Training) assignValues(columns []string, values []any) error {
 				t.Closable = value.Bool
 			}
 		case training.FieldStopwatch:
-			if value, ok := values[i].(*sql.NullInt64); !ok {
+			if value, ok := values[i].(*sql.NullFloat64); !ok {
 				return fmt.Errorf("unexpected type %T for field stopwatch", values[i])
 			} else if value.Valid {
-				t.Stopwatch = int(value.Int64)
+				t.Stopwatch = value.Float64
 			}
 		case training.FieldProgress:
-			if value, ok := values[i].(*sql.NullInt64); !ok {
+			if value, ok := values[i].(*sql.NullFloat64); !ok {
 				return fmt.Errorf("unexpected type %T for field progress", values[i])
 			} else if value.Valid {
-				t.Progress = int(value.Int64)
+				t.Progress = value.Float64
 			}
 		case training.FieldAccuracy:
-			if value, ok := values[i].(*sql.NullInt64); !ok {
+			if value, ok := values[i].(*sql.NullFloat64); !ok {
 				return fmt.Errorf("unexpected type %T for field accuracy", values[i])
 			} else if value.Valid {
-				t.Accuracy = int(value.Int64)
+				t.Accuracy = value.Float64
 			}
 		case training.FieldSpeed:
-			if value, ok := values[i].(*sql.NullInt64); !ok {
+			if value, ok := values[i].(*sql.NullFloat64); !ok {
 				return fmt.Errorf("unexpected type %T for field speed", values[i])
 			} else if value.Valid {
-				t.Speed = int(value.Int64)
+				t.Speed = value.Float64
 			}
 		default:
 			t.selectValues.Set(columns[i], values[i])

@@ -16,12 +16,12 @@ type Training struct {
 func (Training) Fields() []ent.Field {
 	return []ent.Field{
 		field.Time("created_at").Default(time.Now).Immutable(),
-		field.Int("duration").Default(0),
+		field.Float("duration").Default(0.0),
 		field.Bool("closable").Default(false),
-		field.Int("stopwatch").Default(0),
-		field.Int("progress").Default(0),
-		field.Int("accuracy").Default(0),
-		field.Int("speed").Default(0),
+		field.Float("stopwatch").Default(0.0),
+		field.Float("progress").Default(0.0),
+		field.Float("accuracy").Default(0.0),
+		field.Float("speed").Default(0.0),
 	}
 }
 

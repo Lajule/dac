@@ -60,7 +60,7 @@ func CreatedAt(v time.Time) predicate.Training {
 }
 
 // Duration applies equality check predicate on the "duration" field. It's identical to DurationEQ.
-func Duration(v int) predicate.Training {
+func Duration(v float64) predicate.Training {
 	return predicate.Training(sql.FieldEQ(FieldDuration, v))
 }
 
@@ -70,22 +70,22 @@ func Closable(v bool) predicate.Training {
 }
 
 // Stopwatch applies equality check predicate on the "stopwatch" field. It's identical to StopwatchEQ.
-func Stopwatch(v int) predicate.Training {
+func Stopwatch(v float64) predicate.Training {
 	return predicate.Training(sql.FieldEQ(FieldStopwatch, v))
 }
 
 // Progress applies equality check predicate on the "progress" field. It's identical to ProgressEQ.
-func Progress(v int) predicate.Training {
+func Progress(v float64) predicate.Training {
 	return predicate.Training(sql.FieldEQ(FieldProgress, v))
 }
 
 // Accuracy applies equality check predicate on the "accuracy" field. It's identical to AccuracyEQ.
-func Accuracy(v int) predicate.Training {
+func Accuracy(v float64) predicate.Training {
 	return predicate.Training(sql.FieldEQ(FieldAccuracy, v))
 }
 
 // Speed applies equality check predicate on the "speed" field. It's identical to SpeedEQ.
-func Speed(v int) predicate.Training {
+func Speed(v float64) predicate.Training {
 	return predicate.Training(sql.FieldEQ(FieldSpeed, v))
 }
 
@@ -130,42 +130,42 @@ func CreatedAtLTE(v time.Time) predicate.Training {
 }
 
 // DurationEQ applies the EQ predicate on the "duration" field.
-func DurationEQ(v int) predicate.Training {
+func DurationEQ(v float64) predicate.Training {
 	return predicate.Training(sql.FieldEQ(FieldDuration, v))
 }
 
 // DurationNEQ applies the NEQ predicate on the "duration" field.
-func DurationNEQ(v int) predicate.Training {
+func DurationNEQ(v float64) predicate.Training {
 	return predicate.Training(sql.FieldNEQ(FieldDuration, v))
 }
 
 // DurationIn applies the In predicate on the "duration" field.
-func DurationIn(vs ...int) predicate.Training {
+func DurationIn(vs ...float64) predicate.Training {
 	return predicate.Training(sql.FieldIn(FieldDuration, vs...))
 }
 
 // DurationNotIn applies the NotIn predicate on the "duration" field.
-func DurationNotIn(vs ...int) predicate.Training {
+func DurationNotIn(vs ...float64) predicate.Training {
 	return predicate.Training(sql.FieldNotIn(FieldDuration, vs...))
 }
 
 // DurationGT applies the GT predicate on the "duration" field.
-func DurationGT(v int) predicate.Training {
+func DurationGT(v float64) predicate.Training {
 	return predicate.Training(sql.FieldGT(FieldDuration, v))
 }
 
 // DurationGTE applies the GTE predicate on the "duration" field.
-func DurationGTE(v int) predicate.Training {
+func DurationGTE(v float64) predicate.Training {
 	return predicate.Training(sql.FieldGTE(FieldDuration, v))
 }
 
 // DurationLT applies the LT predicate on the "duration" field.
-func DurationLT(v int) predicate.Training {
+func DurationLT(v float64) predicate.Training {
 	return predicate.Training(sql.FieldLT(FieldDuration, v))
 }
 
 // DurationLTE applies the LTE predicate on the "duration" field.
-func DurationLTE(v int) predicate.Training {
+func DurationLTE(v float64) predicate.Training {
 	return predicate.Training(sql.FieldLTE(FieldDuration, v))
 }
 
@@ -180,162 +180,162 @@ func ClosableNEQ(v bool) predicate.Training {
 }
 
 // StopwatchEQ applies the EQ predicate on the "stopwatch" field.
-func StopwatchEQ(v int) predicate.Training {
+func StopwatchEQ(v float64) predicate.Training {
 	return predicate.Training(sql.FieldEQ(FieldStopwatch, v))
 }
 
 // StopwatchNEQ applies the NEQ predicate on the "stopwatch" field.
-func StopwatchNEQ(v int) predicate.Training {
+func StopwatchNEQ(v float64) predicate.Training {
 	return predicate.Training(sql.FieldNEQ(FieldStopwatch, v))
 }
 
 // StopwatchIn applies the In predicate on the "stopwatch" field.
-func StopwatchIn(vs ...int) predicate.Training {
+func StopwatchIn(vs ...float64) predicate.Training {
 	return predicate.Training(sql.FieldIn(FieldStopwatch, vs...))
 }
 
 // StopwatchNotIn applies the NotIn predicate on the "stopwatch" field.
-func StopwatchNotIn(vs ...int) predicate.Training {
+func StopwatchNotIn(vs ...float64) predicate.Training {
 	return predicate.Training(sql.FieldNotIn(FieldStopwatch, vs...))
 }
 
 // StopwatchGT applies the GT predicate on the "stopwatch" field.
-func StopwatchGT(v int) predicate.Training {
+func StopwatchGT(v float64) predicate.Training {
 	return predicate.Training(sql.FieldGT(FieldStopwatch, v))
 }
 
 // StopwatchGTE applies the GTE predicate on the "stopwatch" field.
-func StopwatchGTE(v int) predicate.Training {
+func StopwatchGTE(v float64) predicate.Training {
 	return predicate.Training(sql.FieldGTE(FieldStopwatch, v))
 }
 
 // StopwatchLT applies the LT predicate on the "stopwatch" field.
-func StopwatchLT(v int) predicate.Training {
+func StopwatchLT(v float64) predicate.Training {
 	return predicate.Training(sql.FieldLT(FieldStopwatch, v))
 }
 
 // StopwatchLTE applies the LTE predicate on the "stopwatch" field.
-func StopwatchLTE(v int) predicate.Training {
+func StopwatchLTE(v float64) predicate.Training {
 	return predicate.Training(sql.FieldLTE(FieldStopwatch, v))
 }
 
 // ProgressEQ applies the EQ predicate on the "progress" field.
-func ProgressEQ(v int) predicate.Training {
+func ProgressEQ(v float64) predicate.Training {
 	return predicate.Training(sql.FieldEQ(FieldProgress, v))
 }
 
 // ProgressNEQ applies the NEQ predicate on the "progress" field.
-func ProgressNEQ(v int) predicate.Training {
+func ProgressNEQ(v float64) predicate.Training {
 	return predicate.Training(sql.FieldNEQ(FieldProgress, v))
 }
 
 // ProgressIn applies the In predicate on the "progress" field.
-func ProgressIn(vs ...int) predicate.Training {
+func ProgressIn(vs ...float64) predicate.Training {
 	return predicate.Training(sql.FieldIn(FieldProgress, vs...))
 }
 
 // ProgressNotIn applies the NotIn predicate on the "progress" field.
-func ProgressNotIn(vs ...int) predicate.Training {
+func ProgressNotIn(vs ...float64) predicate.Training {
 	return predicate.Training(sql.FieldNotIn(FieldProgress, vs...))
 }
 
 // ProgressGT applies the GT predicate on the "progress" field.
-func ProgressGT(v int) predicate.Training {
+func ProgressGT(v float64) predicate.Training {
 	return predicate.Training(sql.FieldGT(FieldProgress, v))
 }
 
 // ProgressGTE applies the GTE predicate on the "progress" field.
-func ProgressGTE(v int) predicate.Training {
+func ProgressGTE(v float64) predicate.Training {
 	return predicate.Training(sql.FieldGTE(FieldProgress, v))
 }
 
 // ProgressLT applies the LT predicate on the "progress" field.
-func ProgressLT(v int) predicate.Training {
+func ProgressLT(v float64) predicate.Training {
 	return predicate.Training(sql.FieldLT(FieldProgress, v))
 }
 
 // ProgressLTE applies the LTE predicate on the "progress" field.
-func ProgressLTE(v int) predicate.Training {
+func ProgressLTE(v float64) predicate.Training {
 	return predicate.Training(sql.FieldLTE(FieldProgress, v))
 }
 
 // AccuracyEQ applies the EQ predicate on the "accuracy" field.
-func AccuracyEQ(v int) predicate.Training {
+func AccuracyEQ(v float64) predicate.Training {
 	return predicate.Training(sql.FieldEQ(FieldAccuracy, v))
 }
 
 // AccuracyNEQ applies the NEQ predicate on the "accuracy" field.
-func AccuracyNEQ(v int) predicate.Training {
+func AccuracyNEQ(v float64) predicate.Training {
 	return predicate.Training(sql.FieldNEQ(FieldAccuracy, v))
 }
 
 // AccuracyIn applies the In predicate on the "accuracy" field.
-func AccuracyIn(vs ...int) predicate.Training {
+func AccuracyIn(vs ...float64) predicate.Training {
 	return predicate.Training(sql.FieldIn(FieldAccuracy, vs...))
 }
 
 // AccuracyNotIn applies the NotIn predicate on the "accuracy" field.
-func AccuracyNotIn(vs ...int) predicate.Training {
+func AccuracyNotIn(vs ...float64) predicate.Training {
 	return predicate.Training(sql.FieldNotIn(FieldAccuracy, vs...))
 }
 
 // AccuracyGT applies the GT predicate on the "accuracy" field.
-func AccuracyGT(v int) predicate.Training {
+func AccuracyGT(v float64) predicate.Training {
 	return predicate.Training(sql.FieldGT(FieldAccuracy, v))
 }
 
 // AccuracyGTE applies the GTE predicate on the "accuracy" field.
-func AccuracyGTE(v int) predicate.Training {
+func AccuracyGTE(v float64) predicate.Training {
 	return predicate.Training(sql.FieldGTE(FieldAccuracy, v))
 }
 
 // AccuracyLT applies the LT predicate on the "accuracy" field.
-func AccuracyLT(v int) predicate.Training {
+func AccuracyLT(v float64) predicate.Training {
 	return predicate.Training(sql.FieldLT(FieldAccuracy, v))
 }
 
 // AccuracyLTE applies the LTE predicate on the "accuracy" field.
-func AccuracyLTE(v int) predicate.Training {
+func AccuracyLTE(v float64) predicate.Training {
 	return predicate.Training(sql.FieldLTE(FieldAccuracy, v))
 }
 
 // SpeedEQ applies the EQ predicate on the "speed" field.
-func SpeedEQ(v int) predicate.Training {
+func SpeedEQ(v float64) predicate.Training {
 	return predicate.Training(sql.FieldEQ(FieldSpeed, v))
 }
 
 // SpeedNEQ applies the NEQ predicate on the "speed" field.
-func SpeedNEQ(v int) predicate.Training {
+func SpeedNEQ(v float64) predicate.Training {
 	return predicate.Training(sql.FieldNEQ(FieldSpeed, v))
 }
 
 // SpeedIn applies the In predicate on the "speed" field.
-func SpeedIn(vs ...int) predicate.Training {
+func SpeedIn(vs ...float64) predicate.Training {
 	return predicate.Training(sql.FieldIn(FieldSpeed, vs...))
 }
 
 // SpeedNotIn applies the NotIn predicate on the "speed" field.
-func SpeedNotIn(vs ...int) predicate.Training {
+func SpeedNotIn(vs ...float64) predicate.Training {
 	return predicate.Training(sql.FieldNotIn(FieldSpeed, vs...))
 }
 
 // SpeedGT applies the GT predicate on the "speed" field.
-func SpeedGT(v int) predicate.Training {
+func SpeedGT(v float64) predicate.Training {
 	return predicate.Training(sql.FieldGT(FieldSpeed, v))
 }
 
 // SpeedGTE applies the GTE predicate on the "speed" field.
-func SpeedGTE(v int) predicate.Training {
+func SpeedGTE(v float64) predicate.Training {
 	return predicate.Training(sql.FieldGTE(FieldSpeed, v))
 }
 
 // SpeedLT applies the LT predicate on the "speed" field.
-func SpeedLT(v int) predicate.Training {
+func SpeedLT(v float64) predicate.Training {
 	return predicate.Training(sql.FieldLT(FieldSpeed, v))
 }
 
 // SpeedLTE applies the LTE predicate on the "speed" field.
-func SpeedLTE(v int) predicate.Training {
+func SpeedLTE(v float64) predicate.Training {
 	return predicate.Training(sql.FieldLTE(FieldSpeed, v))
 }
 

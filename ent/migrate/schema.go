@@ -12,12 +12,12 @@ var (
 	TrainingsColumns = []*schema.Column{
 		{Name: "id", Type: field.TypeInt, Increment: true},
 		{Name: "created_at", Type: field.TypeTime},
-		{Name: "duration", Type: field.TypeInt, Default: 0},
+		{Name: "duration", Type: field.TypeFloat64, Default: 0},
 		{Name: "closable", Type: field.TypeBool, Default: false},
-		{Name: "stopwatch", Type: field.TypeInt, Default: 0},
-		{Name: "progress", Type: field.TypeInt, Default: 0},
-		{Name: "accuracy", Type: field.TypeInt, Default: 0},
-		{Name: "speed", Type: field.TypeInt, Default: 0},
+		{Name: "stopwatch", Type: field.TypeFloat64, Default: 0},
+		{Name: "progress", Type: field.TypeFloat64, Default: 0},
+		{Name: "accuracy", Type: field.TypeFloat64, Default: 0},
+		{Name: "speed", Type: field.TypeFloat64, Default: 0},
 	}
 	// TrainingsTable holds the schema information for the "trainings" table.
 	TrainingsTable = &schema.Table{

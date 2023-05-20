@@ -22,7 +22,7 @@ func init() {
 	// trainingDescDuration is the schema descriptor for duration field.
 	trainingDescDuration := trainingFields[1].Descriptor()
 	// training.DefaultDuration holds the default value on creation for the duration field.
-	training.DefaultDuration = trainingDescDuration.Default.(int)
+	training.DefaultDuration = trainingDescDuration.Default.(float64)
 	// trainingDescClosable is the schema descriptor for closable field.
 	trainingDescClosable := trainingFields[2].Descriptor()
 	// training.DefaultClosable holds the default value on creation for the closable field.
@@ -30,17 +30,17 @@ func init() {
 	// trainingDescStopwatch is the schema descriptor for stopwatch field.
 	trainingDescStopwatch := trainingFields[3].Descriptor()
 	// training.DefaultStopwatch holds the default value on creation for the stopwatch field.
-	training.DefaultStopwatch = trainingDescStopwatch.Default.(int)
+	training.DefaultStopwatch = trainingDescStopwatch.Default.(float64)
 	// trainingDescProgress is the schema descriptor for progress field.
 	trainingDescProgress := trainingFields[4].Descriptor()
 	// training.DefaultProgress holds the default value on creation for the progress field.
-	training.DefaultProgress = trainingDescProgress.Default.(int)
+	training.DefaultProgress = trainingDescProgress.Default.(float64)
 	// trainingDescAccuracy is the schema descriptor for accuracy field.
 	trainingDescAccuracy := trainingFields[5].Descriptor()
 	// training.DefaultAccuracy holds the default value on creation for the accuracy field.
-	training.DefaultAccuracy = trainingDescAccuracy.Default.(int)
+	training.DefaultAccuracy = trainingDescAccuracy.Default.(float64)
 	// trainingDescSpeed is the schema descriptor for speed field.
 	trainingDescSpeed := trainingFields[6].Descriptor()
 	// training.DefaultSpeed holds the default value on creation for the speed field.
-	training.DefaultSpeed = trainingDescSpeed.Default.(int)
+	training.DefaultSpeed = trainingDescSpeed.Default.(float64)
 }

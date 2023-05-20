@@ -34,17 +34,17 @@ type TrainingMutation struct {
 	typ           string
 	id            *int
 	created_at    *time.Time
-	duration      *int
-	addduration   *int
+	duration      *float64
+	addduration   *float64
 	closable      *bool
-	stopwatch     *int
-	addstopwatch  *int
-	progress      *int
-	addprogress   *int
-	accuracy      *int
-	addaccuracy   *int
-	speed         *int
-	addspeed      *int
+	stopwatch     *float64
+	addstopwatch  *float64
+	progress      *float64
+	addprogress   *float64
+	accuracy      *float64
+	addaccuracy   *float64
+	speed         *float64
+	addspeed      *float64
 	clearedFields map[string]struct{}
 	done          bool
 	oldValue      func(context.Context) (*Training, error)
@@ -186,13 +186,13 @@ func (m *TrainingMutation) ResetCreatedAt() {
 }
 
 // SetDuration sets the "duration" field.
-func (m *TrainingMutation) SetDuration(i int) {
-	m.duration = &i
+func (m *TrainingMutation) SetDuration(f float64) {
+	m.duration = &f
 	m.addduration = nil
 }
 
 // Duration returns the value of the "duration" field in the mutation.
-func (m *TrainingMutation) Duration() (r int, exists bool) {
+func (m *TrainingMutation) Duration() (r float64, exists bool) {
 	v := m.duration
 	if v == nil {
 		return
@@ -203,7 +203,7 @@ func (m *TrainingMutation) Duration() (r int, exists bool) {
 // OldDuration returns the old "duration" field's value of the Training entity.
 // If the Training object wasn't provided to the builder, the object is fetched from the database.
 // An error is returned if the mutation operation is not UpdateOne, or the database query fails.
-func (m *TrainingMutation) OldDuration(ctx context.Context) (v int, err error) {
+func (m *TrainingMutation) OldDuration(ctx context.Context) (v float64, err error) {
 	if !m.op.Is(OpUpdateOne) {
 		return v, errors.New("OldDuration is only allowed on UpdateOne operations")
 	}
@@ -217,17 +217,17 @@ func (m *TrainingMutation) OldDuration(ctx context.Context) (v int, err error) {
 	return oldValue.Duration, nil
 }
 
-// AddDuration adds i to the "duration" field.
-func (m *TrainingMutation) AddDuration(i int) {
+// AddDuration adds f to the "duration" field.
+func (m *TrainingMutation) AddDuration(f float64) {
 	if m.addduration != nil {
-		*m.addduration += i
+		*m.addduration += f
 	} else {
-		m.addduration = &i
+		m.addduration = &f
 	}
 }
 
 // AddedDuration returns the value that was added to the "duration" field in this mutation.
-func (m *TrainingMutation) AddedDuration() (r int, exists bool) {
+func (m *TrainingMutation) AddedDuration() (r float64, exists bool) {
 	v := m.addduration
 	if v == nil {
 		return
@@ -278,13 +278,13 @@ func (m *TrainingMutation) ResetClosable() {
 }
 
 // SetStopwatch sets the "stopwatch" field.
-func (m *TrainingMutation) SetStopwatch(i int) {
-	m.stopwatch = &i
+func (m *TrainingMutation) SetStopwatch(f float64) {
+	m.stopwatch = &f
 	m.addstopwatch = nil
 }
 
 // Stopwatch returns the value of the "stopwatch" field in the mutation.
-func (m *TrainingMutation) Stopwatch() (r int, exists bool) {
+func (m *TrainingMutation) Stopwatch() (r float64, exists bool) {
 	v := m.stopwatch
 	if v == nil {
 		return
@@ -295,7 +295,7 @@ func (m *TrainingMutation) Stopwatch() (r int, exists bool) {
 // OldStopwatch returns the old "stopwatch" field's value of the Training entity.
 // If the Training object wasn't provided to the builder, the object is fetched from the database.
 // An error is returned if the mutation operation is not UpdateOne, or the database query fails.
-func (m *TrainingMutation) OldStopwatch(ctx context.Context) (v int, err error) {
+func (m *TrainingMutation) OldStopwatch(ctx context.Context) (v float64, err error) {
 	if !m.op.Is(OpUpdateOne) {
 		return v, errors.New("OldStopwatch is only allowed on UpdateOne operations")
 	}
@@ -309,17 +309,17 @@ func (m *TrainingMutation) OldStopwatch(ctx context.Context) (v int, err error) 
 	return oldValue.Stopwatch, nil
 }
 
-// AddStopwatch adds i to the "stopwatch" field.
-func (m *TrainingMutation) AddStopwatch(i int) {
+// AddStopwatch adds f to the "stopwatch" field.
+func (m *TrainingMutation) AddStopwatch(f float64) {
 	if m.addstopwatch != nil {
-		*m.addstopwatch += i
+		*m.addstopwatch += f
 	} else {
-		m.addstopwatch = &i
+		m.addstopwatch = &f
 	}
 }
 
 // AddedStopwatch returns the value that was added to the "stopwatch" field in this mutation.
-func (m *TrainingMutation) AddedStopwatch() (r int, exists bool) {
+func (m *TrainingMutation) AddedStopwatch() (r float64, exists bool) {
 	v := m.addstopwatch
 	if v == nil {
 		return
@@ -334,13 +334,13 @@ func (m *TrainingMutation) ResetStopwatch() {
 }
 
 // SetProgress sets the "progress" field.
-func (m *TrainingMutation) SetProgress(i int) {
-	m.progress = &i
+func (m *TrainingMutation) SetProgress(f float64) {
+	m.progress = &f
 	m.addprogress = nil
 }
 
 // Progress returns the value of the "progress" field in the mutation.
-func (m *TrainingMutation) Progress() (r int, exists bool) {
+func (m *TrainingMutation) Progress() (r float64, exists bool) {
 	v := m.progress
 	if v == nil {
 		return
@@ -351,7 +351,7 @@ func (m *TrainingMutation) Progress() (r int, exists bool) {
 // OldProgress returns the old "progress" field's value of the Training entity.
 // If the Training object wasn't provided to the builder, the object is fetched from the database.
 // An error is returned if the mutation operation is not UpdateOne, or the database query fails.
-func (m *TrainingMutation) OldProgress(ctx context.Context) (v int, err error) {
+func (m *TrainingMutation) OldProgress(ctx context.Context) (v float64, err error) {
 	if !m.op.Is(OpUpdateOne) {
 		return v, errors.New("OldProgress is only allowed on UpdateOne operations")
 	}
@@ -365,17 +365,17 @@ func (m *TrainingMutation) OldProgress(ctx context.Context) (v int, err error) {
 	return oldValue.Progress, nil
 }
 
-// AddProgress adds i to the "progress" field.
-func (m *TrainingMutation) AddProgress(i int) {
+// AddProgress adds f to the "progress" field.
+func (m *TrainingMutation) AddProgress(f float64) {
 	if m.addprogress != nil {
-		*m.addprogress += i
+		*m.addprogress += f
 	} else {
-		m.addprogress = &i
+		m.addprogress = &f
 	}
 }
 
 // AddedProgress returns the value that was added to the "progress" field in this mutation.
-func (m *TrainingMutation) AddedProgress() (r int, exists bool) {
+func (m *TrainingMutation) AddedProgress() (r float64, exists bool) {
 	v := m.addprogress
 	if v == nil {
 		return
@@ -390,13 +390,13 @@ func (m *TrainingMutation) ResetProgress() {
 }
 
 // SetAccuracy sets the "accuracy" field.
-func (m *TrainingMutation) SetAccuracy(i int) {
-	m.accuracy = &i
+func (m *TrainingMutation) SetAccuracy(f float64) {
+	m.accuracy = &f
 	m.addaccuracy = nil
 }
 
 // Accuracy returns the value of the "accuracy" field in the mutation.
-func (m *TrainingMutation) Accuracy() (r int, exists bool) {
+func (m *TrainingMutation) Accuracy() (r float64, exists bool) {
 	v := m.accuracy
 	if v == nil {
 		return
@@ -407,7 +407,7 @@ func (m *TrainingMutation) Accuracy() (r int, exists bool) {
 // OldAccuracy returns the old "accuracy" field's value of the Training entity.
 // If the Training object wasn't provided to the builder, the object is fetched from the database.
 // An error is returned if the mutation operation is not UpdateOne, or the database query fails.
-func (m *TrainingMutation) OldAccuracy(ctx context.Context) (v int, err error) {
+func (m *TrainingMutation) OldAccuracy(ctx context.Context) (v float64, err error) {
 	if !m.op.Is(OpUpdateOne) {
 		return v, errors.New("OldAccuracy is only allowed on UpdateOne operations")
 	}
@@ -421,17 +421,17 @@ func (m *TrainingMutation) OldAccuracy(ctx context.Context) (v int, err error) {
 	return oldValue.Accuracy, nil
 }
 
-// AddAccuracy adds i to the "accuracy" field.
-func (m *TrainingMutation) AddAccuracy(i int) {
+// AddAccuracy adds f to the "accuracy" field.
+func (m *TrainingMutation) AddAccuracy(f float64) {
 	if m.addaccuracy != nil {
-		*m.addaccuracy += i
+		*m.addaccuracy += f
 	} else {
-		m.addaccuracy = &i
+		m.addaccuracy = &f
 	}
 }
 
 // AddedAccuracy returns the value that was added to the "accuracy" field in this mutation.
-func (m *TrainingMutation) AddedAccuracy() (r int, exists bool) {
+func (m *TrainingMutation) AddedAccuracy() (r float64, exists bool) {
 	v := m.addaccuracy
 	if v == nil {
 		return
@@ -446,13 +446,13 @@ func (m *TrainingMutation) ResetAccuracy() {
 }
 
 // SetSpeed sets the "speed" field.
-func (m *TrainingMutation) SetSpeed(i int) {
-	m.speed = &i
+func (m *TrainingMutation) SetSpeed(f float64) {
+	m.speed = &f
 	m.addspeed = nil
 }
 
 // Speed returns the value of the "speed" field in the mutation.
-func (m *TrainingMutation) Speed() (r int, exists bool) {
+func (m *TrainingMutation) Speed() (r float64, exists bool) {
 	v := m.speed
 	if v == nil {
 		return
@@ -463,7 +463,7 @@ func (m *TrainingMutation) Speed() (r int, exists bool) {
 // OldSpeed returns the old "speed" field's value of the Training entity.
 // If the Training object wasn't provided to the builder, the object is fetched from the database.
 // An error is returned if the mutation operation is not UpdateOne, or the database query fails.
-func (m *TrainingMutation) OldSpeed(ctx context.Context) (v int, err error) {
+func (m *TrainingMutation) OldSpeed(ctx context.Context) (v float64, err error) {
 	if !m.op.Is(OpUpdateOne) {
 		return v, errors.New("OldSpeed is only allowed on UpdateOne operations")
 	}
@@ -477,17 +477,17 @@ func (m *TrainingMutation) OldSpeed(ctx context.Context) (v int, err error) {
 	return oldValue.Speed, nil
 }
 
-// AddSpeed adds i to the "speed" field.
-func (m *TrainingMutation) AddSpeed(i int) {
+// AddSpeed adds f to the "speed" field.
+func (m *TrainingMutation) AddSpeed(f float64) {
 	if m.addspeed != nil {
-		*m.addspeed += i
+		*m.addspeed += f
 	} else {
-		m.addspeed = &i
+		m.addspeed = &f
 	}
 }
 
 // AddedSpeed returns the value that was added to the "speed" field in this mutation.
-func (m *TrainingMutation) AddedSpeed() (r int, exists bool) {
+func (m *TrainingMutation) AddedSpeed() (r float64, exists bool) {
 	v := m.addspeed
 	if v == nil {
 		return
@@ -619,7 +619,7 @@ func (m *TrainingMutation) SetField(name string, value ent.Value) error {
 		m.SetCreatedAt(v)
 		return nil
 	case training.FieldDuration:
-		v, ok := value.(int)
+		v, ok := value.(float64)
 		if !ok {
 			return fmt.Errorf("unexpected type %T for field %s", value, name)
 		}
@@ -633,28 +633,28 @@ func (m *TrainingMutation) SetField(name string, value ent.Value) error {
 		m.SetClosable(v)
 		return nil
 	case training.FieldStopwatch:
-		v, ok := value.(int)
+		v, ok := value.(float64)
 		if !ok {
 			return fmt.Errorf("unexpected type %T for field %s", value, name)
 		}
 		m.SetStopwatch(v)
 		return nil
 	case training.FieldProgress:
-		v, ok := value.(int)
+		v, ok := value.(float64)
 		if !ok {
 			return fmt.Errorf("unexpected type %T for field %s", value, name)
 		}
 		m.SetProgress(v)
 		return nil
 	case training.FieldAccuracy:
-		v, ok := value.(int)
+		v, ok := value.(float64)
 		if !ok {
 			return fmt.Errorf("unexpected type %T for field %s", value, name)
 		}
 		m.SetAccuracy(v)
 		return nil
 	case training.FieldSpeed:
-		v, ok := value.(int)
+		v, ok := value.(float64)
 		if !ok {
 			return fmt.Errorf("unexpected type %T for field %s", value, name)
 		}
@@ -711,35 +711,35 @@ func (m *TrainingMutation) AddedField(name string) (ent.Value, bool) {
 func (m *TrainingMutation) AddField(name string, value ent.Value) error {
 	switch name {
 	case training.FieldDuration:
-		v, ok := value.(int)
+		v, ok := value.(float64)
 		if !ok {
 			return fmt.Errorf("unexpected type %T for field %s", value, name)
 		}
 		m.AddDuration(v)
 		return nil
 	case training.FieldStopwatch:
-		v, ok := value.(int)
+		v, ok := value.(float64)
 		if !ok {
 			return fmt.Errorf("unexpected type %T for field %s", value, name)
 		}
 		m.AddStopwatch(v)
 		return nil
 	case training.FieldProgress:
-		v, ok := value.(int)
+		v, ok := value.(float64)
 		if !ok {
 			return fmt.Errorf("unexpected type %T for field %s", value, name)
 		}
 		m.AddProgress(v)
 		return nil
 	case training.FieldAccuracy:
-		v, ok := value.(int)
+		v, ok := value.(float64)
 		if !ok {
 			return fmt.Errorf("unexpected type %T for field %s", value, name)
 		}
 		m.AddAccuracy(v)
 		return nil
 	case training.FieldSpeed:
-		v, ok := value.(int)
+		v, ok := value.(float64)
 		if !ok {
 			return fmt.Errorf("unexpected type %T for field %s", value, name)
 		}
