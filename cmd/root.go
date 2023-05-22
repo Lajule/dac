@@ -22,6 +22,8 @@ var (
 
 	closable bool
 
+	statistic string
+
 	rootCmd = &cobra.Command{
 		Use:   "dac",
 		Short: "Typing training sessions",
@@ -66,22 +68,14 @@ var (
 			if _, err := t.Save(context.Background()); err != nil {
 				log.Fatalf("failed updating training: %v", err)
 			}
-			speeds, err := client.Training.
+			data, err := client.Training.
 				Query().
-				Select("speed").
+				Select(statistic).
 				Float64s(context.Background())
 			if err != nil {
-				log.Fatalf("failed selecting speed: %v", err)
+				log.Fatalf("failed selecting data: %v", err)
 			}
-			accuracies, err := client.Training.
-				Query().
-				Select("accuracy").
-				Float64s(context.Background())
-			if err != nil {
-				log.Fatalf("failed selecting accuracy: %v", err)
-			}
-			graph := asciigraph.PlotMany([][]float64{speeds, accuracies}, asciigraph.Height(10), asciigraph.SeriesColors(
-				asciigraph.Black,
+			graph := asciigraph.Plot(data, asciigraph.Height(10), asciigraph.SeriesColors(
 				asciigraph.Blue,
 			))
 			fmt.Println(graph)
@@ -89,14 +83,15 @@ var (
 	}
 )
 
-func Execute() {
-	if err := rootCmd.Execute(); err != nil {
-		log.Fatalf("failed executing root command: %v", err)
-	}
-}
-
 func init() {
 	rootCmd.PersistentFlags().StringVar(&dbFile, "database", "dac.db", "Database file (default is dac.db)")
 	rootCmd.Flags().DurationVarP(&duration, "duration", "d", 0, "Duration of the training session")
 	rootCmd.Flags().BoolVarP(&closable, "closable", "c", false, "Close on session timeout")
+	rootCmd.Flags().StringVarP(&statistic, "statistic", "s", "speed", "Statistic to display")
+}
+
+func Execute() {
+	if err := rootCmd.Execute(); err != nil {
+		log.Fatalf("failed executing root command: %v", err)
+	}
 }

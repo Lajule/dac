@@ -84,7 +84,7 @@ func (d *Dac) Start(t *ent.TrainingMutation) {
 			closable, _ := t.Closable()
 			duration, _ := t.Duration()
 			stopwatch, _ := t.AddedStopwatch()
-			if closable && duration - stopwatch == 0.0 {
+			if closable && duration-stopwatch == 0.0 {
 				d.stop()
 				return
 			}
@@ -131,11 +131,18 @@ func (d *Dac) speed(t *ent.TrainingMutation) {
 		words := strings.Fields(string(d.text[:index]))
 		if len(words) > 0 {
 			stopwatch, _ := t.AddedStopwatch()
-			t.SetSpeed(float64(len(words) * 60) / stopwatch)
+			t.SetSpeed(float64(len(words)*60) / stopwatch)
 		}
 	} else {
 		t.SetSpeed(0.0)
 	}
+}
+
+func (d *Dac) draw(t *ent.TrainingMutation) {
+	d.screen.Clear()
+	d.drawStatus(t)
+	d.drawText(t)
+	d.screen.Show()
 }
 
 func (d *Dac) drawStatus(t *ent.TrainingMutation) {
@@ -149,18 +156,17 @@ func (d *Dac) drawStatus(t *ent.TrainingMutation) {
 	}
 	for _, r := range fmt.Sprintf("%*.0f%%", 3, accuracy) {
 		d.screen.SetContent(x, 0, r, nil, style)
-		x++
+		x += 1
 	}
 	d.screen.SetContent(x, 0, '|', nil, tcell.StyleDefault)
-	x++
+	x += 1
 	speed, _ := t.Speed()
-	style = tcell.StyleDefault
 	for _, r := range fmt.Sprintf("%*.0fw/s", 3, speed) {
-		d.screen.SetContent(x, 0, r, nil, style)
-		x++
+		d.screen.SetContent(x, 0, r, nil, tcell.StyleDefault)
+		x += 1
 	}
 	d.screen.SetContent(x, 0, '|', nil, tcell.StyleDefault)
-	x++
+	x += 1
 	progress, _ := t.Progress()
 	for i := 0; i < 10; i++ {
 		style := tcell.StyleDefault
@@ -168,19 +174,19 @@ func (d *Dac) drawStatus(t *ent.TrainingMutation) {
 			style = style.Reverse(true)
 		}
 		d.screen.SetContent(x, 0, ' ', nil, style)
-		x++
+		x += 1
 	}
 	d.screen.SetContent(x, 0, '|', nil, tcell.StyleDefault)
-	x++
+	x += 1
 	duration, _ := t.Duration()
 	stopwatch, _ := t.AddedStopwatch()
-	for _, r := range fmt.Sprintf("%s", (time.Duration(duration - stopwatch) * time.Second).String()) {
-		d.screen.SetContent(x, 0, r, nil, style)
-		x++
+	for _, r := range (time.Duration(duration-stopwatch) * time.Second).String() {
+		d.screen.SetContent(x, 0, r, nil, tcell.StyleDefault)
+		x += 1
 	}
 }
 
-func (d *Dac) drawText(t *ent.TrainingMutation) {
+func (d *Dac) drawText(_ *ent.TrainingMutation) {
 	w, h := d.screen.Size()
 	max := w * (h - 1)
 	textChunks := chunkBy(d.text, max)
@@ -193,7 +199,7 @@ func (d *Dac) drawText(t *ent.TrainingMutation) {
 			if y == h {
 				break
 			}
-			y++
+			y += 1
 		}
 		style := tcell.StyleDefault
 		if len(inputChunks) > offset && i < len(inputChunks[offset]) {
@@ -211,17 +217,10 @@ func (d *Dac) drawText(t *ent.TrainingMutation) {
 	}
 }
 
-func (d *Dac) draw(t *ent.TrainingMutation) {
-	d.screen.Clear()
-	d.drawStatus(t)
-	d.drawText(t)
-	d.screen.Show()
-}
-
 func countValue[T comparable](items []T, val T) (count int) {
 	for _, item := range items {
 		if item == val {
-			count++
+			count += 1
 		}
 	}
 	return
