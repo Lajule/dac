@@ -1,6 +1,8 @@
 package main
 
-import "github.com/Lajule/dac/cmd"
+import (
+	"github.com/Lajule/dac/cmd"
+)
 
 func main() {
 	cmd.Execute()
