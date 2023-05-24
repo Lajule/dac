@@ -28,6 +28,7 @@ func (t *Text) Draw(text []rune, inputs []bool) {
 			}
 			t.y += 1
 		}
+
 		style := tcell.StyleDefault
 		if len(inputChunks) > offset && i < len(inputChunks[offset]) {
 			style = style.Bold(true)
@@ -40,6 +41,7 @@ func (t *Text) Draw(text []rune, inputs []bool) {
 				style = style.Underline(true)
 			}
 		}
+
 		t.screen.SetContent(x, t.y, r, nil, style)
 	}
 }

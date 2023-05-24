@@ -24,13 +24,16 @@ type Dac struct {
 
 func NewDac(text string) (*Dac, error) {
 	encoding.Register()
+
 	sc, err := tcell.NewScreen()
 	if err != nil {
 		return nil, fmt.Errorf("failed creating screen: %w", err)
 	}
+
 	if err := sc.Init(); err != nil {
 		return nil, fmt.Errorf("failed initializing screen: %w", err)
 	}
+
 	return &Dac{
 		text:   []rune(text),
 		screen: sc,
@@ -45,6 +48,7 @@ func (d *Dac) Start(t *ent.TrainingMutation) {
 			select {
 			case <-d.done:
 				return
+
 			case <-d.ticker.C:
 				ev := &tcell.EventTime{}
 				ev.SetEventNow()
@@ -52,6 +56,7 @@ func (d *Dac) Start(t *ent.TrainingMutation) {
 			}
 		}
 	}()
+
 	for {
 		switch ev := d.screen.PollEvent().(type) {
 		case *tcell.EventKey:
@@ -65,6 +70,7 @@ func (d *Dac) Start(t *ent.TrainingMutation) {
 					d.stop()
 					return
 				}
+
 			case tcell.KeyBackspace2:
 				if len(d.inputs) > 0 {
 					d.inputs = d.inputs[:len(d.inputs)-1]
@@ -72,13 +78,16 @@ func (d *Dac) Start(t *ent.TrainingMutation) {
 					d.setProgress(t)
 					d.draw(t)
 				}
+
 			case tcell.KeyEscape:
 				d.stop()
 				return
+
 			case tcell.KeyCtrlL:
 				d.screen.Sync()
 				d.draw(t)
 			}
+
 		case *tcell.EventTime:
 			closable, _ := t.Closable()
 			duration, _ := t.Duration()
@@ -89,6 +98,7 @@ func (d *Dac) Start(t *ent.TrainingMutation) {
 			}
 			d.setSpeed(t)
 			d.draw(t)
+
 		case *tcell.EventResize:
 			d.screen.Sync()
 			d.draw(t)
@@ -127,6 +137,7 @@ func (d *Dac) setSpeed(t *ent.TrainingMutation) {
 				index -= 1
 			}
 		}
+
 		words := strings.Fields(string(d.text[:index]))
 		if len(words) > 0 {
 			stopwatch, _ := t.AddedStopwatch()

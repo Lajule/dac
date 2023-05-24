@@ -9,8 +9,8 @@ import (
 	"time"
 
 	"github.com/Lajule/dac/app"
+	"github.com/Lajule/dac/graph"
 	"github.com/Lajule/dac/ent"
-	"github.com/guptarohit/asciigraph"
 	_ "github.com/mattn/go-sqlite3"
 	"github.com/spf13/cobra"
 )
@@ -32,6 +32,7 @@ var (
 			if closable && duration == 0 {
 				log.Fatal("a duration must be defined")
 			}
+
 			var input io.Reader
 			if len(args) > 0 {
 				file, err := os.Open(args[0])
@@ -42,6 +43,7 @@ var (
 			} else {
 				input = os.Stdin
 			}
+
 			b, err := io.ReadAll(input)
 			if err != nil {
 				log.Fatalf("failed reading input: %v", err)
@@ -49,6 +51,7 @@ var (
 			if len(b) == 0 {
 				log.Fatal("input is empty")
 			}
+
 			client, err := ent.Open("sqlite3", fmt.Sprintf("file:%s?cache=shared&_fk=1", dbFile))
 			if err != nil {
 				log.Fatalf("failed opening connection to sqlite: %v", err)
@@ -57,28 +60,27 @@ var (
 			if err := client.Schema.Create(context.Background()); err != nil {
 				log.Fatalf("failed creating schema resources: %v", err)
 			}
-			t := client.Training.Create().
-				SetDuration(duration.Seconds()).
-				SetClosable(closable)
+
 			d, err := app.NewDac(string(b))
 			if err != nil {
 				log.Fatalf("failed creating app: %v", err)
 			}
+
+			t := client.Training.Create().
+				SetDuration(duration.Seconds()).
+				SetClosable(closable)
+
 			d.Start(t.Mutation())
+
 			if _, err := t.Save(context.Background()); err != nil {
 				log.Fatalf("failed updating training: %v", err)
 			}
-			data, err := client.Training.
-				Query().
-				Select(statistic).
-				Float64s(context.Background())
-			if err != nil {
-				log.Fatalf("failed selecting data: %v", err)
+
+			s := graph.Statistic{
+				Field: statistic,
+				Client: client,
 			}
-			graph := asciigraph.Plot(data, asciigraph.Height(10), asciigraph.SeriesColors(
-				asciigraph.Blue,
-			))
-			fmt.Println(graph)
+			s.Plot()
 		},
 	}
 )
