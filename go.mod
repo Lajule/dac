@@ -4,7 +4,9 @@ go 1.19
 
 require (
 	entgo.io/ent v0.12.3
+	github.com/fatih/color v1.15.0
 	github.com/gdamore/tcell/v2 v2.6.0
+	github.com/gosuri/uitable v0.0.4
 	github.com/guptarohit/asciigraph v0.5.5
 	github.com/mattn/go-sqlite3 v1.14.16
 	github.com/spf13/cobra v1.7.0
@@ -22,6 +24,8 @@ require (
 	github.com/inconshreveable/mousetrap v1.1.0 // indirect
 	github.com/kr/pretty v0.3.0 // indirect
 	github.com/lucasb-eyer/go-colorful v1.2.0 // indirect
+	github.com/mattn/go-colorable v0.1.13 // indirect
+	github.com/mattn/go-isatty v0.0.17 // indirect
 	github.com/mattn/go-runewidth v0.0.14 // indirect
 	github.com/mitchellh/go-wordwrap v0.0.0-20150314170334-ad45545899c7 // indirect
 	github.com/rivo/uniseg v0.4.3 // indirect

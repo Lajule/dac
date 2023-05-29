@@ -27,6 +27,8 @@ const (
 	FieldAccuracy = "accuracy"
 	// FieldSpeed holds the string denoting the speed field in the database.
 	FieldSpeed = "speed"
+	// FieldInput holds the string denoting the input field in the database.
+	FieldInput = "input"
 	// Table holds the table name of the training in the database.
 	Table = "trainings"
 )
@@ -41,6 +43,7 @@ var Columns = []string{
 	FieldProgress,
 	FieldAccuracy,
 	FieldSpeed,
+	FieldInput,
 }
 
 // ValidColumn reports if the column name is valid (part of the table columns).
@@ -111,4 +114,9 @@ func ByAccuracy(opts ...sql.OrderTermOption) OrderOption {
 // BySpeed orders the results by the speed field.
 func BySpeed(opts ...sql.OrderTermOption) OrderOption {
 	return sql.OrderByField(FieldSpeed, opts...).ToFunc()
+}
+
+// ByInput orders the results by the input field.
+func ByInput(opts ...sql.OrderTermOption) OrderOption {
+	return sql.OrderByField(FieldInput, opts...).ToFunc()
 }

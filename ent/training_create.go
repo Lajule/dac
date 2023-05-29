@@ -118,6 +118,12 @@ func (tc *TrainingCreate) SetNillableSpeed(f *float64) *TrainingCreate {
 	return tc
 }
 
+// SetInput sets the "input" field.
+func (tc *TrainingCreate) SetInput(s string) *TrainingCreate {
+	tc.mutation.SetInput(s)
+	return tc
+}
+
 // Mutation returns the TrainingMutation object of the builder.
 func (tc *TrainingCreate) Mutation() *TrainingMutation {
 	return tc.mutation
@@ -206,6 +212,9 @@ func (tc *TrainingCreate) check() error {
 	if _, ok := tc.mutation.Speed(); !ok {
 		return &ValidationError{Name: "speed", err: errors.New(`ent: missing required field "Training.speed"`)}
 	}
+	if _, ok := tc.mutation.Input(); !ok {
+		return &ValidationError{Name: "input", err: errors.New(`ent: missing required field "Training.input"`)}
+	}
 	return nil
 }
 
@@ -259,6 +268,10 @@ func (tc *TrainingCreate) createSpec() (*Training, *sqlgraph.CreateSpec) {
 	if value, ok := tc.mutation.Speed(); ok {
 		_spec.SetField(training.FieldSpeed, field.TypeFloat64, value)
 		_node.Speed = value
+	}
+	if value, ok := tc.mutation.Input(); ok {
+		_spec.SetField(training.FieldInput, field.TypeString, value)
+		_node.Input = value
 	}
 	return _node, _spec
 }

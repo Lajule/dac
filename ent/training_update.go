@@ -146,6 +146,12 @@ func (tu *TrainingUpdate) AddSpeed(f float64) *TrainingUpdate {
 	return tu
 }
 
+// SetInput sets the "input" field.
+func (tu *TrainingUpdate) SetInput(s string) *TrainingUpdate {
+	tu.mutation.SetInput(s)
+	return tu
+}
+
 // Mutation returns the TrainingMutation object of the builder.
 func (tu *TrainingUpdate) Mutation() *TrainingMutation {
 	return tu.mutation
@@ -219,6 +225,9 @@ func (tu *TrainingUpdate) sqlSave(ctx context.Context) (n int, err error) {
 	}
 	if value, ok := tu.mutation.AddedSpeed(); ok {
 		_spec.AddField(training.FieldSpeed, field.TypeFloat64, value)
+	}
+	if value, ok := tu.mutation.Input(); ok {
+		_spec.SetField(training.FieldInput, field.TypeString, value)
 	}
 	if n, err = sqlgraph.UpdateNodes(ctx, tu.driver, _spec); err != nil {
 		if _, ok := err.(*sqlgraph.NotFoundError); ok {
@@ -359,6 +368,12 @@ func (tuo *TrainingUpdateOne) AddSpeed(f float64) *TrainingUpdateOne {
 	return tuo
 }
 
+// SetInput sets the "input" field.
+func (tuo *TrainingUpdateOne) SetInput(s string) *TrainingUpdateOne {
+	tuo.mutation.SetInput(s)
+	return tuo
+}
+
 // Mutation returns the TrainingMutation object of the builder.
 func (tuo *TrainingUpdateOne) Mutation() *TrainingMutation {
 	return tuo.mutation
@@ -462,6 +477,9 @@ func (tuo *TrainingUpdateOne) sqlSave(ctx context.Context) (_node *Training, err
 	}
 	if value, ok := tuo.mutation.AddedSpeed(); ok {
 		_spec.AddField(training.FieldSpeed, field.TypeFloat64, value)
+	}
+	if value, ok := tuo.mutation.Input(); ok {
+		_spec.SetField(training.FieldInput, field.TypeString, value)
 	}
 	_node = &Training{config: tuo.config}
 	_spec.Assign = _node.assignValues

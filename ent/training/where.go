@@ -89,6 +89,11 @@ func Speed(v float64) predicate.Training {
 	return predicate.Training(sql.FieldEQ(FieldSpeed, v))
 }
 
+// Input applies equality check predicate on the "input" field. It's identical to InputEQ.
+func Input(v string) predicate.Training {
+	return predicate.Training(sql.FieldEQ(FieldInput, v))
+}
+
 // CreatedAtEQ applies the EQ predicate on the "created_at" field.
 func CreatedAtEQ(v time.Time) predicate.Training {
 	return predicate.Training(sql.FieldEQ(FieldCreatedAt, v))
@@ -337,6 +342,71 @@ func SpeedLT(v float64) predicate.Training {
 // SpeedLTE applies the LTE predicate on the "speed" field.
 func SpeedLTE(v float64) predicate.Training {
 	return predicate.Training(sql.FieldLTE(FieldSpeed, v))
+}
+
+// InputEQ applies the EQ predicate on the "input" field.
+func InputEQ(v string) predicate.Training {
+	return predicate.Training(sql.FieldEQ(FieldInput, v))
+}
+
+// InputNEQ applies the NEQ predicate on the "input" field.
+func InputNEQ(v string) predicate.Training {
+	return predicate.Training(sql.FieldNEQ(FieldInput, v))
+}
+
+// InputIn applies the In predicate on the "input" field.
+func InputIn(vs ...string) predicate.Training {
+	return predicate.Training(sql.FieldIn(FieldInput, vs...))
+}
+
+// InputNotIn applies the NotIn predicate on the "input" field.
+func InputNotIn(vs ...string) predicate.Training {
+	return predicate.Training(sql.FieldNotIn(FieldInput, vs...))
+}
+
+// InputGT applies the GT predicate on the "input" field.
+func InputGT(v string) predicate.Training {
+	return predicate.Training(sql.FieldGT(FieldInput, v))
+}
+
+// InputGTE applies the GTE predicate on the "input" field.
+func InputGTE(v string) predicate.Training {
+	return predicate.Training(sql.FieldGTE(FieldInput, v))
+}
+
+// InputLT applies the LT predicate on the "input" field.
+func InputLT(v string) predicate.Training {
+	return predicate.Training(sql.FieldLT(FieldInput, v))
+}
+
+// InputLTE applies the LTE predicate on the "input" field.
+func InputLTE(v string) predicate.Training {
+	return predicate.Training(sql.FieldLTE(FieldInput, v))
+}
+
+// InputContains applies the Contains predicate on the "input" field.
+func InputContains(v string) predicate.Training {
+	return predicate.Training(sql.FieldContains(FieldInput, v))
+}
+
+// InputHasPrefix applies the HasPrefix predicate on the "input" field.
+func InputHasPrefix(v string) predicate.Training {
+	return predicate.Training(sql.FieldHasPrefix(FieldInput, v))
+}
+
+// InputHasSuffix applies the HasSuffix predicate on the "input" field.
+func InputHasSuffix(v string) predicate.Training {
+	return predicate.Training(sql.FieldHasSuffix(FieldInput, v))
+}
+
+// InputEqualFold applies the EqualFold predicate on the "input" field.
+func InputEqualFold(v string) predicate.Training {
+	return predicate.Training(sql.FieldEqualFold(FieldInput, v))
+}
+
+// InputContainsFold applies the ContainsFold predicate on the "input" field.
+func InputContainsFold(v string) predicate.Training {
+	return predicate.Training(sql.FieldContainsFold(FieldInput, v))
 }
 
 // And groups predicates with the AND operator between them.
