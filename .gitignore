@@ -25,3 +25,4 @@ dac
 
 # DB
 dac.db
+dist/
