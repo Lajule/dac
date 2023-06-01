@@ -28,18 +28,20 @@ func (s *Statistics) Plot(ctx context.Context) error {
 		return fmt.Errorf("failed selecting data: %w", err)
 	}
 
-	data := [][]float64{[]float64{}, []float64{}, []float64{}}
-	for _, value := range values {
-		data[0] = append(data[0], value.Speed)
-		data[1] = append(data[1], value.Accuracy)
-		data[2] = append(data[2], value.Progress)
-	}
+	if len(values) > 0 {
+		data := [][]float64{[]float64{}, []float64{}, []float64{}}
+		for _, value := range values {
+			data[0] = append(data[0], value.Speed)
+			data[1] = append(data[1], value.Accuracy)
+			data[2] = append(data[2], value.Progress)
+		}
 
-	fmt.Println(asciigraph.PlotMany(data, asciigraph.Height(10), asciigraph.SeriesColors(
-		asciigraph.Blue,
-		asciigraph.Orange,
-		asciigraph.Cyan,
-	)))
+		fmt.Println(asciigraph.PlotMany(data, asciigraph.Height(10), asciigraph.SeriesColors(
+			asciigraph.Blue,
+			asciigraph.Orange,
+			asciigraph.Cyan,
+		)))
+	}
 
 	return nil
 }
