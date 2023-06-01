@@ -4,7 +4,6 @@ go 1.19
 
 require (
 	entgo.io/ent v0.12.3
-	github.com/fatih/color v1.15.0
 	github.com/gdamore/tcell/v2 v2.6.0
 	github.com/gosuri/uitable v0.0.4
 	github.com/guptarohit/asciigraph v0.5.5
@@ -16,6 +15,7 @@ require (
 	ariga.io/atlas v0.10.2-0.20230427182402-87a07dfb83bf // indirect
 	github.com/agext/levenshtein v1.2.1 // indirect
 	github.com/apparentlymart/go-textseg/v13 v13.0.0 // indirect
+	github.com/fatih/color v1.15.0 // indirect
 	github.com/gdamore/encoding v1.0.0 // indirect
 	github.com/go-openapi/inflect v0.19.0 // indirect
 	github.com/google/go-cmp v0.5.9 // indirect

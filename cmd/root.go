@@ -53,12 +53,12 @@ var (
 				log.Fatal("input is empty")
 			}
 
-			d, err := app.NewDac(string(b))
+			ts, err := app.NewTrainingSession(string(b))
 			if err != nil {
 				log.Fatalf("failed creating app: %v", err)
 			}
 
-			d.Start(t.Mutation())
+			ts.Start(t.Mutation())
 
 			if _, err := t.Save(ctx); err != nil {
 				log.Fatalf("failed updating training: %v", err)
