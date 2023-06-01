@@ -399,6 +399,16 @@ func InputHasSuffix(v string) predicate.Training {
 	return predicate.Training(sql.FieldHasSuffix(FieldInput, v))
 }
 
+// InputIsNil applies the IsNil predicate on the "input" field.
+func InputIsNil() predicate.Training {
+	return predicate.Training(sql.FieldIsNull(FieldInput))
+}
+
+// InputNotNil applies the NotNil predicate on the "input" field.
+func InputNotNil() predicate.Training {
+	return predicate.Training(sql.FieldNotNull(FieldInput))
+}
+
 // InputEqualFold applies the EqualFold predicate on the "input" field.
 func InputEqualFold(v string) predicate.Training {
 	return predicate.Training(sql.FieldEqualFold(FieldInput, v))

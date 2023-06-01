@@ -10,21 +10,21 @@ import (
 
 type Statistics struct {
 	Fields []string
-
-	Client *ent.Client
 }
 
-func (s *Statistics) Plot() error {
+func (s *Statistics) Plot(ctx context.Context) error {
+	client := ctx.Value("client").(*ent.Client)
+
 	var values []struct {
 		Speed    float64 `json:"speed"`
 		Accuracy float64 `json:"accuracy"`
 		Progress float64 `json:"progress"`
 	}
 
-	if err := s.Client.Training.
+	if err := client.Training.
 		Query().
 		Select(s.Fields...).
-		Scan(context.Background(), &values); err != nil {
+		Scan(ctx, &values); err != nil {
 		return fmt.Errorf("failed selecting data: %w", err)
 	}
 

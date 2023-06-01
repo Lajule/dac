@@ -10,15 +10,15 @@ import (
 
 type Statistic struct {
 	Field string
-
-	Client *ent.Client
 }
 
-func (s *Statistic) Plot() error {
-	data, err := s.Client.Training.
+func (s *Statistic) Plot(ctx context.Context) error {
+	client := ctx.Value("client").(*ent.Client)
+
+	data, err := client.Training.
 		Query().
 		Select(s.Field).
-		Float64s(context.Background())
+		Float64s(ctx)
 	if err != nil {
 		return fmt.Errorf("failed selecting data: %w", err)
 	}

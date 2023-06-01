@@ -152,6 +152,20 @@ func (tu *TrainingUpdate) SetInput(s string) *TrainingUpdate {
 	return tu
 }
 
+// SetNillableInput sets the "input" field if the given value is not nil.
+func (tu *TrainingUpdate) SetNillableInput(s *string) *TrainingUpdate {
+	if s != nil {
+		tu.SetInput(*s)
+	}
+	return tu
+}
+
+// ClearInput clears the value of the "input" field.
+func (tu *TrainingUpdate) ClearInput() *TrainingUpdate {
+	tu.mutation.ClearInput()
+	return tu
+}
+
 // Mutation returns the TrainingMutation object of the builder.
 func (tu *TrainingUpdate) Mutation() *TrainingMutation {
 	return tu.mutation
@@ -228,6 +242,9 @@ func (tu *TrainingUpdate) sqlSave(ctx context.Context) (n int, err error) {
 	}
 	if value, ok := tu.mutation.Input(); ok {
 		_spec.SetField(training.FieldInput, field.TypeString, value)
+	}
+	if tu.mutation.InputCleared() {
+		_spec.ClearField(training.FieldInput, field.TypeString)
 	}
 	if n, err = sqlgraph.UpdateNodes(ctx, tu.driver, _spec); err != nil {
 		if _, ok := err.(*sqlgraph.NotFoundError); ok {
@@ -374,6 +391,20 @@ func (tuo *TrainingUpdateOne) SetInput(s string) *TrainingUpdateOne {
 	return tuo
 }
 
+// SetNillableInput sets the "input" field if the given value is not nil.
+func (tuo *TrainingUpdateOne) SetNillableInput(s *string) *TrainingUpdateOne {
+	if s != nil {
+		tuo.SetInput(*s)
+	}
+	return tuo
+}
+
+// ClearInput clears the value of the "input" field.
+func (tuo *TrainingUpdateOne) ClearInput() *TrainingUpdateOne {
+	tuo.mutation.ClearInput()
+	return tuo
+}
+
 // Mutation returns the TrainingMutation object of the builder.
 func (tuo *TrainingUpdateOne) Mutation() *TrainingMutation {
 	return tuo.mutation
@@ -480,6 +511,9 @@ func (tuo *TrainingUpdateOne) sqlSave(ctx context.Context) (_node *Training, err
 	}
 	if value, ok := tuo.mutation.Input(); ok {
 		_spec.SetField(training.FieldInput, field.TypeString, value)
+	}
+	if tuo.mutation.InputCleared() {
+		_spec.ClearField(training.FieldInput, field.TypeString)
 	}
 	_node = &Training{config: tuo.config}
 	_spec.Assign = _node.assignValues

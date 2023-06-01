@@ -124,6 +124,14 @@ func (tc *TrainingCreate) SetInput(s string) *TrainingCreate {
 	return tc
 }
 
+// SetNillableInput sets the "input" field if the given value is not nil.
+func (tc *TrainingCreate) SetNillableInput(s *string) *TrainingCreate {
+	if s != nil {
+		tc.SetInput(*s)
+	}
+	return tc
+}
+
 // Mutation returns the TrainingMutation object of the builder.
 func (tc *TrainingCreate) Mutation() *TrainingMutation {
 	return tc.mutation
@@ -211,9 +219,6 @@ func (tc *TrainingCreate) check() error {
 	}
 	if _, ok := tc.mutation.Speed(); !ok {
 		return &ValidationError{Name: "speed", err: errors.New(`ent: missing required field "Training.speed"`)}
-	}
-	if _, ok := tc.mutation.Input(); !ok {
-		return &ValidationError{Name: "input", err: errors.New(`ent: missing required field "Training.input"`)}
 	}
 	return nil
 }

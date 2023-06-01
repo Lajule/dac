@@ -1,7 +1,7 @@
 package table
 
 import (
-	//"context"
+	"context"
 	"fmt"
 
 	//"github.com/fatih/color"
@@ -10,14 +10,30 @@ import (
 	"github.com/Lajule/dac/ent"
 )
 
-type Listing struct {
-	Client *ent.Client
-}
+func Print(ctx context.Context) error {
+	client := ctx.Value("client").(*ent.Client)
 
-func (s *Listing) Print() error {
+	trainings, err := client.Training.
+		Query().
+		All(context.Background())
+	if err != nil {
+		return fmt.Errorf("failed selecting data: %w", err)
+	}
+
 	table := uitable.New()
-
 	table.AddRow("CREATED_AT", "DURATION", "CLOSABLE", "STOPWATCH", "PROGRESS", "ACCURACY", "SPEED", "INPUT")
+
+	for _, training := range trainings {
+		table.AddRow(training.CreatedAt.String(),
+			"DURATION",
+			"CLOSABLE",
+			"STOPWATCH",
+			"PROGRESS",
+			"ACCURACY",
+			"SPEED",
+			"INPUT")
+	}
+
 	fmt.Println(table)
 
 	return nil

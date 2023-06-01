@@ -533,9 +533,22 @@ func (m *TrainingMutation) OldInput(ctx context.Context) (v string, err error) {
 	return oldValue.Input, nil
 }
 
+// ClearInput clears the value of the "input" field.
+func (m *TrainingMutation) ClearInput() {
+	m.input = nil
+	m.clearedFields[training.FieldInput] = struct{}{}
+}
+
+// InputCleared returns if the "input" field was cleared in this mutation.
+func (m *TrainingMutation) InputCleared() bool {
+	_, ok := m.clearedFields[training.FieldInput]
+	return ok
+}
+
 // ResetInput resets all changes to the "input" field.
 func (m *TrainingMutation) ResetInput() {
 	m.input = nil
+	delete(m.clearedFields, training.FieldInput)
 }
 
 // Where appends a list predicates to the TrainingMutation builder.
@@ -803,7 +816,11 @@ func (m *TrainingMutation) AddField(name string, value ent.Value) error {
 // ClearedFields returns all nullable fields that were cleared during this
 // mutation.
 func (m *TrainingMutation) ClearedFields() []string {
-	return nil
+	var fields []string
+	if m.FieldCleared(training.FieldInput) {
+		fields = append(fields, training.FieldInput)
+	}
+	return fields
 }
 
 // FieldCleared returns a boolean indicating if a field with the given name was
@@ -816,6 +833,11 @@ func (m *TrainingMutation) FieldCleared(name string) bool {
 // ClearField clears the value of the field with the given name. It returns an
 // error if the field is not defined in the schema.
 func (m *TrainingMutation) ClearField(name string) error {
+	switch name {
+	case training.FieldInput:
+		m.ClearInput()
+		return nil
+	}
 	return fmt.Errorf("unknown Training nullable field %s", name)
 }
 

@@ -22,7 +22,7 @@ func (Training) Fields() []ent.Field {
 		field.Float("progress").Default(0.0),
 		field.Float("accuracy").Default(0.0),
 		field.Float("speed").Default(0.0),
-		field.String("input"),
+		field.String("input").Optional(),
 	}
 }
 

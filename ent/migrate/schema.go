@@ -18,7 +18,7 @@ var (
 		{Name: "progress", Type: field.TypeFloat64, Default: 0},
 		{Name: "accuracy", Type: field.TypeFloat64, Default: 0},
 		{Name: "speed", Type: field.TypeFloat64, Default: 0},
-		{Name: "input", Type: field.TypeString},
+		{Name: "input", Type: field.TypeString, Nullable: true},
 	}
 	// TrainingsTable holds the schema information for the "trainings" table.
 	TrainingsTable = &schema.Table{
