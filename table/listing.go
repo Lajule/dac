@@ -3,6 +3,8 @@ package table
 import (
 	"context"
 	"fmt"
+	"strconv"
+	"time"
 
 	//"github.com/fatih/color"
 	"github.com/gosuri/uitable"
@@ -24,14 +26,14 @@ func Print(ctx context.Context) error {
 	table.AddRow("CREATED_AT", "DURATION", "CLOSABLE", "STOPWATCH", "PROGRESS", "ACCURACY", "SPEED", "INPUT")
 
 	for _, training := range trainings {
-		table.AddRow(training.CreatedAt.String(),
-			"DURATION",
-			"CLOSABLE",
-			"STOPWATCH",
-			"PROGRESS",
-			"ACCURACY",
-			"SPEED",
-			"INPUT")
+		table.AddRow(training.CreatedAt.Format(time.RFC3339),
+			time.Duration(time.Duration(training.Duration) * time.Second).String(),
+			strconv.FormatBool(training.Closable),
+			time.Duration(time.Duration(training.Stopwatch) * time.Second).String(),
+			fmt.Sprintf("%.0f%%", training.Progress),
+			fmt.Sprintf("%.0f%%", training.Accuracy),
+			fmt.Sprintf("%.0fw/m", training.Speed),
+			training.Input)
 	}
 
 	fmt.Println(table)

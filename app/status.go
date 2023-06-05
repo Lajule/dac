@@ -14,14 +14,14 @@ type Status struct {
 	x int
 }
 
-func (s *Status) Draw(t *ent.TrainingMutation) {
-	s.drawAccuracy(t)
+func (s *Status) Draw(mu *ent.TrainingMutation) {
+	s.drawAccuracy(mu)
 	s.drawSeparator()
-	s.drawSpeed(t)
+	s.drawSpeed(mu)
 	s.drawSeparator()
-	s.drawProgress(t)
+	s.drawProgress(mu)
 	s.drawSeparator()
-	s.drawStopwatch(t)
+	s.drawStopwatch(mu)
 }
 
 func (s *Status) drawSeparator() {
@@ -29,8 +29,8 @@ func (s *Status) drawSeparator() {
 	s.x += 1
 }
 
-func (s *Status) drawAccuracy(t *ent.TrainingMutation) {
-	accuracy, _ := t.Accuracy()
+func (s *Status) drawAccuracy(mu *ent.TrainingMutation) {
+	accuracy, _ := mu.Accuracy()
 	style := tcell.StyleDefault
 	if accuracy < 50.0 {
 		style = style.Foreground(tcell.ColorRed)
@@ -43,16 +43,16 @@ func (s *Status) drawAccuracy(t *ent.TrainingMutation) {
 	}
 }
 
-func (s *Status) drawSpeed(t *ent.TrainingMutation) {
-	speed, _ := t.Speed()
+func (s *Status) drawSpeed(mu *ent.TrainingMutation) {
+	speed, _ := mu.Speed()
 	for _, r := range fmt.Sprintf("%*.0fw/s", 3, speed) {
 		s.screen.SetContent(s.x, 0, r, nil, tcell.StyleDefault)
 		s.x += 1
 	}
 }
 
-func (s *Status) drawProgress(t *ent.TrainingMutation) {
-	progress, _ := t.Progress()
+func (s *Status) drawProgress(mu *ent.TrainingMutation) {
+	progress, _ := mu.Progress()
 	for i := 0; i < 10; i++ {
 		style := tcell.StyleDefault
 		if progress/10.0 > float64(i) {
@@ -63,9 +63,9 @@ func (s *Status) drawProgress(t *ent.TrainingMutation) {
 	}
 }
 
-func (s *Status) drawStopwatch(t *ent.TrainingMutation) {
-	duration, _ := t.Duration()
-	stopwatch, _ := t.AddedStopwatch()
+func (s *Status) drawStopwatch(mu *ent.TrainingMutation) {
+	duration, _ := mu.Duration()
+	stopwatch, _ := mu.AddedStopwatch()
 	for _, r := range (time.Duration(duration-stopwatch) * time.Second).String() {
 		s.screen.SetContent(s.x, 0, r, nil, tcell.StyleDefault)
 		s.x += 1

@@ -42,7 +42,7 @@ func NewTrainingSession(text string) (*TrainingSession, error) {
 	}, nil
 }
 
-func (ts *TrainingSession) Start(t *ent.TrainingMutation) {
+func (ts *TrainingSession) Start(mu *ent.TrainingMutation) {
 	go func() {
 		for {
 			select {
@@ -63,10 +63,12 @@ func (ts *TrainingSession) Start(t *ent.TrainingMutation) {
 			switch ev.Key() {
 			case tcell.KeyRune:
 				ts.inputs = append(ts.inputs, ts.text[len(ts.inputs)] == ev.Rune())
-				ts.setAccuracy(t)
-				ts.setProgress(t)
-				ts.draw(t)
+				ts.setAccuracy(mu)
+				ts.setProgress(mu)
+				ts.draw(mu)
+
 				if len(ts.inputs) == len(ts.text) {
+					ts.setStopwatch(mu)
 					ts.stop()
 					return
 				}
@@ -74,34 +76,37 @@ func (ts *TrainingSession) Start(t *ent.TrainingMutation) {
 			case tcell.KeyBackspace2:
 				if len(ts.inputs) > 0 {
 					ts.inputs = ts.inputs[:len(ts.inputs)-1]
-					ts.setAccuracy(t)
-					ts.setProgress(t)
-					ts.draw(t)
+					ts.setAccuracy(mu)
+					ts.setProgress(mu)
+					ts.draw(mu)
 				}
 
 			case tcell.KeyEscape:
+				ts.setStopwatch(mu)
 				ts.stop()
 				return
 
 			case tcell.KeyCtrlL:
 				ts.screen.Sync()
-				ts.draw(t)
+				ts.draw(mu)
 			}
 
 		case *tcell.EventTime:
-			closable, _ := t.Closable()
-			duration, _ := t.Duration()
-			stopwatch, _ := t.AddedStopwatch()
+			closable, _ := mu.Closable()
+			duration, _ := mu.Duration()
+			stopwatch, _ := mu.AddedStopwatch()
 			if closable && duration-stopwatch == 0.0 {
+				ts.setStopwatch(mu)
 				ts.stop()
 				return
 			}
-			ts.setSpeed(t)
-			ts.draw(t)
+
+			ts.setSpeed(mu)
+			ts.draw(mu)
 
 		case *tcell.EventResize:
 			ts.screen.Sync()
-			ts.draw(t)
+			ts.draw(mu)
 		}
 	}
 }
@@ -112,21 +117,24 @@ func (ts *TrainingSession) stop() {
 	ts.screen.Fini()
 }
 
-func (ts *TrainingSession) setAccuracy(t *ent.TrainingMutation) {
+func (ts *TrainingSession) setAccuracy(mu *ent.TrainingMutation) {
+	var accuracy float64
+
 	count := countValue(ts.inputs, true)
 	if count > 0 {
-		t.SetAccuracy(float64((count * 100) / len(ts.inputs)))
-	} else {
-		t.SetAccuracy(0.0)
+		accuracy = float64((count * 100) / len(ts.inputs))
 	}
+
+	mu.SetAccuracy(accuracy)
 }
 
-func (ts *TrainingSession) setProgress(t *ent.TrainingMutation) {
-	t.SetProgress(float64((len(ts.inputs) * 100) / len(ts.text)))
+func (ts *TrainingSession) setProgress(mu *ent.TrainingMutation) {
+	mu.SetProgress(float64((len(ts.inputs) * 100) / len(ts.text)))
 }
 
-func (ts *TrainingSession) setSpeed(t *ent.TrainingMutation) {
-	t.AddStopwatch(1.0)
+func (ts *TrainingSession) setSpeed(mu *ent.TrainingMutation) {
+	mu.AddStopwatch(1.0)
+
 	if len(ts.inputs) > 0 {
 		index := len(ts.inputs)
 		if index < len(ts.text)-1 && ts.text[index+1] != ' ' {
@@ -140,26 +148,31 @@ func (ts *TrainingSession) setSpeed(t *ent.TrainingMutation) {
 
 		words := strings.Fields(string(ts.text[:index]))
 		if len(words) > 0 {
-			stopwatch, _ := t.AddedStopwatch()
-			t.SetSpeed(float64(len(words)*60) / stopwatch)
+			stopwatch, _ := mu.AddedStopwatch()
+			mu.SetSpeed(float64(len(words)*60) / stopwatch)
 		}
 	} else {
-		t.SetSpeed(0.0)
+		mu.SetSpeed(0.0)
 	}
 }
 
-func (ts *TrainingSession) draw(t *ent.TrainingMutation) {
+func (ts *TrainingSession) setStopwatch(mu *ent.TrainingMutation) {
+	stopwatch, _ := mu.AddedStopwatch()
+	mu.SetStopwatch(stopwatch)
+}
+
+func (ts *TrainingSession) draw(mu *ent.TrainingMutation) {
 	ts.screen.Clear()
-	ts.drawStatus(t)
+	ts.drawStatus(mu)
 	ts.drawText()
 	ts.screen.Show()
 }
 
-func (ts *TrainingSession) drawStatus(t *ent.TrainingMutation) {
+func (ts *TrainingSession) drawStatus(mu *ent.TrainingMutation) {
 	st := &Status{
 		screen: ts.screen,
 	}
-	st.Draw(t)
+	st.Draw(mu)
 }
 
 func (ts *TrainingSession) drawText() {
