@@ -43,4 +43,8 @@ func init() {
 	trainingDescSpeed := trainingFields[6].Descriptor()
 	// training.DefaultSpeed holds the default value on creation for the speed field.
 	training.DefaultSpeed = trainingDescSpeed.Default.(float64)
+	// trainingDescLength is the schema descriptor for length field.
+	trainingDescLength := trainingFields[8].Descriptor()
+	// training.DefaultLength holds the default value on creation for the length field.
+	training.DefaultLength = trainingDescLength.Default.(int)
 }

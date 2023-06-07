@@ -6,7 +6,6 @@ import (
 	"strconv"
 	"time"
 
-	//"github.com/fatih/color"
 	"github.com/gosuri/uitable"
 
 	"github.com/Lajule/dac/ent"
@@ -23,7 +22,7 @@ func Print(ctx context.Context) error {
 	}
 
 	table := uitable.New()
-	table.AddRow("CREATED_AT", "DURATION", "CLOSABLE", "STOPWATCH", "PROGRESS", "ACCURACY", "SPEED", "INPUT")
+	table.AddRow("CREATED_AT", "DURATION", "CLOSABLE", "STOPWATCH", "PROGRESS", "ACCURACY", "SPEED", "INPUT", "LENGTH")
 
 	for _, training := range trainings {
 		table.AddRow(training.CreatedAt.Format(time.RFC3339),
@@ -33,7 +32,8 @@ func Print(ctx context.Context) error {
 			fmt.Sprintf("%.0f%%", training.Progress),
 			fmt.Sprintf("%.0f%%", training.Accuracy),
 			fmt.Sprintf("%.0fw/m", training.Speed),
-			training.Input)
+			training.Input,
+			training.Length)
 	}
 
 	fmt.Println(table)

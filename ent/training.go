@@ -32,7 +32,9 @@ type Training struct {
 	// Speed holds the value of the "speed" field.
 	Speed float64 `json:"speed,omitempty"`
 	// Input holds the value of the "input" field.
-	Input        string `json:"input,omitempty"`
+	Input string `json:"input,omitempty"`
+	// Length holds the value of the "length" field.
+	Length       int `json:"length,omitempty"`
 	selectValues sql.SelectValues
 }
 
@@ -45,7 +47,7 @@ func (*Training) scanValues(columns []string) ([]any, error) {
 			values[i] = new(sql.NullBool)
 		case training.FieldDuration, training.FieldStopwatch, training.FieldProgress, training.FieldAccuracy, training.FieldSpeed:
 			values[i] = new(sql.NullFloat64)
-		case training.FieldID:
+		case training.FieldID, training.FieldLength:
 			values[i] = new(sql.NullInt64)
 		case training.FieldInput:
 			values[i] = new(sql.NullString)
@@ -120,6 +122,12 @@ func (t *Training) assignValues(columns []string, values []any) error {
 			} else if value.Valid {
 				t.Input = value.String
 			}
+		case training.FieldLength:
+			if value, ok := values[i].(*sql.NullInt64); !ok {
+				return fmt.Errorf("unexpected type %T for field length", values[i])
+			} else if value.Valid {
+				t.Length = int(value.Int64)
+			}
 		default:
 			t.selectValues.Set(columns[i], values[i])
 		}
@@ -179,6 +187,9 @@ func (t *Training) String() string {
 	builder.WriteString(", ")
 	builder.WriteString("input=")
 	builder.WriteString(t.Input)
+	builder.WriteString(", ")
+	builder.WriteString("length=")
+	builder.WriteString(fmt.Sprintf("%v", t.Length))
 	builder.WriteByte(')')
 	return builder.String()
 }

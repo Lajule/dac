@@ -166,6 +166,27 @@ func (tu *TrainingUpdate) ClearInput() *TrainingUpdate {
 	return tu
 }
 
+// SetLength sets the "length" field.
+func (tu *TrainingUpdate) SetLength(i int) *TrainingUpdate {
+	tu.mutation.ResetLength()
+	tu.mutation.SetLength(i)
+	return tu
+}
+
+// SetNillableLength sets the "length" field if the given value is not nil.
+func (tu *TrainingUpdate) SetNillableLength(i *int) *TrainingUpdate {
+	if i != nil {
+		tu.SetLength(*i)
+	}
+	return tu
+}
+
+// AddLength adds i to the "length" field.
+func (tu *TrainingUpdate) AddLength(i int) *TrainingUpdate {
+	tu.mutation.AddLength(i)
+	return tu
+}
+
 // Mutation returns the TrainingMutation object of the builder.
 func (tu *TrainingUpdate) Mutation() *TrainingMutation {
 	return tu.mutation
@@ -245,6 +266,12 @@ func (tu *TrainingUpdate) sqlSave(ctx context.Context) (n int, err error) {
 	}
 	if tu.mutation.InputCleared() {
 		_spec.ClearField(training.FieldInput, field.TypeString)
+	}
+	if value, ok := tu.mutation.Length(); ok {
+		_spec.SetField(training.FieldLength, field.TypeInt, value)
+	}
+	if value, ok := tu.mutation.AddedLength(); ok {
+		_spec.AddField(training.FieldLength, field.TypeInt, value)
 	}
 	if n, err = sqlgraph.UpdateNodes(ctx, tu.driver, _spec); err != nil {
 		if _, ok := err.(*sqlgraph.NotFoundError); ok {
@@ -405,6 +432,27 @@ func (tuo *TrainingUpdateOne) ClearInput() *TrainingUpdateOne {
 	return tuo
 }
 
+// SetLength sets the "length" field.
+func (tuo *TrainingUpdateOne) SetLength(i int) *TrainingUpdateOne {
+	tuo.mutation.ResetLength()
+	tuo.mutation.SetLength(i)
+	return tuo
+}
+
+// SetNillableLength sets the "length" field if the given value is not nil.
+func (tuo *TrainingUpdateOne) SetNillableLength(i *int) *TrainingUpdateOne {
+	if i != nil {
+		tuo.SetLength(*i)
+	}
+	return tuo
+}
+
+// AddLength adds i to the "length" field.
+func (tuo *TrainingUpdateOne) AddLength(i int) *TrainingUpdateOne {
+	tuo.mutation.AddLength(i)
+	return tuo
+}
+
 // Mutation returns the TrainingMutation object of the builder.
 func (tuo *TrainingUpdateOne) Mutation() *TrainingMutation {
 	return tuo.mutation
@@ -514,6 +562,12 @@ func (tuo *TrainingUpdateOne) sqlSave(ctx context.Context) (_node *Training, err
 	}
 	if tuo.mutation.InputCleared() {
 		_spec.ClearField(training.FieldInput, field.TypeString)
+	}
+	if value, ok := tuo.mutation.Length(); ok {
+		_spec.SetField(training.FieldLength, field.TypeInt, value)
+	}
+	if value, ok := tuo.mutation.AddedLength(); ok {
+		_spec.AddField(training.FieldLength, field.TypeInt, value)
 	}
 	_node = &Training{config: tuo.config}
 	_spec.Assign = _node.assignValues

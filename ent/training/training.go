@@ -29,6 +29,8 @@ const (
 	FieldSpeed = "speed"
 	// FieldInput holds the string denoting the input field in the database.
 	FieldInput = "input"
+	// FieldLength holds the string denoting the length field in the database.
+	FieldLength = "length"
 	// Table holds the table name of the training in the database.
 	Table = "trainings"
 )
@@ -44,6 +46,7 @@ var Columns = []string{
 	FieldAccuracy,
 	FieldSpeed,
 	FieldInput,
+	FieldLength,
 }
 
 // ValidColumn reports if the column name is valid (part of the table columns).
@@ -71,6 +74,8 @@ var (
 	DefaultAccuracy float64
 	// DefaultSpeed holds the default value on creation for the "speed" field.
 	DefaultSpeed float64
+	// DefaultLength holds the default value on creation for the "length" field.
+	DefaultLength int
 )
 
 // OrderOption defines the ordering options for the Training queries.
@@ -119,4 +124,9 @@ func BySpeed(opts ...sql.OrderTermOption) OrderOption {
 // ByInput orders the results by the input field.
 func ByInput(opts ...sql.OrderTermOption) OrderOption {
 	return sql.OrderByField(FieldInput, opts...).ToFunc()
+}
+
+// ByLength orders the results by the length field.
+func ByLength(opts ...sql.OrderTermOption) OrderOption {
+	return sql.OrderByField(FieldLength, opts...).ToFunc()
 }

@@ -46,6 +46,8 @@ type TrainingMutation struct {
 	speed         *float64
 	addspeed      *float64
 	input         *string
+	length        *int
+	addlength     *int
 	clearedFields map[string]struct{}
 	done          bool
 	oldValue      func(context.Context) (*Training, error)
@@ -551,6 +553,62 @@ func (m *TrainingMutation) ResetInput() {
 	delete(m.clearedFields, training.FieldInput)
 }
 
+// SetLength sets the "length" field.
+func (m *TrainingMutation) SetLength(i int) {
+	m.length = &i
+	m.addlength = nil
+}
+
+// Length returns the value of the "length" field in the mutation.
+func (m *TrainingMutation) Length() (r int, exists bool) {
+	v := m.length
+	if v == nil {
+		return
+	}
+	return *v, true
+}
+
+// OldLength returns the old "length" field's value of the Training entity.
+// If the Training object wasn't provided to the builder, the object is fetched from the database.
+// An error is returned if the mutation operation is not UpdateOne, or the database query fails.
+func (m *TrainingMutation) OldLength(ctx context.Context) (v int, err error) {
+	if !m.op.Is(OpUpdateOne) {
+		return v, errors.New("OldLength is only allowed on UpdateOne operations")
+	}
+	if m.id == nil || m.oldValue == nil {
+		return v, errors.New("OldLength requires an ID field in the mutation")
+	}
+	oldValue, err := m.oldValue(ctx)
+	if err != nil {
+		return v, fmt.Errorf("querying old value for OldLength: %w", err)
+	}
+	return oldValue.Length, nil
+}
+
+// AddLength adds i to the "length" field.
+func (m *TrainingMutation) AddLength(i int) {
+	if m.addlength != nil {
+		*m.addlength += i
+	} else {
+		m.addlength = &i
+	}
+}
+
+// AddedLength returns the value that was added to the "length" field in this mutation.
+func (m *TrainingMutation) AddedLength() (r int, exists bool) {
+	v := m.addlength
+	if v == nil {
+		return
+	}
+	return *v, true
+}
+
+// ResetLength resets all changes to the "length" field.
+func (m *TrainingMutation) ResetLength() {
+	m.length = nil
+	m.addlength = nil
+}
+
 // Where appends a list predicates to the TrainingMutation builder.
 func (m *TrainingMutation) Where(ps ...predicate.Training) {
 	m.predicates = append(m.predicates, ps...)
@@ -585,7 +643,7 @@ func (m *TrainingMutation) Type() string {
 // order to get all numeric fields that were incremented/decremented, call
 // AddedFields().
 func (m *TrainingMutation) Fields() []string {
-	fields := make([]string, 0, 8)
+	fields := make([]string, 0, 9)
 	if m.created_at != nil {
 		fields = append(fields, training.FieldCreatedAt)
 	}
@@ -609,6 +667,9 @@ func (m *TrainingMutation) Fields() []string {
 	}
 	if m.input != nil {
 		fields = append(fields, training.FieldInput)
+	}
+	if m.length != nil {
+		fields = append(fields, training.FieldLength)
 	}
 	return fields
 }
@@ -634,6 +695,8 @@ func (m *TrainingMutation) Field(name string) (ent.Value, bool) {
 		return m.Speed()
 	case training.FieldInput:
 		return m.Input()
+	case training.FieldLength:
+		return m.Length()
 	}
 	return nil, false
 }
@@ -659,6 +722,8 @@ func (m *TrainingMutation) OldField(ctx context.Context, name string) (ent.Value
 		return m.OldSpeed(ctx)
 	case training.FieldInput:
 		return m.OldInput(ctx)
+	case training.FieldLength:
+		return m.OldLength(ctx)
 	}
 	return nil, fmt.Errorf("unknown Training field %s", name)
 }
@@ -724,6 +789,13 @@ func (m *TrainingMutation) SetField(name string, value ent.Value) error {
 		}
 		m.SetInput(v)
 		return nil
+	case training.FieldLength:
+		v, ok := value.(int)
+		if !ok {
+			return fmt.Errorf("unexpected type %T for field %s", value, name)
+		}
+		m.SetLength(v)
+		return nil
 	}
 	return fmt.Errorf("unknown Training field %s", name)
 }
@@ -747,6 +819,9 @@ func (m *TrainingMutation) AddedFields() []string {
 	if m.addspeed != nil {
 		fields = append(fields, training.FieldSpeed)
 	}
+	if m.addlength != nil {
+		fields = append(fields, training.FieldLength)
+	}
 	return fields
 }
 
@@ -765,6 +840,8 @@ func (m *TrainingMutation) AddedField(name string) (ent.Value, bool) {
 		return m.AddedAccuracy()
 	case training.FieldSpeed:
 		return m.AddedSpeed()
+	case training.FieldLength:
+		return m.AddedLength()
 	}
 	return nil, false
 }
@@ -808,6 +885,13 @@ func (m *TrainingMutation) AddField(name string, value ent.Value) error {
 			return fmt.Errorf("unexpected type %T for field %s", value, name)
 		}
 		m.AddSpeed(v)
+		return nil
+	case training.FieldLength:
+		v, ok := value.(int)
+		if !ok {
+			return fmt.Errorf("unexpected type %T for field %s", value, name)
+		}
+		m.AddLength(v)
 		return nil
 	}
 	return fmt.Errorf("unknown Training numeric field %s", name)
@@ -868,6 +952,9 @@ func (m *TrainingMutation) ResetField(name string) error {
 		return nil
 	case training.FieldInput:
 		m.ResetInput()
+		return nil
+	case training.FieldLength:
+		m.ResetLength()
 		return nil
 	}
 	return fmt.Errorf("unknown Training field %s", name)

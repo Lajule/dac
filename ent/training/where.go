@@ -94,6 +94,11 @@ func Input(v string) predicate.Training {
 	return predicate.Training(sql.FieldEQ(FieldInput, v))
 }
 
+// Length applies equality check predicate on the "length" field. It's identical to LengthEQ.
+func Length(v int) predicate.Training {
+	return predicate.Training(sql.FieldEQ(FieldLength, v))
+}
+
 // CreatedAtEQ applies the EQ predicate on the "created_at" field.
 func CreatedAtEQ(v time.Time) predicate.Training {
 	return predicate.Training(sql.FieldEQ(FieldCreatedAt, v))
@@ -417,6 +422,46 @@ func InputEqualFold(v string) predicate.Training {
 // InputContainsFold applies the ContainsFold predicate on the "input" field.
 func InputContainsFold(v string) predicate.Training {
 	return predicate.Training(sql.FieldContainsFold(FieldInput, v))
+}
+
+// LengthEQ applies the EQ predicate on the "length" field.
+func LengthEQ(v int) predicate.Training {
+	return predicate.Training(sql.FieldEQ(FieldLength, v))
+}
+
+// LengthNEQ applies the NEQ predicate on the "length" field.
+func LengthNEQ(v int) predicate.Training {
+	return predicate.Training(sql.FieldNEQ(FieldLength, v))
+}
+
+// LengthIn applies the In predicate on the "length" field.
+func LengthIn(vs ...int) predicate.Training {
+	return predicate.Training(sql.FieldIn(FieldLength, vs...))
+}
+
+// LengthNotIn applies the NotIn predicate on the "length" field.
+func LengthNotIn(vs ...int) predicate.Training {
+	return predicate.Training(sql.FieldNotIn(FieldLength, vs...))
+}
+
+// LengthGT applies the GT predicate on the "length" field.
+func LengthGT(v int) predicate.Training {
+	return predicate.Training(sql.FieldGT(FieldLength, v))
+}
+
+// LengthGTE applies the GTE predicate on the "length" field.
+func LengthGTE(v int) predicate.Training {
+	return predicate.Training(sql.FieldGTE(FieldLength, v))
+}
+
+// LengthLT applies the LT predicate on the "length" field.
+func LengthLT(v int) predicate.Training {
+	return predicate.Training(sql.FieldLT(FieldLength, v))
+}
+
+// LengthLTE applies the LTE predicate on the "length" field.
+func LengthLTE(v int) predicate.Training {
+	return predicate.Training(sql.FieldLTE(FieldLength, v))
 }
 
 // And groups predicates with the AND operator between them.

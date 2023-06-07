@@ -52,6 +52,7 @@ var (
 			if len(b) == 0 {
 				log.Fatal("input is empty")
 			}
+			t.SetLength(len(b))
 
 			ts, err := app.NewTrainingSession(string(b))
 			if err != nil {

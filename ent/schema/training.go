@@ -23,6 +23,7 @@ func (Training) Fields() []ent.Field {
 		field.Float("accuracy").Default(0.0),
 		field.Float("speed").Default(0.0),
 		field.String("input").Optional(),
+		field.Int("length").Default(0),
 	}
 }
 
