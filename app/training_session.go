@@ -68,7 +68,6 @@ func (ts *TrainingSession) Start(mu *ent.TrainingMutation) {
 				ts.draw(mu)
 
 				if len(ts.inputs) == len(ts.text) {
-					ts.setStopwatch(mu)
 					ts.stop()
 					return
 				}
@@ -82,7 +81,6 @@ func (ts *TrainingSession) Start(mu *ent.TrainingMutation) {
 				}
 
 			case tcell.KeyEscape:
-				ts.setStopwatch(mu)
 				ts.stop()
 				return
 
@@ -92,15 +90,12 @@ func (ts *TrainingSession) Start(mu *ent.TrainingMutation) {
 			}
 
 		case *tcell.EventTime:
-			closable, _ := mu.Closable()
-			duration, _ := mu.Duration()
-			stopwatch, _ := mu.AddedStopwatch()
-			if closable && duration-stopwatch == 0.0 {
-				ts.setStopwatch(mu)
+			if ts.isFinish(mu) {
 				ts.stop()
 				return
 			}
 
+			ts.setStopwatch(mu)
 			ts.setSpeed(mu)
 			ts.draw(mu)
 
@@ -109,6 +104,13 @@ func (ts *TrainingSession) Start(mu *ent.TrainingMutation) {
 			ts.draw(mu)
 		}
 	}
+}
+
+func (ts *TrainingSession) isFinish(mu *ent.TrainingMutation) bool {
+	closable, _ := mu.Closable()
+	duration, _ := mu.Duration()
+	stopwatch, _ := mu.Stopwatch()
+	return closable && duration-stopwatch == 0.0
 }
 
 func (ts *TrainingSession) stop() {
@@ -132,9 +134,13 @@ func (ts *TrainingSession) setProgress(mu *ent.TrainingMutation) {
 	mu.SetProgress(float64((len(ts.inputs) * 100) / len(ts.text)))
 }
 
-func (ts *TrainingSession) setSpeed(mu *ent.TrainingMutation) {
-	mu.AddStopwatch(1.0)
+func (ts *TrainingSession) setStopwatch(mu *ent.TrainingMutation) {
+	stopwatch, _ := mu.Stopwatch()
+	stopwatch += 1
+	mu.SetStopwatch(stopwatch)
+}
 
+func (ts *TrainingSession) setSpeed(mu *ent.TrainingMutation) {
 	if len(ts.inputs) > 0 {
 		index := len(ts.inputs)
 		if index < len(ts.text)-1 && ts.text[index+1] != ' ' {
@@ -148,17 +154,12 @@ func (ts *TrainingSession) setSpeed(mu *ent.TrainingMutation) {
 
 		words := strings.Fields(string(ts.text[:index]))
 		if len(words) > 0 {
-			stopwatch, _ := mu.AddedStopwatch()
+			stopwatch, _ := mu.Stopwatch()
 			mu.SetSpeed(float64(len(words)*60) / stopwatch)
 		}
 	} else {
 		mu.SetSpeed(0.0)
 	}
-}
-
-func (ts *TrainingSession) setStopwatch(mu *ent.TrainingMutation) {
-	stopwatch, _ := mu.AddedStopwatch()
-	mu.SetStopwatch(stopwatch)
 }
 
 func (ts *TrainingSession) draw(mu *ent.TrainingMutation) {
@@ -178,7 +179,7 @@ func (ts *TrainingSession) drawStatus(mu *ent.TrainingMutation) {
 func (ts *TrainingSession) drawText() {
 	tx := &Text{
 		screen: ts.screen,
-		y: 1,
+		y:      1,
 	}
 	tx.w, tx.h = ts.screen.Size()
 	tx.max = tx.w * (tx.h - tx.y)

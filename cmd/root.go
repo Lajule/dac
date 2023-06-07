@@ -66,7 +66,7 @@ var (
 			}
 
 			s := &graph.Statistic{
-				Field:  statistic,
+				Field: statistic,
 			}
 			s.Plot(ctx)
 		},

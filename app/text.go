@@ -37,7 +37,7 @@ func (t *Text) Draw(text []rune, inputs []bool) {
 			} else {
 				style = style.Foreground(tcell.ColorRed)
 			}
-			if r == ' '{
+			if r == ' ' {
 				style = style.Underline(true)
 			}
 		}

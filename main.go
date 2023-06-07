@@ -9,7 +9,6 @@ import (
 	"github.com/Lajule/dac/cmd"
 	"github.com/Lajule/dac/ent"
 	_ "github.com/mattn/go-sqlite3"
-
 )
 
 func main() {

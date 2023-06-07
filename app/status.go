@@ -65,7 +65,7 @@ func (s *Status) drawProgress(mu *ent.TrainingMutation) {
 
 func (s *Status) drawStopwatch(mu *ent.TrainingMutation) {
 	duration, _ := mu.Duration()
-	stopwatch, _ := mu.AddedStopwatch()
+	stopwatch, _ := mu.Stopwatch()
 	for _, r := range (time.Duration(duration-stopwatch) * time.Second).String() {
 		s.screen.SetContent(s.x, 0, r, nil, tcell.StyleDefault)
 		s.x += 1

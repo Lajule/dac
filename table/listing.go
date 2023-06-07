@@ -26,9 +26,9 @@ func Print(ctx context.Context) error {
 
 	for _, training := range trainings {
 		table.AddRow(training.CreatedAt.Format(time.RFC3339),
-			time.Duration(time.Duration(training.Duration) * time.Second).String(),
+			time.Duration(time.Duration(training.Duration)*time.Second).String(),
 			strconv.FormatBool(training.Closable),
-			time.Duration(time.Duration(training.Stopwatch) * time.Second).String(),
+			time.Duration(time.Duration(training.Stopwatch)*time.Second).String(),
 			fmt.Sprintf("%.0f%%", training.Progress),
 			fmt.Sprintf("%.0f%%", training.Accuracy),
 			fmt.Sprintf("%.0fw/m", training.Speed),
