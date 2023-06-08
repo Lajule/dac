@@ -1,7 +1,7 @@
 package cmd
 
 import (
-	"github.com/Lajule/dac/table"
+	"github.com/Lajule/dac/app/table"
 	"github.com/spf13/cobra"
 )
 

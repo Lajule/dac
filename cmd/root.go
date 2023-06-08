@@ -7,9 +7,9 @@ import (
 	"os"
 	"time"
 
-	"github.com/Lajule/dac/app"
+	"github.com/Lajule/dac/app/session"
+	"github.com/Lajule/dac/app/graph"
 	"github.com/Lajule/dac/ent"
-	"github.com/Lajule/dac/graph"
 	"github.com/spf13/cobra"
 )
 
@@ -54,21 +54,21 @@ var (
 			}
 			t.SetLength(len(b))
 
-			ts, err := app.NewTrainingSession(string(b))
+			s, err := app.NewSession(string(b))
 			if err != nil {
 				log.Fatalf("failed creating app: %v", err)
 			}
 
-			ts.Start(t.Mutation())
+			s.Start(t.Mutation())
 
 			if _, err := t.Save(ctx); err != nil {
 				log.Fatalf("failed updating training: %v", err)
 			}
 
-			s := &graph.Statistic{
+			st := &graph.Statistic{
 				Field: statistic,
 			}
-			s.Plot(ctx)
+			st.Plot(ctx)
 		},
 	}
 )

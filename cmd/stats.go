@@ -3,7 +3,7 @@ package cmd
 import (
 	"strings"
 
-	"github.com/Lajule/dac/graph"
+	"github.com/Lajule/dac/app/graph"
 	"github.com/spf13/cobra"
 )
 
