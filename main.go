@@ -16,7 +16,7 @@ func main() {
 	if val, ok := os.LookupEnv("DAC_DB_FILE"); ok {
 		dbFile = val
 	} else {
-		dbFile = "dac.db"
+		dbFile = ".dac.db"
 	}
 
 	client, err := ent.Open("sqlite3", fmt.Sprintf("file:%s?cache=shared&_fk=1", dbFile))

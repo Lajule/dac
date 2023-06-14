@@ -24,5 +24,5 @@ go.work
 dac
 
 # DB
-dac.db
+.dac.db
 dist/
