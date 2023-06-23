@@ -53,12 +53,8 @@ func (s *Status) drawSpeed(mu *ent.TrainingMutation) {
 
 func (s *Status) drawProgress(mu *ent.TrainingMutation) {
 	progress, _ := mu.Progress()
-	for i := 0; i < 10; i++ {
-		style := tcell.StyleDefault
-		if progress/10.0 > float64(i) {
-			style = style.Reverse(true)
-		}
-		s.screen.SetContent(s.x, 0, ' ', nil, style)
+	for _, r := range fmt.Sprintf("%*.0f%%", 3, progress) {
+		s.screen.SetContent(s.x, 0, r, nil, tcell.StyleDefault)
 		s.x += 1
 	}
 }
