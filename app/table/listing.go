@@ -12,11 +12,12 @@ import (
 )
 
 func Print(ctx context.Context) error {
-	client := ctx.Value("client").(*ent.Client)
+	values := ctx.Value("values").(map[string]any)
 
+	client := values["client"].(*ent.Client)
 	trainings, err := client.Training.
 		Query().
-		All(context.Background())
+		All(ctx)
 	if err != nil {
 		return fmt.Errorf("failed selecting data: %w", err)
 	}

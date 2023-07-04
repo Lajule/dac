@@ -11,6 +11,14 @@ import (
 	_ "github.com/mattn/go-sqlite3"
 )
 
+var (
+	version = "dev"
+
+	commit = "none"
+
+	date = "unknown"
+)
+
 func main() {
 	var dbFile string
 	if val, ok := os.LookupEnv("DAC_DB_FILE"); ok {
@@ -28,7 +36,12 @@ func main() {
 		log.Fatalf("failed creating schema resources: %v", err)
 	}
 
-	if err := cmd.Execute(context.WithValue(context.Background(), "client", client)); err != nil {
+	if err := cmd.Execute(context.WithValue(context.Background(), "values", map[string]any{
+		"version": version,
+		"commit":  commit,
+		"date":    date,
+		"client":  client,
+	})); err != nil {
 		log.Fatalf("failed executing command: %v", err)
 	}
 }

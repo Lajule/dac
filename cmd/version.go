@@ -14,7 +14,12 @@ var (
 		Short: "Program version",
 		Long:  `Display program version.`,
 		Run: func(cmd *cobra.Command, args []string) {
-			fmt.Println(version)
+			ctx := cmd.Context()
+			values := ctx.Value("values").(map[string]any)
+			fmt.Printf("%s %s %s\n",
+				values["version"].(string),
+				values["commit"].(string),
+				values["date"].(string))
 		},
 	}
 )

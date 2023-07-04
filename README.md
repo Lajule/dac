@@ -5,7 +5,7 @@ Typing terminal app
 ## Build
 
 ```sh
-go build -ldflags="-X 'github.com/Lajule/dac/cmd.version=1.0.0'"
+go build
 ```
 
 ## Release
@@ -14,7 +14,8 @@ go build -ldflags="-X 'github.com/Lajule/dac/cmd.version=1.0.0'"
 goreleaser release
 ```
 
+# Input files
 
 ```sh
-tr '\n' ' ' | tr '\t' ' '
+cat text | tr '\n' ' ' | tr '\t' ' ' >input
 ```

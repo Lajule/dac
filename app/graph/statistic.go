@@ -13,8 +13,9 @@ type Statistic struct {
 }
 
 func (s *Statistic) Plot(ctx context.Context) error {
-	client := ctx.Value("client").(*ent.Client)
+	values := ctx.Value("values").(map[string]any)
 
+	client := values["client"].(*ent.Client)
 	data, err := client.Training.
 		Query().
 		Select(s.Field).

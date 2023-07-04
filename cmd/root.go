@@ -7,8 +7,8 @@ import (
 	"os"
 	"time"
 
-	"github.com/Lajule/dac/app/session"
 	"github.com/Lajule/dac/app/graph"
+	"github.com/Lajule/dac/app/session"
 	"github.com/Lajule/dac/ent"
 	"github.com/spf13/cobra"
 )
@@ -26,8 +26,9 @@ var (
 		Long:  `Dac is typing training sessions program, it's help you to improve your typing skills.`,
 		Run: func(cmd *cobra.Command, args []string) {
 			ctx := cmd.Context()
+			values := ctx.Value("values").(map[string]any)
 
-			client := ctx.Value("client").(*ent.Client)
+			client := values["client"].(*ent.Client)
 			t := client.Training.Create().
 				SetDuration(duration.Seconds()).
 				SetClosable(closable)
