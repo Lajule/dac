@@ -37,9 +37,7 @@ func main() {
 	}
 
 	if err := cmd.Execute(context.WithValue(context.Background(), "values", map[string]any{
-		"version": version,
-		"commit":  commit,
-		"date":    date,
+		"version": fmt.Sprintf("%s %s %s", version, commit, date),
 		"client":  client,
 	})); err != nil {
 		log.Fatalf("failed executing command: %v", err)

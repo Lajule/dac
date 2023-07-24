@@ -16,10 +16,7 @@ var (
 		Run: func(cmd *cobra.Command, args []string) {
 			ctx := cmd.Context()
 			values := ctx.Value("values").(map[string]any)
-			fmt.Printf("%s %s %s\n",
-				values["version"].(string),
-				values["commit"].(string),
-				values["date"].(string))
+			fmt.Println(values["version"].(string))
 		},
 	}
 )
