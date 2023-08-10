@@ -4,8 +4,9 @@ import (
 	"context"
 	"fmt"
 
-	"github.com/Lajule/dac/ent"
 	"github.com/guptarohit/asciigraph"
+
+	dac "github.com/Lajule/dac/context"
 )
 
 type Statistic struct {
@@ -13,10 +14,9 @@ type Statistic struct {
 }
 
 func (s *Statistic) Plot(ctx context.Context) error {
-	values := ctx.Value("values").(map[string]any)
+	val := ctx.Value(dac.KeyName).(dac.Value)
 
-	client := values["client"].(*ent.Client)
-	data, err := client.Training.
+	data, err := val.Client.Training.
 		Query().
 		Select(s.Field).
 		Float64s(ctx)

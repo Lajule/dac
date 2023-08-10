@@ -9,7 +9,7 @@ import (
 
 	"github.com/Lajule/dac/app/graph"
 	"github.com/Lajule/dac/app/session"
-	"github.com/Lajule/dac/ent"
+	dac "github.com/Lajule/dac/context"
 	"github.com/spf13/cobra"
 )
 
@@ -26,10 +26,9 @@ var (
 		Long:  `Dac is typing training sessions program, it's help you to improve your typing skills.`,
 		Run: func(cmd *cobra.Command, args []string) {
 			ctx := cmd.Context()
-			values := ctx.Value("values").(map[string]any)
+			val := ctx.Value(dac.KeyName).(dac.Value)
 
-			client := values["client"].(*ent.Client)
-			t := client.Training.Create().
+			t := val.Client.Training.Create().
 				SetDuration(duration.Seconds()).
 				SetClosable(closable)
 
@@ -69,7 +68,10 @@ var (
 			st := &graph.Statistic{
 				Field: statistic,
 			}
-			st.Plot(ctx)
+
+			if err := st.Plot(ctx); err != nil {
+				log.Fatalf("failed plotting data: %v", err)
+			}
 		},
 	}
 )

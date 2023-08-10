@@ -4,8 +4,9 @@ import (
 	"context"
 	"fmt"
 
-	"github.com/Lajule/dac/ent"
 	"github.com/guptarohit/asciigraph"
+
+	dac "github.com/Lajule/dac/context"
 )
 
 type Statistics struct {
@@ -13,7 +14,7 @@ type Statistics struct {
 }
 
 func (s *Statistics) Plot(ctx context.Context) error {
-	values := ctx.Value("values").(map[string]any)
+	val := ctx.Value(dac.KeyName).(dac.Value)
 
 	var rows []struct {
 		Speed    float64 `json:"speed"`
@@ -21,15 +22,14 @@ func (s *Statistics) Plot(ctx context.Context) error {
 		Progress float64 `json:"progress"`
 	}
 
-	client := values["client"].(*ent.Client)
-	if err := client.Training.
+	if err := val.Client.Training.
 		Query().
 		Select(s.Fields...).
-		Scan(ctx, &values); err != nil {
+		Scan(ctx, &rows); err != nil {
 		return fmt.Errorf("failed selecting data: %w", err)
 	}
 
-	if len(values) > 0 {
+	if len(rows) > 0 {
 		data := [][]float64{[]float64{}, []float64{}, []float64{}}
 		for _, r := range rows {
 			data[0] = append(data[0], r.Speed)

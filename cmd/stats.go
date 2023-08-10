@@ -1,6 +1,7 @@
 package cmd
 
 import (
+	"log"
 	"strings"
 
 	"github.com/Lajule/dac/app/graph"
@@ -18,7 +19,10 @@ var (
 			s := &graph.Statistics{
 				Fields: strings.Split(statistics, ","),
 			}
-			s.Plot(cmd.Context())
+
+			if err := s.Plot(cmd.Context()); err != nil {
+				log.Fatalf("failed plotting data: %v", err)
+			}
 		},
 	}
 )

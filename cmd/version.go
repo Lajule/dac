@@ -4,19 +4,19 @@ import (
 	"fmt"
 
 	"github.com/spf13/cobra"
+
+	dac "github.com/Lajule/dac/context"
 )
 
 var (
-	version = "development"
-
 	versionCmd = &cobra.Command{
 		Use:   "version",
 		Short: "Program version",
 		Long:  `Display program version.`,
 		Run: func(cmd *cobra.Command, args []string) {
 			ctx := cmd.Context()
-			values := ctx.Value("values").(map[string]any)
-			fmt.Println(values["version"].(string))
+			val := ctx.Value(dac.KeyName).(dac.Value)
+			fmt.Println(val.Version)
 		},
 	}
 )

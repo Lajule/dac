@@ -7,7 +7,7 @@ import (
 
 	"github.com/Lajule/dac/ent"
 	"github.com/gdamore/tcell/v2"
-	"github.com/gdamore/tcell/v2/encoding"
+	_ "github.com/gdamore/tcell/v2/encoding"
 )
 
 type Session struct {
@@ -23,8 +23,6 @@ type Session struct {
 }
 
 func NewSession(text string) (*Session, error) {
-	encoding.Register()
-
 	sc, err := tcell.NewScreen()
 	if err != nil {
 		return nil, fmt.Errorf("failed creating screen: %w", err)
@@ -52,7 +50,7 @@ func (s *Session) Start(mu *ent.TrainingMutation) {
 			case <-s.ticker.C:
 				ev := &tcell.EventTime{}
 				ev.SetEventNow()
-				s.screen.PostEvent(ev)
+				_ = s.screen.PostEvent(ev)
 			}
 		}
 	}()

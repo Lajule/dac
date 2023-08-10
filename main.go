@@ -7,8 +7,15 @@ import (
 	"os"
 
 	"github.com/Lajule/dac/cmd"
+	dac "github.com/Lajule/dac/context"
 	"github.com/Lajule/dac/ent"
 	_ "github.com/mattn/go-sqlite3"
+)
+
+const (
+	EnvVarName = "DAC_DB_FILE"
+
+	DefaultDBFileName = ".dac.db"
 )
 
 var (
@@ -21,10 +28,10 @@ var (
 
 func main() {
 	var dbFile string
-	if val, ok := os.LookupEnv("DAC_DB_FILE"); ok {
+	if val, ok := os.LookupEnv(EnvVarName); ok {
 		dbFile = val
 	} else {
-		dbFile = ".dac.db"
+		dbFile = DefaultDBFileName
 	}
 
 	client, err := ent.Open("sqlite3", fmt.Sprintf("file:%s?cache=shared&_fk=1", dbFile))
@@ -36,9 +43,9 @@ func main() {
 		log.Fatalf("failed creating schema resources: %v", err)
 	}
 
-	if err := cmd.Execute(context.WithValue(context.Background(), "values", map[string]any{
-		"version": fmt.Sprintf("%s %s %s", version, commit, date),
-		"client":  client,
+	if err := cmd.Execute(context.WithValue(context.Background(), dac.KeyName, dac.Value{
+		Version: fmt.Sprintf("%s %s %s", version, commit, date),
+		Client:  client,
 	})); err != nil {
 		log.Fatalf("failed executing command: %v", err)
 	}

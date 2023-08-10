@@ -8,14 +8,13 @@ import (
 
 	"github.com/gosuri/uitable"
 
-	"github.com/Lajule/dac/ent"
+	dac "github.com/Lajule/dac/context"
 )
 
 func Print(ctx context.Context) error {
-	values := ctx.Value("values").(map[string]any)
+	val := ctx.Value(dac.KeyName).(dac.Value)
 
-	client := values["client"].(*ent.Client)
-	trainings, err := client.Training.
+	trainings, err := val.Client.Training.
 		Query().
 		All(ctx)
 	if err != nil {
