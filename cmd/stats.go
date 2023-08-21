@@ -28,6 +28,6 @@ var (
 )
 
 func init() {
-	statsCmd.Flags().StringVarP(&statistics, "statistics", "s", "speed,accuracy,progress", "Statistics to display")
+	statsCmd.Flags().StringVarP(&statistics, "statistics", "s", "speed,accuracy,progress", "statistics to display")
 	rootCmd.AddCommand(statsCmd)
 }

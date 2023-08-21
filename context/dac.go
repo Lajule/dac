@@ -4,13 +4,15 @@ import (
 	"github.com/Lajule/dac/ent"
 )
 
-type Key string
+type KeyType string
 
-type Value struct {
+type ValueType struct {
 	Version string
 	Client  *ent.Client
 }
 
 const (
-	KeyName = Key("dac")
+	KeyName = "DAC"
+
+	Key = KeyType(KeyName)
 )

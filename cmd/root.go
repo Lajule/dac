@@ -26,7 +26,7 @@ var (
 		Long:  `Dac is typing training sessions program, it's help you to improve your typing skills.`,
 		Run: func(cmd *cobra.Command, args []string) {
 			ctx := cmd.Context()
-			val := ctx.Value(dac.KeyName).(dac.Value)
+			val := ctx.Value(dac.Key).(dac.ValueType)
 
 			t := val.Client.Training.Create().
 				SetDuration(duration.Seconds()).
@@ -77,9 +77,9 @@ var (
 )
 
 func init() {
-	rootCmd.Flags().DurationVarP(&duration, "duration", "d", 0, "Duration of the training session")
-	rootCmd.Flags().BoolVarP(&closable, "closable", "c", false, "Close on session timeout")
-	rootCmd.Flags().StringVarP(&statistic, "statistic", "s", "speed", "Statistic to display")
+	rootCmd.Flags().DurationVarP(&duration, "duration", "d", 0, "duration of the training session")
+	rootCmd.Flags().BoolVarP(&closable, "closable", "c", false, "close on session timeout")
+	rootCmd.Flags().StringVarP(&statistic, "statistic", "s", "speed", "statistic to display")
 }
 
 func Execute(ctx context.Context) error {

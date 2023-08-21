@@ -14,7 +14,7 @@ type Statistics struct {
 }
 
 func (s *Statistics) Plot(ctx context.Context) error {
-	val := ctx.Value(dac.KeyName).(dac.Value)
+	val := ctx.Value(dac.Key).(dac.ValueType)
 
 	var rows []struct {
 		Speed    float64 `json:"speed"`

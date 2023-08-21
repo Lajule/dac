@@ -12,7 +12,7 @@ import (
 )
 
 func Print(ctx context.Context) error {
-	val := ctx.Value(dac.KeyName).(dac.Value)
+	val := ctx.Value(dac.Key).(dac.ValueType)
 
 	trainings, err := val.Client.Training.
 		Query().

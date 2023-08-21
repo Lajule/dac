@@ -15,7 +15,7 @@ var (
 		Long:  `Display program version.`,
 		Run: func(cmd *cobra.Command, args []string) {
 			ctx := cmd.Context()
-			val := ctx.Value(dac.KeyName).(dac.Value)
+			val := ctx.Value(dac.Key).(dac.ValueType)
 			fmt.Println(val.Version)
 		},
 	}

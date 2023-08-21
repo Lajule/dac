@@ -43,7 +43,7 @@ func main() {
 		log.Fatalf("failed creating schema resources: %v", err)
 	}
 
-	if err := cmd.Execute(context.WithValue(context.Background(), dac.KeyName, dac.Value{
+	if err := cmd.Execute(context.WithValue(context.Background(), dac.Key, dac.ValueType{
 		Version: fmt.Sprintf("%s %s %s", version, commit, date),
 		Client:  client,
 	})); err != nil {
