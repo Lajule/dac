@@ -43,5 +43,5 @@ Use "dac [command] --help" for more information about a command.
 # Input files
 
 ```sh
-cat text | tr '\n' ' ' | tr '\t' ' ' >input
+cat text | tr '\t\r\n' ' ' >input
 ```
